@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { IContract } from '../models/IContract';
 import { ViewModelResponse } from '../models/ViewModelResponse';
 import { ContractService } from '../services/contract.service';
@@ -13,7 +14,7 @@ export class ContractListComponent implements OnInit {
   contracts: IContract[];
   errorMessage: string;
 
-  constructor(private contractService: ContractService) { }
+  constructor(private contractService: ContractService, private router: Router) { }
 
   ngOnInit() {
     this.getAll();
@@ -33,6 +34,7 @@ export class ContractListComponent implements OnInit {
 
   onSelect(contract: IContract) {
     this.selectedContract = contract;
-    console.log('item with Id ' + this.selectedContract.id + ' has been selected.');
+    console.log('Contract ' + this.selectedContract.id + ' has been clicked: loading ContractDetailComponent...');
+    this.router.navigate(['contract', this.selectedContract.id]);
   }
 }
