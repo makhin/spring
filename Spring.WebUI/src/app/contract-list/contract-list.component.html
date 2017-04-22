@@ -1,0 +1,8 @@
+<h2>Contracts:</h2>
+<ul class="contracts">
+  <li *ngFor="let contract of contracts"
+      [class.selected]="contract === selectedContract"
+      (click)="onSelect(contract)">
+    <span>{{contract.name}}</span>
+  </li>
+</ul>

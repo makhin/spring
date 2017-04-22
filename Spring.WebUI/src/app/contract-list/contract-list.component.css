@@ -1,0 +1,6 @@
+ul.contracts li {
+  cursor: pointer;
+}
+ul.contracts li.selected {
+  background-color: #cccccc;
+}
