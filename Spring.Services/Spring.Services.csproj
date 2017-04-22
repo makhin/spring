@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp1.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Spring.Dto\Spring.Dto.csproj" />
+    <ProjectReference Include="..\Spring.Repositories\Spring.Repositories.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="System.Interactive.Async">
+      <HintPath>..\..\..\..\.nuget\packages\system.interactive.async\3.0.0\lib\netstandard1.0\System.Interactive.Async.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>
