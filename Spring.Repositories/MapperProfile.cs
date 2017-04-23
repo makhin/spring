@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using AutoMapper;
-using AutoMapper.Configuration;
+﻿using AutoMapper;
 using Spring.DbContext.Models;
 using Spring.Dto;
 
@@ -14,7 +10,7 @@ namespace Spring.Repositories
         {
             // Add as many of these lines as you need to map your objects
             CreateMap<Contract, ContractDto>();
-           
+            CreateMap<ContractDto, Contract>();
         }
     }
 }

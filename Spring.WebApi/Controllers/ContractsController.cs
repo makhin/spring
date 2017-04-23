@@ -12,7 +12,6 @@ using Spring.WebUI.Helpers;
 
 namespace Spring.WebApi.Controllers
 {
-    [Produces("application/json")]
     [Route("api/[controller]")]
     public class ContractsController : Controller
     {
@@ -87,9 +86,8 @@ namespace Spring.WebApi.Controllers
                 await _service.Update(value);
                 return Json(Ok(value));
             }
-            catch (DbUpdateException exception)
+            catch (Exception)
             {
-                Debug.WriteLine("An exception occurred: {0}, {1}", exception.InnerException, exception.Message);
                 return Json(NotFound("An error occurred; record not updated"));
             }
         }

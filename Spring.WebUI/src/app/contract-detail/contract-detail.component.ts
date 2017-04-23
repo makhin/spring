@@ -21,9 +21,9 @@ export class ContractDetailComponent implements OnInit {
 
   ngOnInit() {
     this.activatedRoute.params.subscribe(params => {
-      this.id = params['id'];
+      this.id = +params['id'];
       console.log(this.id);
-      if (this.id) {
+      if (this.id > 0) {
         this.contractService.get(this.id).subscribe((data: ViewModelResponse) => {
           if (data != null && data.statusCode === 200) {
             this.contract = data.value;
