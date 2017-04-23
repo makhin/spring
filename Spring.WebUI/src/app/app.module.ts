@@ -16,6 +16,7 @@ import { RegisterComponent } from './register/register.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 import { AppRouting } from './app.routing';
+import {AuthService} from './security/auth.service';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { AppRouting } from './app.routing';
     AppRouting
   ],
   providers: [
-    ContractService
+    ContractService,
+    AuthService
   ],
   bootstrap: [AppComponent]
 })
