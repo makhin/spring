@@ -6,11 +6,11 @@ import { ViewModelResponse } from '../models/ViewModelResponse';
 
 @Component({
   selector: 'app-contract-detail',
-  templateUrl: './contract-detail.component.html',
-  styleUrls: ['./contract-detail.component.css']
+  templateUrl: './contract-detail-edit.component.html',
+  styleUrls: ['./contract-detail-edit.component.css']
 })
 
-export class ContractDetailComponent implements OnInit {
+export class ContractDetailEditComponent implements OnInit {
   contract: Contract;
   id: number;
 
@@ -58,7 +58,7 @@ export class ContractDetailComponent implements OnInit {
           if (data != null && data.statusCode === 200) {
             this.contract = data.value;
             console.log('Item ' + this.contract.id + ' has been updated.');
-            this.router.navigate(['']);
+            this.router.navigate(['contract/view', this.contract.id]);
           } else {
             console.log('Update an error occured');
           }
@@ -85,5 +85,9 @@ export class ContractDetailComponent implements OnInit {
 
   onBack() {
     this.router.navigate(['']);
+  }
+
+  onContractDetailView(contract: Contract) {
+    this.router.navigate(['contract/view', contract.id]);
   }
 }

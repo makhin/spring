@@ -8,7 +8,7 @@ import { AppComponent } from './app.component';
 import { ContractListComponent } from './contract-list/contract-list.component';
 
 import {ContractService} from './services/contract.service';
-import { ContractDetailComponent } from './contract-detail/contract-detail.component';
+import { ContractDetailEditComponent } from './contract-detail-edit/contract-detail-edit.component';
 import { AboutComponent } from './about/about.component';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
@@ -17,17 +17,19 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 
 import { AppRouting } from './app.routing';
 import {AuthService} from './security/auth.service';
+import { ContractDetailViewComponent } from './contract-detail-view/contract-detail-view.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ContractListComponent,
-    ContractDetailComponent,
+    ContractDetailEditComponent,
     AboutComponent,
     HomeComponent,
     LoginComponent,
     RegisterComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    ContractDetailViewComponent
   ],
   imports: [
     BrowserModule,

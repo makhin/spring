@@ -35,7 +35,7 @@ export class ContractListComponent implements OnInit {
   onSelect(contract: IContract) {
     this.selectedContract = contract;
     console.log('Contract ' + this.selectedContract.id + ' has been clicked: loading ContractDetailComponent...');
-    this.router.navigate(['contract', this.selectedContract.id]);
+    this.router.navigate(['contract/view', this.selectedContract.id]);
   }
 
 }

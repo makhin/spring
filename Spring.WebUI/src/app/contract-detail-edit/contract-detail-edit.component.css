@@ -1,0 +1,64 @@
+.contract-container {
+  width: 600px;
+}
+
+.contract-tab-menu {
+  margin-right: 30px;
+}
+
+.contract-tab-menu span {
+  background-color: #dddddd;
+  border: 1px solid #666666;
+  border-bottom: 0;
+  cursor: pointer;
+  display: block;
+  float: right;
+  margin: 0 0 -1px 5px;
+  padding: 5px 10px 4px 10px;
+  text-align: center;
+  width: 60px;
+}
+
+.contract-tab-menu span.selected {
+  background-color: #eeeeee;
+  cursor: auto;
+  font-weight: bold;
+  padding-bottom: 5px;
+}
+
+.contract-details {
+  background-color: #eeeeee;
+  border: 1px solid black;
+  clear: both;
+  margin: 0;
+  padding: 5px 10px;
+}
+
+.contract-details * {
+  vertical-align: middle;
+}
+
+.contract-details .mode {
+  font-size: 0.8em;
+  color: #777777;
+}
+
+.contract-details ul li {
+  padding: 5px 0;
+}
+
+.contract-details input[type="text"] {
+  display: block;
+  width: 100%;
+}
+
+.contract-details textarea {
+  display: block;
+  width: 100%;
+  height: 60px;
+}
+
+.commands {
+  text-align: right;
+  margin: 10px 20px 10px 10px;
+}

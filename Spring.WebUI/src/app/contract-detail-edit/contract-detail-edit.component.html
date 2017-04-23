@@ -1,0 +1,29 @@
+<div *ngIf="contract" class="contract-container">
+  <div class="contract-tab-menu">
+    <span class="selected">Edit</span>
+    <span *ngIf="contract.id != 0" (click)="onContractDetailView(contract)">View</span>
+  </div>
+  <div class="contract-details">
+    <div class="mode">Edit Mode</div>
+    <h2>{{contract.name}}</h2>
+    <ul>
+      <li>
+        <label>Title:</label>
+        <input [(ngModel)]="contract.name" placeholder="Insert the title..."/>
+      </li>
+      <li>
+        <label>Description:</label>
+        <textarea [(ngModel)]="contract.code" placeholder="Insert a suitable description..."></textarea>
+      </li>
+    </ul>
+    <div *ngIf="contract.id == 0" class="commands insert">
+      <input type="button" value="Save" (click)="onInsert(contract)"/>
+      <input type="button" value="Cancel" (click)="onBack()"/>
+    </div>
+    <div *ngIf="contract.id != 0" class="commands update">
+      <input type="button" value="Update" (click)="onUpdate(contract)"/>
+      <input type="button" value="Delete" (click)="onDelete(contract)"/>
+      <input type="button" value="Back" (click)="onBack()"/>
+    </div>
+  </div>
+</div>
