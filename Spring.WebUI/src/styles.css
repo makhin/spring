@@ -1,18 +1,19 @@
-.product-menu {
-  height: 50px;
-  margin-top: 22px;
+html {
+  position: relative;
+  min-height: 100%;
 }
-
-.product-slide-item {
-  margin-bottom: 25px;
-}
-
-.product-item {
-  height: 171px;
-  width: 100%;
-  display: block;
-}
-
 body {
-  padding-top: 50px;
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+}
+
+.container {
+  width: auto;
+  max-width: 1080px;
+  padding: 0 15px;
+}
+
+.starter-template {
+  padding: 3rem 1.5rem;
+  text-align: center;
 }

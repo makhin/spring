@@ -26,7 +26,8 @@
     "systemjs": "^0.20.12",
     "typings": "^2.1.1",
     "zone.js": "^0.8.4",
-    "bootstrap": "^4.0.0-alpha.6"
+    "bootstrap": "^4.0.0-alpha.6",
+    "font-awesome": "4.7.0"
   },
   "devDependencies": {
     "@angular/cli": "1.0.0",

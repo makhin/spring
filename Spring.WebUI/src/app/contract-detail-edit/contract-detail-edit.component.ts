@@ -58,7 +58,7 @@ export class ContractDetailEditComponent implements OnInit {
           if (data != null && data.statusCode === 200) {
             this.contract = data.value;
             console.log('Item ' + this.contract.id + ' has been updated.');
-            this.router.navigate(['contract/view', this.contract.id]);
+            this.router.navigate(['contract', this.contract.id, 'edit']);
           } else {
             console.log('Update an error occured');
           }
@@ -85,9 +85,5 @@ export class ContractDetailEditComponent implements OnInit {
 
   onBack() {
     this.router.navigate(['']);
-  }
-
-  onContractDetailView(contract: Contract) {
-    this.router.navigate(['contract/view', contract.id]);
   }
 }

@@ -17,7 +17,8 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 
 import { AppRouting } from './app.routing';
 import {AuthService} from './security/auth.service';
-import { ContractDetailViewComponent } from './contract-detail-view/contract-detail-view.component';
+import { NavComponent } from './nav/nav.component';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { ContractDetailViewComponent } from './contract-detail-view/contract-det
     LoginComponent,
     RegisterComponent,
     PageNotFoundComponent,
-    ContractDetailViewComponent
+    NavComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,

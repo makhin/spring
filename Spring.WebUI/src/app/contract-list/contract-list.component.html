@@ -1,8 +1,13 @@
-<h2>Contracts:</h2>
-<ul class="contracts">
-  <li *ngFor="let contract of contracts"
-      [class.selected]="contract === selectedContract"
-      (click)="onSelect(contract)">
-    <span>{{contract.name}}</span>
-  </li>
-</ul>
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-sm-6 col-md-4" *ngFor="let contract of contracts">
+      <div class="card">
+        <div class="card-block" >
+          <h3 class="card-title">{{contract.name}}</h3>
+          <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+          <button class="btn btn-primary" (click)="onContractDetailEdit(contract)">Browse</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

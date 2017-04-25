@@ -5,8 +5,6 @@ VisualStudioVersion = 15.0.26403.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spring.WebApi", "Spring.WebApi\Spring.WebApi.csproj", "{791AC2E9-C7AD-4EED-87CE-2B1353075251}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spring.WebUI", "Spring.WebUI\Spring.WebUI.csproj", "{49CD5A0D-9B7C-4014-B8BD-CDD082CBE0E1}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spring.Dto", "Spring.Dto\Spring.Dto.csproj", "{3AFE5AF2-ACE7-4FBF-9698-765F3BB5609F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spring.Services", "Spring.Services\Spring.Services.csproj", "{49972FE3-66C7-4E01-999E-A9FE8A5E9224}"
@@ -25,10 +23,6 @@ Global
 		{791AC2E9-C7AD-4EED-87CE-2B1353075251}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{791AC2E9-C7AD-4EED-87CE-2B1353075251}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{791AC2E9-C7AD-4EED-87CE-2B1353075251}.Release|Any CPU.Build.0 = Release|Any CPU
-		{49CD5A0D-9B7C-4014-B8BD-CDD082CBE0E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{49CD5A0D-9B7C-4014-B8BD-CDD082CBE0E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{49CD5A0D-9B7C-4014-B8BD-CDD082CBE0E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{49CD5A0D-9B7C-4014-B8BD-CDD082CBE0E1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3AFE5AF2-ACE7-4FBF-9698-765F3BB5609F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3AFE5AF2-ACE7-4FBF-9698-765F3BB5609F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3AFE5AF2-ACE7-4FBF-9698-765F3BB5609F}.Release|Any CPU.ActiveCfg = Release|Any CPU
