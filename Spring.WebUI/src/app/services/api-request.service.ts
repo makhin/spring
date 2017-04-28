@@ -6,6 +6,7 @@ import {Injectable} from '@angular/core';
 import { Http, Response, Headers } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { AuthService } from '../security/auth.service';
+import { ToastrService } from 'ngx-toastr';
 
 import { ViewModelResponse } from '../models/ViewModelResponse';
 
@@ -26,7 +27,7 @@ export class ApiRequestService<T> {
     return Observable.throw(errMsg);
   }
 
-  constructor(private http: Http, private authService: AuthService) {
+  constructor(private http: Http, private authService: AuthService, private toastrService: ToastrService) {
   }
 
   getAll(): Observable<Array<T>> {
@@ -78,6 +79,7 @@ export class ApiRequestService<T> {
       .map((resp: Response) => resp.json())
       .map((data: ViewModelResponse) => {
         if (data != null && data.statusCode === 200) {
+          this.toastrService.success('Hello world!', 'Toastr fun!');
           return data.value as T;
         } else {
           Observable.throw('Request has failed ' + data.statusCode);

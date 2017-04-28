@@ -25,7 +25,7 @@ export class ContractService extends ApiRequestService<Contract> {
 
   editContract(contract: Contract) {
     this.url = this.baseUrl;
-    return super.addEntity(contract);
+    return super.editEntity(contract);
   }
 
   deleteContract(id: number) {

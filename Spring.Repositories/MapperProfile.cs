@@ -9,8 +9,7 @@ namespace Spring.Repositories
         public MappingProfile()
         {
             // Add as many of these lines as you need to map your objects
-            CreateMap<Contract, ContractDto>();
-            CreateMap<ContractDto, Contract>();
+            CreateMap<Contract, ContractDto>().ReverseMap();
         }
     }
 }
