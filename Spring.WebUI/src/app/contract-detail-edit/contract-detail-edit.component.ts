@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewContainerRef} from '@angular/core';
 import { Contract } from '../models/Contract';
 import {Router, ActivatedRoute} from '@angular/router';
 import { ContractService } from '../services/contract.service';
-import { ViewModelResponse } from '../models/ViewModelResponse';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 @Component({
   selector: 'app-contract-detail',
@@ -16,7 +16,9 @@ export class ContractDetailEditComponent implements OnInit {
 
   constructor(private contractService: ContractService,
               private router: Router,
-              private activatedRoute: ActivatedRoute) {
+              private activatedRoute: ActivatedRoute,
+              public toastr: ToastsManager, vRef: ViewContainerRef) {
+      this.toastr.setRootViewContainerRef(vRef);
   }
 
   ngOnInit() {
@@ -50,13 +52,16 @@ export class ContractDetailEditComponent implements OnInit {
   }
 
   onUpdate(event: any) {
-    if (!this.contract) { return; }
+    if (!this.contract) {
+      return;
+    }
     this.contractService.editContract(this.contract)
       .subscribe((data: Contract) => {
-            this.contract = data;
+          this.contract = data;
+          this.toastr.success('You are awesome!', 'Success!');
         },
-          (error: any) => console.log(error)
-        );
+        (error: any) => console.log(error)
+      );
   }
 
   onDelete(contractToDelete: Contract, event: any) {

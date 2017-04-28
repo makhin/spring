@@ -4,7 +4,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import {Injectable} from '@angular/core';
 import { Http, Response, Headers } from '@angular/http';
-import {Observable} from 'rxjs/Observable';
+import { Observable } from 'rxjs/Observable';
 import { AuthService } from '../security/auth.service';
 
 import { ViewModelResponse } from '../models/ViewModelResponse';
@@ -26,7 +26,8 @@ export class ApiRequestService<T> {
     return Observable.throw(errMsg);
   }
 
-  constructor(private http: Http, private authService: AuthService) { }
+  constructor(private http: Http, private authService: AuthService) {
+  }
 
   getAll(): Observable<Array<T>> {
     return this.http.get(this.url)
