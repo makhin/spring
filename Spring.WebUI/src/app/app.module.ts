@@ -19,6 +19,11 @@ import { AppRouting } from './app.routing';
 import {AuthService} from './security/auth.service';
 import { NavComponent } from './nav/nav.component';
 import { FooterComponent } from './footer/footer.component';
+import { ApiRequestService } from './services/api-request.service';
+
+import { ErrorLogService } from './services/error-log.service';
+import { LOGGING_ERROR_HANDLER_PROVIDERS } from './services/logging-error-handler';
+import { LOGGING_ERROR_HANDLER_OPTIONS } from './services/logging-error-handler';
 
 @NgModule({
   declarations: [
@@ -41,8 +46,25 @@ import { FooterComponent } from './footer/footer.component';
     AppRouting
   ],
   providers: [
+    ApiRequestService,
     ContractService,
-    AuthService
+    AuthService,
+    ErrorLogService,
+    // CAUTION: This providers collection overrides the CORE ErrorHandler with our
+    // custom version of the service that logs errors to the ErrorLogService.
+    LOGGING_ERROR_HANDLER_PROVIDERS,
+
+    // OPTIONAL: By default, our custom LoggingErrorHandler has behavior around
+    // rethrowing and / or unwrapping errors. In order to facilitate dependency-
+    // injection instead of resorting to the use of a Factory for instantiation,
+    // these options can be overridden in the providers collection.
+    {
+      provide: LOGGING_ERROR_HANDLER_OPTIONS,
+      useValue: {
+        rethrowError: false,
+        unwrapError: false
+      }
+    }
   ],
   bootstrap: [AppComponent]
 })

@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { IContract } from '../models/IContract';
-import { ViewModelResponse } from '../models/ViewModelResponse';
 import { ContractService } from '../services/contract.service';
 
 @Component({
@@ -12,8 +11,6 @@ import { ContractService } from '../services/contract.service';
 export class ContractListComponent implements OnInit {
   selectedContract: IContract;
   contracts: IContract[];
-  errorMessage: string;
-
   constructor(private contractService: ContractService, private router: Router) { }
 
   ngOnInit() {
@@ -21,15 +18,7 @@ export class ContractListComponent implements OnInit {
   }
 
   getAll() {
-    this.contractService.getAll()
-      .subscribe((data: ViewModelResponse) => {
-          if (data != null && data.statusCode === 200) {
-            this.contracts = data.value;
-          }
-        },
-        (error: any) => {
-          this.errorMessage = JSON.stringify(<any>error);
-        });
+    this.contractService.getAll().subscribe((data: Array<IContract>) => {this.contracts = data; });
   }
 
   onContractDetailEdit(contract: IContract) {
