@@ -11,6 +11,7 @@ using Spring.DbContext.DbContext;
 using Spring.DbContext.Models;
 using Spring.Repositories;
 using Spring.Services;
+using Spring.WebApi.Filters;
 
 namespace Spring.WebApi
 {
@@ -31,8 +32,7 @@ namespace Spring.WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // Add framework services.
-            
+            // Add framework services.            
             services.AddMvc();
             services.AddAutoMapper();
 
@@ -47,6 +47,14 @@ namespace Spring.WebApi
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<SpringDbContext>()
                 .AddDefaultTokenProviders();
+
+            // Add framework services.
+            services.AddApplicationInsightsTelemetry(Configuration);
+            services.AddMvc(
+                config => {
+                    config.Filters.Add(typeof(SpringExceptionFilter));
+                }
+            );
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

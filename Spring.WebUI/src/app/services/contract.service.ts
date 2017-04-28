@@ -6,22 +6,30 @@ import {ApiRequestService} from './api-request.service';
 @Injectable()
 export class ContractService extends ApiRequestService<Contract> {
 
-  private baseUrl = 'api/contracts/';  // web api URL
+  private baseUrl = 'api/contracts';  // web api URL
 
   getAll() {
     this.url = this.baseUrl;
     return super.getAll();
   }
 
-  get(id: number) {
+  getById(id: number) {
+    this.url = this.baseUrl;
+    return super.getById(id);
   }
 
   addContract(contract: Contract) {
+    this.url = this.baseUrl;
+    return super.addEntity(contract);
   }
 
   editContract(contract: Contract) {
+    this.url = this.baseUrl;
+    return super.addEntity(contract);
   }
 
   deleteContract(id: number) {
+    this.url = this.baseUrl;
+    return super.deleteEntity(id);
   }
 }

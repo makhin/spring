@@ -41,6 +41,7 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.0" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Spring.Common\Spring.Common.csproj" />
     <ProjectReference Include="..\Spring.DbContext\Spring.DbContext.csproj" />
     <ProjectReference Include="..\Spring.Dto\Spring.Dto.csproj" />
     <ProjectReference Include="..\Spring.Repositories\Spring.Repositories.csproj" />
