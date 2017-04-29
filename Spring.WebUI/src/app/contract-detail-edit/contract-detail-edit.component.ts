@@ -1,12 +1,13 @@
-import {Component, OnInit, ViewContainerRef} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Contract } from '../models/Contract';
-import {Router, ActivatedRoute} from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { ContractService } from '../services/contract.service';
 
 @Component({
   selector: 'app-contract-detail',
   templateUrl: './contract-detail-edit.component.html',
-  styleUrls: ['./contract-detail-edit.component.css']
+  styleUrls: ['./contract-detail-edit.component.css'],
+  changeDetection: ChangeDetectionStrategy.Default
 })
 
 export class ContractDetailEditComponent implements OnInit {

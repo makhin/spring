@@ -1,26 +1,12 @@
 <div *ngIf="contract" class="container">
-  <div class="contract-details">
-    <div class="mode">Edit Mode</div>
     <h2>{{contract.name}}</h2>
-
     <div class="form-group">
       <label for="contractName">Title:</label>
       <input type="text" id="contractName" [(ngModel)]="contract.name" class="form-control" placeholder="Insert the title...">
-      <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
     </div>
     <div class="form-group">
       <label for="descriptionArea">Description:</label>
-      <textarea [(ngModel)]="contract.code" class="form-control" id="descriptionArea" rows="3" placeholder="Insert a suitable description..."></textarea>
+      <textarea [(ngModel)]="contract.description" class="form-control" id="descriptionArea" rows="3" placeholder="Insert a suitable description..."></textarea>
     </div>
-
-    <div *ngIf="contract.id == 0" class="commands insert">
-      <button type="button" value="Save" (click)="onInsert(contract)" class="btn btn-primary">Save</button>
-      <button type="button" value="Cancel" (click)="onBack()" class="btn btn-primary">Cancel</button>
-    </div>
-    <div *ngIf="contract.id != 0" class="commands update">
-        <button type="button" value="Update" (click)="onUpdate(contract)" class="btn btn-primary">Update</button>
-        <button type="button" value="Delete" (click)="onDelete(contract)" class="btn btn-primary">Delete</button>
-        <button type="button" value="Back" (click)="onBack()" class="btn btn-primary">Back</button>
-    </div>
-  </div>
+    <app-save-panel></app-save-panel>
 </div>

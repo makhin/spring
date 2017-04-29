@@ -21,11 +21,12 @@ import { AppRouting } from './app.routing';
 import {AuthService} from './security/auth.service';
 import { NavComponent } from './nav/nav.component';
 import { FooterComponent } from './footer/footer.component';
-import { ApiRequestService } from './services/api-request.service';
+import { SavePanelComponent } from './save-panel/save-panel.component';
 
 import { ErrorLogService } from './services/error-log.service';
 import { LOGGING_ERROR_HANDLER_PROVIDERS } from './services/logging-error-handler';
 import { LOGGING_ERROR_HANDLER_OPTIONS } from './services/logging-error-handler';
+import {ContractItemService} from './services/contract-item.service';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { LOGGING_ERROR_HANDLER_OPTIONS } from './services/logging-error-handler'
     RegisterComponent,
     PageNotFoundComponent,
     NavComponent,
-    FooterComponent
+    FooterComponent,
+    SavePanelComponent
   ],
   imports: [
     BrowserModule,
@@ -50,8 +52,9 @@ import { LOGGING_ERROR_HANDLER_OPTIONS } from './services/logging-error-handler'
     AppRouting
   ],
   providers: [
-    ApiRequestService,
+    // ApiRequestService,
     ContractService,
+    ContractItemService,
     AuthService,
     ErrorLogService,
     // CAUTION: This providers collection overrides the CORE ErrorHandler with our

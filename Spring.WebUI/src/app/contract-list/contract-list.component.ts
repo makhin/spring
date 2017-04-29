@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { IContract } from '../models/IContract';
-import { ContractService } from '../services/contract.service';
+import { ContractItemService } from '../services/contract-item.service';
+import {ContractItem} from '../models/ContractItem';
 
 @Component({
   selector: 'app-contract-list',
@@ -9,21 +9,18 @@ import { ContractService } from '../services/contract.service';
   styleUrls: ['./contract-list.component.css']
 })
 export class ContractListComponent implements OnInit {
-  selectedContract: IContract;
-  contracts: IContract[];
-  constructor(private contractService: ContractService, private router: Router) { }
+  contractItems: ContractItem[];
+  constructor(private contractService: ContractItemService, private router: Router) { }
 
   ngOnInit() {
     this.getAll();
   }
 
   getAll() {
-    this.contractService.getAll().subscribe((data: Array<IContract>) => {this.contracts = data; });
+    this.contractService.getAll().subscribe((data: Array<ContractItem>) => {this.contractItems = data; });
   }
 
-  onContractDetailEdit(contract: IContract) {
-    this.selectedContract = contract;
-    console.log('Contract ' + this.selectedContract.id + ' has been clicked: loading ContractDetailComponent...');
-    this.router.navigate(['contract', contract.id, 'edit']);
+  onContractDetailEdit(id: number) {
+    this.router.navigate(['contract', id, 'edit']);
   }
 }

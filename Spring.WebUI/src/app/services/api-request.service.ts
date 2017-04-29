@@ -9,9 +9,10 @@ import { AuthService } from '../security/auth.service';
 import { ToastrService } from 'ngx-toastr';
 
 import { ViewModelResponse } from '../models/ViewModelResponse';
+import {IEntity} from '../models/IEntity';
 
 @Injectable()
-export class ApiRequestService<T> {
+export abstract class ApiRequestService<T extends IEntity> {
   protected url: string;
 
   private static handleError(error: Response | any) {

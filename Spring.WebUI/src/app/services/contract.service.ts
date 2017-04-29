@@ -8,13 +8,9 @@ export class ContractService extends ApiRequestService<Contract> {
 
   private baseUrl = 'api/contracts';  // web api URL
 
-  getAll() {
+  getById(id: number): Observable<Contract> {
     this.url = this.baseUrl;
-    return super.getAll();
-  }
-
-  getById(id: number) {
-    this.url = this.baseUrl;
+    //noinspection TypeScriptValidateTypes
     return super.getById(id);
   }
 
