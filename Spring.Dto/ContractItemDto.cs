@@ -1,17 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text;
 using Spring.DbContext.Models;
 
 namespace Spring.Dto
 {
-    public class ContractDto : IEntityBase
+    public class ContractItemDto : IEntityBase
     {
-        #region Constructor 
-        public ContractDto()
-        {
-
-        }
-        #endregion Constructor 
-
         #region Properties 
         public int Id { get; set; }
 
@@ -20,10 +15,6 @@ namespace Spring.Dto
         public string Code { get; set; }
 
         public string Description { get; set; }
-
-        public DateTime BeginDate { get; set; }
-
-        public DateTime EndDate { get; set; }
 
         public bool IsActive { get; set; }
         #endregion Properties 

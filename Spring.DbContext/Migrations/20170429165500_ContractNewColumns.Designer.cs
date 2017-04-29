@@ -2,14 +2,16 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Spring.DbContext.DbContext;
 
 namespace Spring.DbContext.Migrations
 {
     [DbContext(typeof(SpringDbContext))]
-    partial class SpringDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170429165500_ContractNewColumns")]
+    partial class ContractNewColumns
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.1")
@@ -122,7 +124,7 @@ namespace Spring.DbContext.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("Spring.Data.Models.ApplicationUser", b =>
+            modelBuilder.Entity("Spring.DbContext.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
@@ -172,23 +174,33 @@ namespace Spring.DbContext.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("Spring.Data.Models.Contract", b =>
+            modelBuilder.Entity("Spring.DbContext.Models.Contract", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<DateTime>("BeginDate");
 
-                    b.Property<string>("Code");
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(10);
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Description");
+
+                    b.Property<DateTime>("EndDate");
+
+                    b.Property<bool>("IsActive");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100);
 
                     b.HasKey("Id");
 
                     b.ToTable("Contracts");
                 });
 
-            modelBuilder.Entity("Spring.Data.Models.Customer", b =>
+            modelBuilder.Entity("Spring.DbContext.Models.Customer", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -226,7 +238,7 @@ namespace Spring.DbContext.Migrations
                     b.ToTable("Customers");
                 });
 
-            modelBuilder.Entity("Spring.Data.Models.TestData", b =>
+            modelBuilder.Entity("Spring.DbContext.Models.TestData", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -260,7 +272,7 @@ namespace Spring.DbContext.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Spring.Data.Models.ApplicationUser")
+                    b.HasOne("Spring.DbContext.Models.ApplicationUser")
                         .WithMany("Claims")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -268,7 +280,7 @@ namespace Spring.DbContext.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Spring.Data.Models.ApplicationUser")
+                    b.HasOne("Spring.DbContext.Models.ApplicationUser")
                         .WithMany("Logins")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -281,15 +293,15 @@ namespace Spring.DbContext.Migrations
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("Spring.Data.Models.ApplicationUser")
+                    b.HasOne("Spring.DbContext.Models.ApplicationUser")
                         .WithMany("Roles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Spring.Data.Models.Customer", b =>
+            modelBuilder.Entity("Spring.DbContext.Models.Customer", b =>
                 {
-                    b.HasOne("Spring.Data.Models.Contract", "Contract")
+                    b.HasOne("Spring.DbContext.Models.Contract", "Contract")
                         .WithMany()
                         .HasForeignKey("ContractId");
                 });

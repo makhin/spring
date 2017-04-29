@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Spring.Dto;
 using Spring.Services;
-using Spring.WebUI.Helpers;
+using Spring.WebApi.Helpers;
 
 namespace Spring.WebApi.Controllers
 {

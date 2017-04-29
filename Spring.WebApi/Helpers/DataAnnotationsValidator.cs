@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Spring.WebUI.Helpers
+namespace Spring.WebApi.Helpers
 {
     public static class DataAnnotationsValidator
     {

@@ -11,7 +11,7 @@ namespace Spring.Services
 {
     public interface IContractService
     {
-        Task<IEnumerable<ContractDto>> GetAll();
+        Task<IEnumerable<ContractItemDto>> GetAll();
 
         Task<ContractDto> Get(int id);
 
@@ -24,36 +24,38 @@ namespace Spring.Services
 
     public class ContractService : IContractService
     {
-        private readonly IRepository<ContractDto, Contract> _repository;
+        private readonly IRepository<ContractDto, Contract> _contractRepository;
+        private readonly IRepository<ContractItemDto, Contract> _contractItemRepository;
 
-        public ContractService(IRepository<ContractDto, Contract> repository)
+        public ContractService(IRepository<ContractDto, Contract> contractRepository, IRepository<ContractItemDto, Contract> contractItemRepository)
         {
-            _repository = repository;
+            _contractRepository = contractRepository;
+            _contractItemRepository = contractItemRepository;
         }
 
-        public async Task<IEnumerable<ContractDto>> GetAll()
+        public async Task<IEnumerable<ContractItemDto>> GetAll()
         {
-            return await _repository.GetAll();
+            return await _contractItemRepository.GetAll();
         }
 
         public async Task<ContractDto> Get(int id)
         {
-            return await _repository.Get(id);
+            return await _contractRepository.Get(id);
         }
 
         public async Task<ContractDto> Update(ContractDto dto)
         {
-            return await _repository.Update(dto);
+            return await _contractRepository.Update(dto);
         }
 
         public async Task<ContractDto> Insert(ContractDto dto)
         {
-            return await _repository.Insert(dto);
+            return await _contractRepository.Insert(dto);
         }
 
         public async Task<int> Delete(int id)
         {
-            return await _repository.Delete(id);
+            return await _contractRepository.Delete(id);
         }
     }
 }
