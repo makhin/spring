@@ -7,6 +7,7 @@ using System.IO;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Serialization;
 using Spring.DbContext.DbContext;
 using Spring.DbContext.Models;
 using Spring.Repositories;
@@ -50,11 +51,16 @@ namespace Spring.WebApi
 
             // Add framework services.
             services.AddApplicationInsightsTelemetry(Configuration);
+
             services.AddMvc(
                 config => {
                     config.Filters.Add(typeof(SpringExceptionFilter));
                 }
-            );
+            ).AddJsonOptions(opts =>
+            {
+                // Force Camel Case to JSON
+                opts.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            }); ;
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

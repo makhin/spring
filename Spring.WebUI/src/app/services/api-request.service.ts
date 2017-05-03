@@ -1,19 +1,17 @@
 import 'rxjs/add/observable/throw';
-import { Observer } from 'rxjs/Observer';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import {Injectable} from '@angular/core';
-import { Http, Response, Headers } from '@angular/http';
+import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { AuthService } from '../security/auth.service';
 import { ToastrService } from 'ngx-toastr';
 
-import { ViewModelResponse } from '../models/ViewModelResponse';
 import {IEntity} from '../models/IEntity';
 
 @Injectable()
-export abstract class ApiRequestService<T extends IEntity> {
-  protected url: string;
+export class ApiRequestService {
+  public url: string;
 
   private static handleError(error: Response | any) {
     // In a real world app, we might use a remote logging infrastructure
@@ -31,73 +29,53 @@ export abstract class ApiRequestService<T extends IEntity> {
   constructor(private http: Http, private authService: AuthService, private toastrService: ToastrService) {
   }
 
-  getAll(): Observable<Array<T>> {
-    return this.http.get(this.url)
+  getAll<T extends IEntity>(): Observable<Array<T>> {
+    return this.http.get(this.url, { headers: this.authService.jsonHeaders() })
       .map((resp: Response) => resp.json())
-      .map((data: ViewModelResponse) => {
-        if (data != null && data.statusCode === 200) {
-          return data.value as Array<T>;
-        } else {
-          Observable.throw('Request has failed ' + data.statusCode);
-        }
+      .map((data: any) => {
+          return data as Array<T>;
       })
       .catch(ApiRequestService.handleError);
   }
 
-  getById(id: number): Observable<T> {
+  getById<T extends IEntity>(id: number): Observable<T> {
     if (id == null) {
       throw new Error('id is required.');
     }
     return this.http.get(this.url + '/' + id, { headers: this.authService.jsonHeaders() })
       .map((resp: Response) => resp.json())
-      .map((data: ViewModelResponse) => {
-        if (data != null && data.statusCode === 200) {
-          return data.value as T;
-        } else {
-          Observable.throw('Request has failed ' + data.statusCode);
-        }
+      .map((data: any) => {
+          return data as T;
       })
       .catch(ApiRequestService.handleError);
   }
 
-  addEntity(entity: T) {
+  addEntity<T extends IEntity>(entity: T) {
     return this.http
       .put(this.url, JSON.stringify(entity), { headers: this.authService.jsonHeaders() })
       .map((resp: Response) => resp.json())
-      .map((data: ViewModelResponse) => {
-        if (data != null && data.statusCode === 200) {
-          return data.value as T;
-        } else {
-          Observable.throw('Request has failed ' + data.statusCode);
-        }
+      .map((data: any) => {
+          return data as T;
       })
       .catch(ApiRequestService.handleError);
   }
 
-  editEntity(entity: T) {
+  editEntity<T extends IEntity>(entity: T) {
     return this.http
       .post(this.url, JSON.stringify(entity), { headers: this.authService.jsonHeaders() })
       .map((resp: Response) => resp.json())
-      .map((data: ViewModelResponse) => {
-        if (data != null && data.statusCode === 200) {
+      .map((data: any) => {
           this.toastrService.success('Hello world!', 'Toastr fun!');
-          return data.value as T;
-        } else {
-          Observable.throw('Request has failed ' + data.statusCode);
-        }
+          return data as T;
       })
       .catch(ApiRequestService.handleError);
   }
 
-  deleteEntity(id: number) {
+  deleteEntity<T extends IEntity>(id: number) {
     return this.http.delete(this.url + '/' + id, { headers: this.authService.jsonHeaders() })
       .map((res: Response) => res.json())
-      .map((data: ViewModelResponse) => {
-        if (data != null && data.statusCode === 200) {
-          return data.value as number;
-        } else {
-          Observable.throw('Request has failed ' + data.statusCode);
-        }
+      .map((data: any) => {
+          return data as number;
       })
       .catch(ApiRequestService.handleError);
   }

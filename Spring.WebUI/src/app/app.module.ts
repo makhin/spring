@@ -5,6 +5,7 @@ import { HttpModule } from '@angular/http';
 import { Router, RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
+import { DatepickerModule } from 'ngx-bootstrap';
 
 import { AppComponent } from './app.component';
 import { ContractListComponent } from './contract-list/contract-list.component';
@@ -27,6 +28,7 @@ import { ErrorLogService } from './services/error-log.service';
 import { LOGGING_ERROR_HANDLER_PROVIDERS } from './services/logging-error-handler';
 import { LOGGING_ERROR_HANDLER_OPTIONS } from './services/logging-error-handler';
 import {ContractItemService} from './services/contract-item.service';
+import {ApiRequestService} from "./services/api-request.service";
 
 @NgModule({
   declarations: [
@@ -48,11 +50,12 @@ import {ContractItemService} from './services/contract-item.service';
     HttpModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
+    DatepickerModule.forRoot(),
     RouterModule,
     AppRouting
   ],
   providers: [
-    // ApiRequestService,
+    ApiRequestService,
     ContractService,
     ContractItemService,
     AuthService,

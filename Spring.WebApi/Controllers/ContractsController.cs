@@ -26,10 +26,10 @@ namespace Spring.WebApi.Controllers
             var value = await _service.Get(id);
             if (value == null)
             {
-                return Json(NoContent());
+                return NoContent();
             }
 
-            return Json(Ok(value));
+            return Ok(value);
         }
 
         // GET: api/sampleData
@@ -40,10 +40,10 @@ namespace Spring.WebApi.Controllers
 
             if (!data.Any())
             {
-                return Json(NoContent());
+                return NoContent();
             }
 
-            return Json(Ok(data));
+            return Ok(data);
         }
 
         // POST api/sampleData
@@ -54,17 +54,17 @@ namespace Spring.WebApi.Controllers
 
             if (!value.IsModelValid(out results))
             {
-                return Json(BadRequest(results));
+                return BadRequest(results);
             }
 
             try
             {
                 await _service.Insert(value);
-                return Json(Ok(value));
+                return Ok(value);
             }
             catch (Exception)
             {
-                return Json(NotFound("An error occurred; new record not saved"));
+                return NotFound("An error occurred; new record not saved");
             }
         }
 
@@ -76,17 +76,17 @@ namespace Spring.WebApi.Controllers
 
             if (!value.IsModelValid(out results))
             {
-                return Json(BadRequest(results));
+                return BadRequest(results);
             }
 
             try
             {
                 await _service.Update(value);
-                return Json(Ok(value));
+                return Ok(value);
             }
             catch (Exception)
             {
-                return Json(NotFound("An error occurred; record not updated"));
+                return NotFound("An error occurred; record not updated");
             }
         }
 
@@ -97,11 +97,11 @@ namespace Spring.WebApi.Controllers
             try
             {
                 await _service.Delete(id);
-                return Json(Ok(id));
+                return Ok(id);
             }
             catch (Exception)
             {
-               return Json(NotFound("An error occurred; not deleted"));
+               return NotFound("An error occurred; not deleted");
             }
         }
     }

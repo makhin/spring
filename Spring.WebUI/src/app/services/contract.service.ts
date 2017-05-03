@@ -4,28 +4,24 @@ import { Contract } from '../models/Contract';
 import {ApiRequestService} from './api-request.service';
 
 @Injectable()
-export class ContractService extends ApiRequestService<Contract> {
-
-  private baseUrl = 'api/contracts';  // web api URL
+export class ContractService {
+  constructor(private apiRequestService: ApiRequestService) {
+    apiRequestService.url = 'api/contracts';
+  }
 
   getById(id: number): Observable<Contract> {
-    this.url = this.baseUrl;
-    //noinspection TypeScriptValidateTypes
-    return super.getById(id);
+    return this.apiRequestService.getById<Contract>(id);
   }
 
   addContract(contract: Contract) {
-    this.url = this.baseUrl;
-    return super.addEntity(contract);
+    return this.apiRequestService.addEntity<Contract>(contract);
   }
 
   editContract(contract: Contract) {
-    this.url = this.baseUrl;
-    return super.editEntity(contract);
+    return this.apiRequestService.editEntity<Contract>(contract);
   }
 
   deleteContract(id: number) {
-    this.url = this.baseUrl;
-    return super.deleteEntity(id);
+    return this.apiRequestService.deleteEntity<Contract>(id);
   }
 }

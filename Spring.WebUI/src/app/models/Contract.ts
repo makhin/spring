@@ -4,8 +4,8 @@ export class Contract implements IEntity {
   name: string;
   code: string;
   description: string;
-  beginDate: string;
-  endDate: string;
+  beginDate: Date;
+  endDate: Date;
   isActive: boolean;
   constructor (id: number, name: string, code: string) {
     this.id = id;

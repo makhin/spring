@@ -4,13 +4,13 @@ import {ApiRequestService} from './api-request.service';
 import {ContractItem} from '../models/ContractItem';
 
 @Injectable()
-export class ContractItemService extends ApiRequestService<ContractItem> {
-
+export class ContractItemService {
   private baseUrl = 'api/contracts';  // web api URL
+  constructor(private apiRequestService: ApiRequestService) {
+    apiRequestService.url = 'api/contracts';
+  }
 
   getAll(): Observable<Array<ContractItem>> {
-    this.url = this.baseUrl;
-    //noinspection TypeScriptValidateTypes
-    return super.getAll();
+    return this.apiRequestService.getAll<ContractItem>();
   }
 }

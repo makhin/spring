@@ -26,6 +26,8 @@ export class ContractDetailEditComponent implements OnInit {
       if (this.id > 0) {
         this.contractService.getById(this.id).subscribe((data: Contract) => {
             this.contract = data;
+            this.contract.beginDate = new Date(this.contract.beginDate.toString());
+            this.contract.endDate = new Date(this.contract.endDate.toString());
             console.log(this.contract);
         });
       } else if (this.id === 0) {

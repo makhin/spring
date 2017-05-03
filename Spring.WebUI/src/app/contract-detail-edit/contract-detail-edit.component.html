@@ -1,12 +1,53 @@
-<div *ngIf="contract" class="container">
-    <h2>{{contract.name}}</h2>
-    <div class="form-group">
-      <label for="contractName">Title:</label>
-      <input type="text" id="contractName" [(ngModel)]="contract.name" class="form-control" placeholder="Insert the title...">
+<div class="form-box">
+  <div *ngIf="contract" class="container">
+    <div class="form-group row">
+      <label for="name" class="col-sm-2 col-form-label">Короткое имя:</label>
+      <div class="col-sm-6">
+        <input type="text" id="name" [(ngModel)]="contract.name" class="form-control" placeholder="Имя...">
+      </div>
+      <label for="code" class="col-sm-2 col-form-label">Код:</label>
+      <div class="col-sm-2">
+        <input type="text" id="code" [(ngModel)]="contract.code" class="form-control" placeholder="КОД...">
+      </div>
     </div>
-    <div class="form-group">
-      <label for="descriptionArea">Description:</label>
-      <textarea [(ngModel)]="contract.description" class="form-control" id="descriptionArea" rows="3" placeholder="Insert a suitable description..."></textarea>
+
+    <div class="form-group row">
+      <label for="descriptionArea" class="col-sm-2 col-form-label">Описание:</label>
+      <div class="col-sm-10">
+        <textarea [(ngModel)]="contract.description" class="form-control" id="descriptionArea" rows="5" placeholder="Описание..."></textarea>
+      </div>
     </div>
-    <app-save-panel></app-save-panel>
+
+    <div class="form-group row">
+      <div class="input-group col-sm-5">
+        <label>Дата начала:</label>
+        <datepicker [(ngModel)]="contract.beginDate" name="beginDate" [showWeeks]="false"></datepicker>
+      </div>
+      <div class="input-group col-sm-5">
+        <label>Дата окончания:</label>
+        <datepicker [(ngModel)]="contract.endDate" name="endDate" [showWeeks]="false"></datepicker>
+      </div>
+      <!--<div [(ngModel)]="contract.isActive" ngbRadioGroup name="isActive" class="col-sm-2 pull-">-->
+        <!--<label class="btn btn-primary">-->
+          <!--<input type="radio" [value]="true"> Вкл.-->
+        <!--</label>-->
+        <!--<label class="btn btn-primary">-->
+          <!--<input type="radio" [value]="false"> Выкл.-->
+        <!--</label>-->
+      <!--</div>-->
+    </div>
+    <div class="form-group row">
+      <div class="col-sm-2">
+        <button type="button" value="Back" (click)="onBack()" class="btn btn-primary">Назад</button>
+      </div>
+      <div class="col-sm-6"></div>
+      <div *ngIf="contract.id != 0; else elseBlock" class="col-sm-4">
+        <button type="button" value="Update" (click)="onUpdate(contract)" class="btn btn-primary">Сохранить</button>
+        <button type="button" value="Delete" (click)="onDelete(contract)" class="btn btn-primary">Удалить</button>
+      </div>
+      <ng-template #elseBlock class="col-sm-4">
+        <button type="button" value="Save" (click)="onInsert(contract)" class="btn btn-primary">Добавить</button>
+      </ng-template>
+    </div>
+  </div>
 </div>
