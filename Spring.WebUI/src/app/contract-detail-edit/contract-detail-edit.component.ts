@@ -2,7 +2,9 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Contract } from '../models/Contract';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ContractService } from '../services/contract.service';
-import {NgbDateConverter} from "../ngb-date-converter";
+import {NgbDateConverter} from "../Shared/ngb-date-converter";
+import {SlimLoadingBarService} from "ng2-slim-loading-bar";
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-contract-detail',
@@ -17,31 +19,32 @@ export class ContractDetailEditComponent implements OnInit {
 
   constructor(private contractService: ContractService,
               private router: Router,
-              private activatedRoute: ActivatedRoute) {
+              private activatedRoute: ActivatedRoute,
+              private loadingBarService:SlimLoadingBarService,
+              private toastrService: ToastrService) {
   }
 
   ngOnInit() {
     this.activatedRoute.params.subscribe(params => {
       this.id = +params['id'];
-      console.log(this.id);
-      if (this.id > 0) {
-        this.contractService.getById(this.id).subscribe((data: Contract) => {
-            this.contract = data;
-            this.contract.beginDate = NgbDateConverter.parse(this.contract.beginDate.toString());
-            this.contract.endDate = NgbDateConverter.parse(this.contract.endDate.toString());
-            console.log(this.contract);
-        });
-      } else if (this.id === 0) {
-        console.log('id is 0: adding a new item...');
-        this.contract = new Contract(0, 'New Item', 'NEW');
-      } else {
-        console.log('Invalid id: routing back to home...');
-        this.router.navigate(['']);
-      }
+
+      this.loadingBarService.start();
+      this.contractService.getById(this.id).subscribe((data: Contract) => {
+          this.contract = data;
+          this.contract.beginDate = NgbDateConverter.parse(this.contract.beginDate.toString());
+          this.contract.endDate = NgbDateConverter.parse(this.contract.endDate.toString());
+          this.loadingBarService.complete();
+      },
+      error => {
+        this.loadingBarService.complete();
+        this.toastrService.error('Failed to load contracts. ' + error);
+        console.log(error);
+      });
     });
   }
 
   onInsert(contract: Contract) {
+    this.loadingBarService.start();
     this.contract.beginDate = NgbDateConverter.format(this.contract.beginDate);
     this.contract.endDate = NgbDateConverter.format(this.contract.endDate);
 
@@ -50,39 +53,47 @@ export class ContractDetailEditComponent implements OnInit {
         this.contract = data;
         this.contract.beginDate = NgbDateConverter.parse(this.contract.beginDate.toString());
         this.contract.endDate = NgbDateConverter.parse(this.contract.endDate.toString());
-        this.router.navigate(['']);
+        this.loadingBarService.complete();
       },
-      (error) => console.log(error)
-    );
-  }
+      error => {
+        this.loadingBarService.complete();
+        this.toastrService.error('Failed to add contracts. ' + error);
+        console.log(error);
+      });
 
-  onUpdate(event: any) {
-    if (!this.contract) {
-      return;
-    }
+  }
+  onUpdate(contract: Contract) {
+    this.loadingBarService.start();
     this.contract.beginDate = NgbDateConverter.format(this.contract.beginDate);
     this.contract.endDate = NgbDateConverter.format(this.contract.endDate);
-
     this.contractService.editContract(this.contract)
       .subscribe((data: Contract) => {
           this.contract = data;
           this.contract.beginDate = NgbDateConverter.parse(this.contract.beginDate.toString());
           this.contract.endDate = NgbDateConverter.parse(this.contract.endDate.toString());
+          this.loadingBarService.complete();
         },
-        (error: any) => console.log(error)
-      );
+        error => {
+          this.loadingBarService.complete();
+          this.toastrService.error('Failed to save contracts. ' + error);
+          console.log(error);
+        });
   }
 
   onDelete(contractToDelete: Contract, event: any) {
+    this.loadingBarService.start();
     const id = contractToDelete.id;
     this.contractService.deleteContract(id)
       .subscribe((data: Contract) => {
-            this.contract = data;
-            console.log('Item ' + this.contract.id + ' has been updated.');
-            this.router.navigate(['']);
+          this.contract = data;
+          console.log('Item ' + this.contract.id + ' has been updated.');
+          this.router.navigate(['']);
         },
-        (error: any) => console.log(error)
-      );
+        error => {
+          this.loadingBarService.complete();
+          this.toastrService.error('Failed to save contracts. ' + error);
+          console.log(error);
+        });
   }
 
   onBack() {

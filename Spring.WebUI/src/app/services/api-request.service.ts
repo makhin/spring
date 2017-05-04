@@ -4,8 +4,7 @@ import 'rxjs/add/operator/catch';
 import {Injectable} from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import { AuthService } from '../security/auth.service';
-import { ToastrService } from 'ngx-toastr';
+import { AuthService } from '../Shared/auth.service';
 
 import {IEntity} from '../models/IEntity';
 
@@ -19,14 +18,15 @@ export class ApiRequestService {
     if (error instanceof Response) {
       const body = error.text() || '';
       errMsg = `${error.status} - ${error.statusText || ''} ${body}`;
-    } else {
+    }
+    else {
       errMsg = error.message ? error.message : error.toString();
     }
     console.log(errMsg);
     return Observable.throw(errMsg);
   }
 
-  constructor(private http: Http, private authService: AuthService, private toastrService: ToastrService) {
+  constructor(private http: Http, private authService: AuthService) {
   }
 
   getAll<T extends IEntity>(): Observable<Array<T>> {
@@ -65,7 +65,6 @@ export class ApiRequestService {
       .post(this.url, JSON.stringify(entity), { headers: this.authService.jsonHeaders() })
       .map((resp: Response) => resp.json())
       .map((data: any) => {
-          this.toastrService.success('Hello world!', 'Toastr fun!');
           return data as T;
       })
       .catch(ApiRequestService.handleError);

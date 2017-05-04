@@ -1,9 +1,13 @@
-import { NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
+import {NgbDateParserFormatter, NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
 
-export class NgbDateConverter {
+export class NgbDateMomentParserFormatter extends NgbDateParserFormatter {
 
-  public static format(date: NgbDateStruct, momentFormat: string = null): string {
+  constructor(private momentFormat: string) {
+    super();
+  };
+
+  format(date: NgbDateStruct): string {
     if (date === null) {
       return '';
     }
@@ -15,28 +19,30 @@ export class NgbDateConverter {
     if (!d.isValid())
       return '';
 
-    if (momentFormat != null) {
-      return d.format(momentFormat);
+    if (this.momentFormat != null) {
+      return d.format(this.momentFormat);
     }
     else{
       return d.format();
     }
+
   }
 
-  public static parse(value: string, momentFormat: string = null): NgbDateStruct {
+  parse(value: string): NgbDateStruct {
     if (!value) {
       return null;
     }
 
     let d:moment.Moment;
-    if (momentFormat != null) {
+    if (this.momentFormat != null) {
       d = moment(value);
     } else {
-      d = moment(value, momentFormat);
+      d = moment(value, this.momentFormat);
     }
 
     return d.isValid() ? { year: d.year(),
       month: d.month() + 1,
       day: d.date() } : null;
+
   }
 }

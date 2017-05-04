@@ -19,7 +19,7 @@ import { RegisterComponent } from './register/register.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 import { AppRouting } from './app.routing';
-import {AuthService} from './security/auth.service';
+import {AuthService} from './Shared/auth.service';
 import { NavComponent } from './nav/nav.component';
 import { FooterComponent } from './footer/footer.component';
 import { SavePanelComponent } from './save-panel/save-panel.component';
@@ -29,7 +29,8 @@ import { LOGGING_ERROR_HANDLER_PROVIDERS } from './services/logging-error-handle
 import { LOGGING_ERROR_HANDLER_OPTIONS } from './services/logging-error-handler';
 import {ContractItemService} from './services/contract-item.service';
 import {ApiRequestService} from './services/api-request.service';
-import {NgbDateMomentParserFormatter} from "./ngb-date-moment-parser-formatter";
+import {NgbDateMomentParserFormatter} from "./Shared/ngb-date-moment-parser-formatter";
+import { SlimLoadingBarModule } from "ng2-slim-loading-bar";
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import {NgbDateMomentParserFormatter} from "./ngb-date-moment-parser-formatter";
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
     NgbModule.forRoot(),
+    SlimLoadingBarModule.forRoot(),
     RouterModule,
     AppRouting
   ],
