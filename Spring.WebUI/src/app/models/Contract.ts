@@ -1,11 +1,12 @@
 import {IEntity} from './IEntity';
+import {NgbDateStruct} from "@ng-bootstrap/ng-bootstrap";
 export class Contract implements IEntity {
   id: number;
   name: string;
   code: string;
   description: string;
-  beginDate: Date;
-  endDate: Date;
+  beginDate: any;
+  endDate: any;
   isActive: boolean;
   constructor (id: number, name: string, code: string) {
     this.id = id;

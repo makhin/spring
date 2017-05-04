@@ -47,8 +47,8 @@ namespace Spring.WebApi.Controllers
         }
 
         // POST api/sampleData
-        [HttpPost]
-        public async Task<IActionResult> Post([FromBody]ContractDto value)
+        [HttpPut]
+        public async Task<IActionResult> Put([FromBody]ContractDto value)
         {
             ICollection<ValidationResult> results;
 
@@ -69,8 +69,8 @@ namespace Spring.WebApi.Controllers
         }
 
         // PUT api/sampleData/5
-        [HttpPut]
-        public async Task<IActionResult> Put([FromBody]ContractDto value)
+        [HttpPost]
+        public async Task<IActionResult> Post([FromBody]ContractDto value)
         {
             ICollection<ValidationResult> results;
 

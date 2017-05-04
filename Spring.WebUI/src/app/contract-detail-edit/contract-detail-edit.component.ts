@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Contract } from '../models/Contract';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ContractService } from '../services/contract.service';
+import {NgbDateConverter} from "../ngb-date-converter";
 
 @Component({
   selector: 'app-contract-detail',
@@ -26,8 +27,8 @@ export class ContractDetailEditComponent implements OnInit {
       if (this.id > 0) {
         this.contractService.getById(this.id).subscribe((data: Contract) => {
             this.contract = data;
-            this.contract.beginDate = new Date(this.contract.beginDate.toString());
-            this.contract.endDate = new Date(this.contract.endDate.toString());
+            this.contract.beginDate = NgbDateConverter.parse(this.contract.beginDate.toString());
+            this.contract.endDate = NgbDateConverter.parse(this.contract.endDate.toString());
             console.log(this.contract);
         });
       } else if (this.id === 0) {
@@ -41,10 +42,14 @@ export class ContractDetailEditComponent implements OnInit {
   }
 
   onInsert(contract: Contract) {
+    this.contract.beginDate = NgbDateConverter.format(this.contract.beginDate);
+    this.contract.endDate = NgbDateConverter.format(this.contract.endDate);
+
     this.contractService.addContract(contract).subscribe(
       (data) => {
         this.contract = data;
-        console.log('Item ' + this.contract.id + ' has been added.');
+        this.contract.beginDate = NgbDateConverter.parse(this.contract.beginDate.toString());
+        this.contract.endDate = NgbDateConverter.parse(this.contract.endDate.toString());
         this.router.navigate(['']);
       },
       (error) => console.log(error)
@@ -55,9 +60,14 @@ export class ContractDetailEditComponent implements OnInit {
     if (!this.contract) {
       return;
     }
+    this.contract.beginDate = NgbDateConverter.format(this.contract.beginDate);
+    this.contract.endDate = NgbDateConverter.format(this.contract.endDate);
+
     this.contractService.editContract(this.contract)
       .subscribe((data: Contract) => {
           this.contract = data;
+          this.contract.beginDate = NgbDateConverter.parse(this.contract.beginDate.toString());
+          this.contract.endDate = NgbDateConverter.parse(this.contract.endDate.toString());
         },
         (error: any) => console.log(error)
       );
