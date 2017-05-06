@@ -1,12 +1,12 @@
 import {IEntity} from './IEntity';
-import {NgbDate} from "@ng-bootstrap/ng-bootstrap/datepicker/ngb-date";
+import {NgbDateStruct} from "@ng-bootstrap/ng-bootstrap";
 
 export class Contract implements IEntity {
   id: number;
   name: string;
   code: string;
   description: string;
-  beginDate: NgbDate;
-  endDate: NgbDate;
+  beginDate: NgbDateStruct;
+  endDate: NgbDateStruct;
   isActive: boolean;
 }

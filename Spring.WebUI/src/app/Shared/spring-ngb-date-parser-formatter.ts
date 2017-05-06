@@ -1,6 +1,5 @@
-import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
+import {NgbDateParserFormatter, NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
 import { DatePipe } from '@angular/common';
-import { NgbDate } from "@ng-bootstrap/ng-bootstrap/datepicker/ngb-date";
 import {Injectable} from "@angular/core";
 
 @Injectable()
@@ -8,7 +7,7 @@ export class SpringNgbDateParserFormatter extends NgbDateParserFormatter {
   datePipe = new DatePipe('en-US');
   dateFormatString: string = "dd.MM.yyyy";
 
-  format(date: NgbDate): string {
+  format(date: NgbDateStruct): string {
     if (date === null) {
       return '';
     }
@@ -19,8 +18,19 @@ export class SpringNgbDateParserFormatter extends NgbDateParserFormatter {
     }
   }
 
-  parse(value: string): NgbDate {
-    let returnVal: NgbDate;
+  parse(value: string): NgbDateStruct {
+    let returnVal: NgbDateStruct;
+    if (!value) {
+      returnVal = null;
+    } else {
+      try {
+        let dateParts = value.split(".");
+        returnVal = { year: parseInt(dateParts[2]), month: parseInt(dateParts[1]), day: parseInt(dateParts[0]) };
+      } catch (e) {
+        returnVal = null;
+      }
+    }
     return returnVal;
+
   }
 }

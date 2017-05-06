@@ -4,7 +4,6 @@ import 'rxjs/add/operator/catch';
 import {Injectable} from '@angular/core';
 import {Observable} from "rxjs/Observable";
 import {Http, Response, Headers} from '@angular/http';
-import {NgbDate} from "@ng-bootstrap/ng-bootstrap/datepicker/ngb-date";
 import {Contract} from "app/models/Contract";
 import {AuthService} from "../Shared/auth.service";
 import {ContractItem} from "../models/ContractItem";
@@ -59,7 +58,7 @@ export class DataService {
     if (typeof value === "string" && datePattern.test(value)) {
       let d = new Date(value);
       let date = new Date(d.getTime() + (d.getTimezoneOffset() * 60000));
-      return new NgbDate(date.getFullYear(), date.getMonth()+1, date.getDate());
+      return {year: date.getFullYear(), month: date.getMonth()+1, day: date.getDate()};
     }
 
     return value;

@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import {DataService} from "../services/data.service";
 import {NgbDateParserFormatter} from "@ng-bootstrap/ng-bootstrap";
 import {SpringNgbDateParserFormatter} from "../Shared/spring-ngb-date-parser-formatter";
+import {templateJitUrl} from "@angular/compiler";
 
 @Component({
   selector: 'app-contract-detail',
@@ -17,6 +18,7 @@ import {SpringNgbDateParserFormatter} from "../Shared/spring-ngb-date-parser-for
 export class ContractDetailEditComponent implements OnInit {
   contract: Contract;
   id: number;
+  active: string;
 
   constructor(private router: Router,
               private activatedRoute: ActivatedRoute,

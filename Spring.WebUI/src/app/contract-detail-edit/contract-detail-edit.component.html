@@ -33,12 +33,9 @@
           <i class="fa fa-calendar" aria-hidden="true" style="width: 1.2rem; height: 1rem; cursor: pointer;"></i>
         </div>
       </div>
-      <div [(ngModel)]="contract.isActive" ngbRadioGroup name="isActive" class="col-sm-2 pull-">
-        <label class="btn btn-primary">
-          <input type="radio" [value]="true"> Вкл.
-        </label>
-        <label class="btn btn-primary">
-          <input type="radio" [value]="false"> Выкл.
+      <div class="btn-group col-sm-2" >
+        <label class="btn btn-primary" [class.active]="contract.isActive">
+          <input type="checkbox" name="isActive" [(ngModel)]="contract.isActive"> {{contract.isActive ? "Активный" : "Неактивный" }}
         </label>
       </div>
     </div>
