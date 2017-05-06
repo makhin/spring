@@ -20,9 +20,11 @@ namespace Spring.DbContext.Models
         public string Code { get; set; }
 
         public string Description { get; set; }
-       
+
+        [DataType(DataType.Date)]
         public DateTime BeginDate { get; set; }
 
+        [DataType(DataType.Date)]
         public DateTime EndDate { get; set; }
 
         [Required]

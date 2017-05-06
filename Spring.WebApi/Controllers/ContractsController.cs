@@ -82,7 +82,7 @@ namespace Spring.WebApi.Controllers
             try
             {
                 await _service.Update(value);
-                return Ok(value);
+                return Ok();
             }
             catch (Exception)
             {
@@ -97,7 +97,7 @@ namespace Spring.WebApi.Controllers
             try
             {
                 await _service.Delete(id);
-                return Ok(id);
+                return Ok();
             }
             catch (Exception)
             {

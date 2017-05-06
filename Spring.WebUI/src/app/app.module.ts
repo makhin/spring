@@ -5,12 +5,11 @@ import { HttpModule } from '@angular/http';
 import { Router, RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
-import {NgbDateParserFormatter, NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
 import { ContractListComponent } from './contract-list/contract-list.component';
 
-import {ContractService} from './services/contract.service';
 import { ContractDetailEditComponent } from './contract-detail-edit/contract-detail-edit.component';
 import { AboutComponent } from './about/about.component';
 import { HomeComponent } from './home/home.component';
@@ -27,10 +26,8 @@ import { SavePanelComponent } from './save-panel/save-panel.component';
 import { ErrorLogService } from './services/error-log.service';
 import { LOGGING_ERROR_HANDLER_PROVIDERS } from './services/logging-error-handler';
 import { LOGGING_ERROR_HANDLER_OPTIONS } from './services/logging-error-handler';
-import {ContractItemService} from './services/contract-item.service';
-import {ApiRequestService} from './services/api-request.service';
-import {NgbDateMomentParserFormatter} from "./Shared/ngb-date-moment-parser-formatter";
 import { SlimLoadingBarModule } from "ng2-slim-loading-bar";
+import {DataService} from "./services/data.service";
 
 @NgModule({
   declarations: [
@@ -58,11 +55,9 @@ import { SlimLoadingBarModule } from "ng2-slim-loading-bar";
     AppRouting
   ],
   providers: [
-    ApiRequestService,
-    ContractService,
-    ContractItemService,
     AuthService,
     ErrorLogService,
+    DataService,
     // CAUTION: This providers collection overrides the CORE ErrorHandler with our
     // custom version of the service that logs errors to the ErrorLogService.
     LOGGING_ERROR_HANDLER_PROVIDERS,
@@ -77,9 +72,6 @@ import { SlimLoadingBarModule } from "ng2-slim-loading-bar";
         rethrowError: false,
         unwrapError: false
       }
-    },
-    {
-      provide: NgbDateParserFormatter, useFactory: () => { return new NgbDateMomentParserFormatter("DD.MM.YYYY") }
     }
   ],
   bootstrap: [AppComponent]
