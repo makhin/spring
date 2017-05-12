@@ -76,35 +76,27 @@ export class DataService {
     return value;
   }
 
-  private handleError(error: any) {
-    var applicationError = error.headers.get('Application-Error');
-    var serverError = error.json();
+  private handleError(error: Response | any) {
     var modelStateErrors: string = '';
+    var applicationError: string = '';
 
-    if (!serverError.type) {
-      console.log(serverError);
-      for (var key in serverError) {
-        if (serverError[key])
-          modelStateErrors += serverError[key] + '\n';
-      }
+    if (error instanceof Response){
+        if (error.status === 400){
+          const data = error.json();
+          data.forEach((err) => {
+            modelStateErrors += err.errorMessage;
+          });
+        }
+        else {
+          const body = error.text() || '';
+          applicationError = `${error.status} - ${error.statusText || ''} ${body}`;
+        }
+//      applicationError = error.headers.get('Application-Error');
+    }
+    else {
+      applicationError = error.message ? error.message : error.toString();
     }
     modelStateErrors = modelStateErrors === '' ? null : modelStateErrors;
     return Observable.throw(applicationError || modelStateErrors || 'Server error');
   }
-
-  /*
-   private static handleError(error: Response | any) {
-   // In a real world app, we might use a remote logging infrastructure
-   let errMsg: string;
-   if (error instanceof Response) {
-   const body = error.text() || '';
-   errMsg = `${error.status} - ${error.statusText || ''} ${body}`;
-   }
-   else {
-   errMsg = error.message ? error.message : error.toString();
-   }
-   console.log(errMsg);
-   return Observable.throw(errMsg);
-   }
-   */
 }

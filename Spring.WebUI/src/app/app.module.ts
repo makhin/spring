@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import {FormBuilder, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { Router, RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -46,9 +46,10 @@ import {DataService} from "./services/data.service";
   imports: [
     BrowserModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpModule,
     BrowserAnimationsModule,
-    ToastrModule.forRoot(),
+    ToastrModule.forRoot({timeOut: 1500}),
     NgbModule.forRoot(),
     SlimLoadingBarModule.forRoot(),
     RouterModule,
@@ -58,6 +59,7 @@ import {DataService} from "./services/data.service";
     AuthService,
     ErrorLogService,
     DataService,
+    FormBuilder,
     // CAUTION: This providers collection overrides the CORE ErrorHandler with our
     // custom version of the service that logs errors to the ErrorLogService.
     LOGGING_ERROR_HANDLER_PROVIDERS,

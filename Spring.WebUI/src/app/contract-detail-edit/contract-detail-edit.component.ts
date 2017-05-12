@@ -4,9 +4,9 @@ import { Router, ActivatedRoute } from '@angular/router';
 import {SlimLoadingBarService} from "ng2-slim-loading-bar";
 import { ToastrService } from 'ngx-toastr';
 import {DataService} from "../services/data.service";
-import {NgbDateParserFormatter} from "@ng-bootstrap/ng-bootstrap";
+import {NgbDateParserFormatter, NgbDateStruct} from "@ng-bootstrap/ng-bootstrap";
 import {SpringNgbDateParserFormatter} from "../Shared/spring-ngb-date-parser-formatter";
-import {templateJitUrl} from "@angular/compiler";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-contract-detail',
@@ -18,76 +18,128 @@ import {templateJitUrl} from "@angular/compiler";
 export class ContractDetailEditComponent implements OnInit {
   contract: Contract;
   id: number;
-  active: string;
+  contractForm: FormGroup;
 
   constructor(private router: Router,
               private activatedRoute: ActivatedRoute,
               private loadingBarService:SlimLoadingBarService,
               private toastrService: ToastrService,
-              private dataService: DataService) {
+              private dataService: DataService,
+              private fb: FormBuilder) {
   }
 
   ngOnInit() {
     this.activatedRoute.params.subscribe(params => {
       this.id = +params['id'];
-      this.loadContract();
+      if (this.id > 0) {
+        this.loadContract();
+      }
+      else {
+        this.contract = new Contract();
+        this.contract.id = 0;
+        this.buildForm();
+      }
     });
   }
+
+  buildForm(): void {
+    this.contractForm = this.fb.group({
+      'name': [this.contract.name, [Validators.required]],
+      'code': [this.contract.code, [Validators.required, Validators.minLength(3), Validators.maxLength(10)]],
+      'description': [this.contract.description],
+      'beginDate': [this.contract.beginDate],
+      'endDate': [this.contract.endDate],
+      'isActive': [this.contract.isActive, [Validators.required]]
+    });
+    this.contractForm.valueChanges
+      .subscribe(data => this.onValueChanged(data));
+  }
+
+  onValueChanged(data?: any) {
+    if (!this.contractForm) {
+      return;
+    }
+    const form = this.contractForm;
+    for (const controlName in this.contractForm.controls) {
+      const control = form.get(controlName);
+      if (control && control.dirty && !control.valid) {
+        const message = this.validationMessages[controlName];
+        for (const key in control.errors) {
+          this.toastrService.error(message[key], null, )
+        }
+      }
+    }
+  }
+  validationMessages = {
+    'name': {
+      'required': 'Название обязательно',
+    },
+    'code': {
+      'required': 'Код обязателен',
+      'maxlength': 'Код должен быть меньше 11 знаков',
+      'minlength': 'Код должен быть больше 2 знаков',
+    },
+    'isActive': {
+      'required': 'Необходимо указать активный или нет',
+    },
+  };
 
   loadContract(){
     this.loadingBarService.start();
     this.dataService.getContract(this.id).subscribe((data: Contract) => {
         this.contract = data;
+        this.buildForm();
         this.loadingBarService.complete();
       },
       error => {
         this.loadingBarService.complete();
-        this.toastrService.error('Failed to load contracts. ' + error);
+        this.toastrService.error(error, 'Ошикбка загрузки');
         console.log(error);
       });
   }
 
-
-  onInsert(contract: Contract) {
+  onInsert() {
+    this.contract = this.contractForm.value;
     this.loadingBarService.start();
-
-    this.dataService.addContract(contract).subscribe(
+    this.dataService.addContract(this.contract).subscribe(
       (data) => {
         this.contract = data;
         this.loadingBarService.complete();
+        this.toastrService.success('Сохранено');
+        this.router.navigate(['']);
       },
       error => {
         this.loadingBarService.complete();
-        this.toastrService.error('Failed to add contracts. ' + error);
+        this.toastrService.error(error, 'Ошибка добавления');
         console.log(error);
       });
   }
 
-  onUpdate(contract: Contract) {
+  onUpdate() {
+    this.contract = this.contractForm.value;
     this.loadingBarService.start();
     this.dataService.editContract(this.contract)
       .subscribe(() => {
           this.loadingBarService.complete();
+          this.toastrService.success('Сохранено');
         },
         error => {
           this.loadingBarService.complete();
-          this.toastrService.error('Failed to save contracts. ' + error);
+          this.toastrService.error(error, 'Ошибка сохранения');
           console.log(error);
         });
   }
 
-  onDelete(contractToDelete: Contract, event: any) {
+  onDelete() {
     this.loadingBarService.start();
-    const id = contractToDelete.id;
-    this.dataService.deleteContract(id)
-      .subscribe((data: Contract) => {
-          this.contract = data;
-          console.log('Item ' + this.contract.id + ' has been updated.');
+    this.dataService.deleteContract(this.id)
+      .subscribe(() => {
+          this.loadingBarService.complete();
           this.router.navigate(['']);
         },
         error => {
           this.loadingBarService.complete();
-          this.toastrService.error('Failed to save contracts. ' + error);
+          this.toastrService.error(error, 'Ошибка удаления');
           console.log(error);
         });
   }

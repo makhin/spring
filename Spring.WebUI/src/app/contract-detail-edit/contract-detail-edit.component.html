@@ -1,56 +1,63 @@
-<div class="form-box">
-  <div *ngIf="contract" class="container">
-    <div class="form-group row">
-      <label for="name" class="col-sm-2 col-form-label">Короткое имя:</label>
-      <div class="col-sm-6">
-        <input type="text" id="name" [(ngModel)]="contract.name" class="form-control" placeholder="Имя...">
-      </div>
-      <label for="code" class="col-sm-2 col-form-label">Код:</label>
-      <div class="col-sm-2">
-        <input type="text" id="code" [(ngModel)]="contract.code" class="form-control" placeholder="КОД...">
+<form [formGroup]="contractForm" *ngIf="contract" (ngSubmit)="onSubmit()">
+  <div class="container mt-4 pt-4 pb-4" style="background:#ebeff2">
+    <div class="form-group row" [ngClass]="{'has-danger':!contractForm.controls['name'].valid && contractForm.controls['name'].touched}">
+      <label for="name" class="col-md-2 col-form-label">Короткое имя:</label>
+      <div class="col-md-4">
+        <input type="text" class="form-control" id="name" name="name" [formControl]="contractForm.controls['name']" placeholder="Название...">
       </div>
     </div>
-
-    <div class="form-group row">
-      <label for="descriptionArea" class="col-sm-2 col-form-label">Описание:</label>
-      <div class="col-sm-10">
-        <textarea [(ngModel)]="contract.description" class="form-control" id="descriptionArea" rows="5" placeholder="Описание..."></textarea>
+    <div class="form-group row" [ngClass]="{'has-danger':!contractForm.controls['code'].valid && contractForm.controls['code'].touched}">
+      <label for="code" class="col-md-2 col-form-label">Код:</label>
+      <div class="col-md-2">
+        <input type="text" class="form-control" id="code" name="code" [formControl]="contractForm.controls['code']" placeholder="Код...">
       </div>
     </div>
-
     <div class="form-group row">
-      <div class="input-group col-sm-5">
-        <label for="beginDate">Дата начала:</label>
-        <input class="form-control" id="beginDate" placeholder="дд.мм.гггг" name="beginDate" [(ngModel)]="contract.beginDate" ngbDatepicker #d1="ngbDatepicker">
-        <div class="input-group-addon" (click)="d1.toggle()" >
+      <label for="description" class="col-md-2 col-form-label">Описание:</label>
+      <div class="col-md-10">
+        <textarea [formControl]="contractForm.controls['description']" class="form-control" id="description"
+                  name="description" rows="5" placeholder="Описание..."></textarea>
+      </div>
+    </div>
+    <div class="form-group row">
+        <label for="beginDate" class="col-md-2 col-form-label">Дата начала:</label>
+        <div class="input-group col-md-2">
+          <input class="form-control" id="beginDate" placeholder="дд.мм.гггг" name="beginDate"
+                 [formControl]="contractForm.controls['beginDate']" ngbDatepicker #d1="ngbDatepicker">
+          <div class="input-group-addon" (click)="d1.toggle()">
+            <i class="fa fa-calendar" aria-hidden="true" style="width: 1.2rem; height: 1rem; cursor: pointer;"></i>
+          </div>
+        </div>
+    </div>
+    <div class="form-group row">
+      <label for="endDate" class="col-md-2 col-form-label">Дата начала:</label>
+      <div class="input-group col-md-2">
+        <input class="form-control" id="endDate" placeholder="дд.мм.гггг" name="endDate"
+               [formControl]="contractForm.controls['endDate']" ngbDatepicker #d2="ngbDatepicker">
+        <div class="input-group-addon" (click)="d2.toggle()">
           <i class="fa fa-calendar" aria-hidden="true" style="width: 1.2rem; height: 1rem; cursor: pointer;"></i>
         </div>
       </div>
-      <div class="input-group col-sm-5">
-        <label for="endDate">Дата окончания:</label>
-        <input class="form-control" id="endDate" placeholder="дд.мм.гггг" name="endDate" [(ngModel)]="contract.endDate" ngbDatepicker #d2="ngbDatepicker">
-        <div class="input-group-addon" (click)="d2.toggle()" >
-          <i class="fa fa-calendar" aria-hidden="true" style="width: 1.2rem; height: 1rem; cursor: pointer;"></i>
-        </div>
-      </div>
-      <div class="btn-group col-sm-2" >
-        <label class="btn btn-primary" [class.active]="contract.isActive">
-          <input type="checkbox" name="isActive" [(ngModel)]="contract.isActive"> {{contract.isActive ? "Активный" : "Неактивный" }}
+    </div>
+    <div class="form-group row">
+      <div class="form-check col-md-2">
+        <label class="form-check-label">
+          <input class="form-check-input" type="checkbox" id="isActive" name="isActive" [formControl]="contractForm.controls['isActive']">
+          Активный
         </label>
       </div>
     </div>
-    <div class="form-group row">
-      <div class="col-sm-2">
-        <button type="button" value="Back" (click)="onBack()" class="btn btn-primary">Назад</button>
+    <div class="d-flex justify-content-between">
+      <button type="button" value="Back" (click)="onBack()" class="btn btn-primary">Назад</button>
+
+      <div *ngIf="contract.id != 0; else elseBlock">
+        <button type="button" value="Update" (click)="onUpdate()" [disabled]="!contractForm.valid" class="btn btn-primary">Сохранить</button>
+        <button type="button" value="Delete" (click)="onDelete()" class="btn btn-primary">Удалить</button>
       </div>
-      <div class="col-sm-6"></div>
-      <div *ngIf="contract.id != 0; else elseBlock" class="col-sm-4">
-        <button type="button" value="Update" (click)="onUpdate(contract)" class="btn btn-primary">Сохранить</button>
-        <button type="button" value="Delete" (click)="onDelete(contract)" class="btn btn-primary">Удалить</button>
-      </div>
-      <ng-template #elseBlock class="col-sm-4">
-        <button type="button" value="Save" (click)="onInsert(contract)" class="btn btn-primary">Добавить</button>
+      <ng-template #elseBlock>
+        <button type="button" value="Save" (click)="onInsert()" [disabled]="!contractForm.valid" class="btn btn-primary">Добавить</button>
       </ng-template>
     </div>
   </div>
-</div>
+</form>
+
