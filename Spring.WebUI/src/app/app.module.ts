@@ -6,6 +6,7 @@ import { Router, RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {DataTableModule} from 'primeng/components/datatable/datatable';
 
 import { AppComponent } from './app.component';
 import { ContractListComponent } from './contract-list/contract-list.component';
@@ -28,6 +29,7 @@ import { LOGGING_ERROR_HANDLER_PROVIDERS } from './services/logging-error-handle
 import { LOGGING_ERROR_HANDLER_OPTIONS } from './services/logging-error-handler';
 import { SlimLoadingBarModule } from "ng2-slim-loading-bar";
 import {DataService} from "./services/data.service";
+import { CustomerListComponent } from './customer-list/customer-list.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +43,8 @@ import {DataService} from "./services/data.service";
     PageNotFoundComponent,
     NavComponent,
     FooterComponent,
-    SavePanelComponent
+    SavePanelComponent,
+    CustomerListComponent
   ],
   imports: [
     BrowserModule,
@@ -52,6 +55,7 @@ import {DataService} from "./services/data.service";
     ToastrModule.forRoot({timeOut: 1500}),
     NgbModule.forRoot(),
     SlimLoadingBarModule.forRoot(),
+    DataTableModule,
     RouterModule,
     AppRouting
   ],

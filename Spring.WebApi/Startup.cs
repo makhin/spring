@@ -44,6 +44,7 @@ namespace Spring.WebApi
 
             services.AddScoped(typeof(IRepository<,>), typeof(Repository<,>));
             services.AddTransient<IContractService, ContractService>();
+            services.AddTransient<ICustomerService, CustomerService>();
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<SpringDbContext>()

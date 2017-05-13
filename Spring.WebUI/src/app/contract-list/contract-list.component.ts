@@ -23,4 +23,8 @@ export class ContractListComponent implements OnInit {
   onContractDetailEdit(id: number) {
     this.router.navigate(['contract', id, 'edit']);
   }
+
+  onContractClients(id: number) {
+    this.router.navigate(['contract', id, 'clients']);
+  }
 }

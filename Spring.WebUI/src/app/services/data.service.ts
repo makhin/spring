@@ -7,6 +7,7 @@ import {Http, Response, Headers} from '@angular/http';
 import {Contract} from "app/models/Contract";
 import {AuthService} from "../Shared/auth.service";
 import {ContractItem} from "../models/ContractItem";
+import {CustomerItem} from "../models/CustomerItem";
 
 @Injectable()
 export class DataService {
@@ -53,6 +54,13 @@ export class DataService {
       .catch(this.handleError);
   }
 
+  getCustomersByContract(id: number){
+    return this.http.get('api/customers/' + id, { headers: this.authService.jsonHeaders() })
+      .map((resp: Response) => resp.json())
+      .map((data: any) => {return <Array<CustomerItem>>data;})
+      .catch(this.handleError);
+  }
+
   reviver(key, value): any {
     var datePattern = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}$/;
     if (typeof value === "string" && datePattern.test(value)) {
@@ -91,7 +99,6 @@ export class DataService {
           const body = error.text() || '';
           applicationError = `${error.status} - ${error.statusText || ''} ${body}`;
         }
-//      applicationError = error.headers.get('Application-Error');
     }
     else {
       applicationError = error.message ? error.message : error.toString();

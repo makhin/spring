@@ -1,0 +1,10 @@
+<div class="container">
+  <p-dataTable [value]="customerItems" [lazy]="true" [rows]="10" [paginator]="true"
+               [totalRecords]="totalRecords" (onLazyLoad)="loadCarsLazy($event)">
+    <p-header>Клиенты</p-header>
+    <p-column field="name" header="ФИО"></p-column>
+    <p-column field="tin" header="ИНН"></p-column>
+    <p-column field="startDate" header="Дата начала"></p-column>
+    <p-column field="endDate" header="Дата окончания"></p-column>
+  </p-dataTable>
+</div>

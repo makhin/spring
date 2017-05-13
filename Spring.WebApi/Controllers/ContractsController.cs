@@ -10,6 +10,7 @@ using Spring.WebApi.Helpers;
 
 namespace Spring.WebApi.Controllers
 {
+    [Produces("application/json")]
     [Route("api/[controller]")]
     public class ContractsController : Controller
     {

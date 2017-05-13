@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -14,6 +15,7 @@ namespace Spring.Repositories
 {
     public interface IRepository<TDto, TTable> where TDto : IEntityBase where TTable : class, IEntityBase
     {
+        Task<IEnumerable<TDto>> AllByCondition(Expression<Func<TDto, bool>> predicate);
         Task<IEnumerable<TDto>> GetAll();
         Task<TDto> Get(int id);
         Task<TDto> Insert(TDto entity);
@@ -32,6 +34,11 @@ namespace Spring.Repositories
             this.context = context;
             _mapper = mapper;
             entities = context.Set<TTable>();
+        }
+
+        public async Task<IEnumerable<TDto>> AllByCondition(Expression<Func<TDto, bool>> predicate)
+        {
+            return await entities.ProjectTo<TDto>().Where(predicate).ToListAsync();
         }
 
         public async Task<IEnumerable<TDto>> GetAll()
