@@ -5,8 +5,9 @@ import { HttpModule } from '@angular/http';
 import { Router, RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {DataTableModule} from 'primeng/components/datatable/datatable';
+import {CalendarModule} from 'primeng/components/calendar/calendar';
+import {CheckboxModule} from 'primeng/components/checkbox/checkbox';
 
 import { AppComponent } from './app.component';
 import { ContractListComponent } from './contract-list/contract-list.component';
@@ -53,9 +54,10 @@ import { CustomerListComponent } from './customer-list/customer-list.component';
     HttpModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot({timeOut: 1500}),
-    NgbModule.forRoot(),
     SlimLoadingBarModule.forRoot(),
     DataTableModule,
+    CalendarModule,
+    CheckboxModule,
     RouterModule,
     AppRouting
   ],

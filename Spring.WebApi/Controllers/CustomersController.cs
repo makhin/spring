@@ -15,10 +15,10 @@ namespace Spring.WebApi.Controllers
             _service = service;
         }
 
-        [HttpGet("{contractid:int}")]
-        public async Task<IActionResult> GetByContractId(int contractid)
+        [HttpGet("{contract}")]
+        public async Task<IActionResult> GetByContractId(int id, int page = 1, int pageSize = 10, string globalFilter = null)
         {
-            var value = await _service.GetByContractId(contractid);
+            var value = await _service.GetByContractId(id, page, pageSize, globalFilter);
             if (value == null)
             {
                 return NoContent();

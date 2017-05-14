@@ -10,6 +10,7 @@ using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 using Spring.DbContext.DbContext;
 using Spring.DbContext.Models;
+using Spring.Dto;
 
 namespace Spring.Repositories
 {
@@ -21,6 +22,7 @@ namespace Spring.Repositories
         Task<TDto> Insert(TDto entity);
         Task<TDto> Update(TDto entity);
         Task<int> Delete(int id);
+        Task<PagedResult<TDto>> GetPagedResult(Expression<Func<TDto, bool>> predicate, int page, int pageSize);
     }
 
     public class Repository<TDto, TTable> : IRepository<TDto, TTable> where TDto : IEntityBase where TTable : class, IEntityBase
@@ -110,6 +112,30 @@ namespace Spring.Repositories
                 Debug.WriteLine("An exception occurred: {0}, {1}", exception.InnerException, exception.Message);
                 throw new Exception("An error occurred; not deleted");
             }
+        }
+
+        public async Task<PagedResult<TDto>> GetPagedResult(Expression<Func<TDto, bool>> predicate, int page, int pageSize)
+        {
+            var skipAmount = pageSize * (page - 1);
+            var projection = entities.ProjectTo<TDto>().Where(predicate);
+
+            var totalNumberOfRecords = await projection.CountAsync();
+            var results = await projection
+                .Skip(skipAmount)
+                .Take(pageSize)
+                .ToListAsync();
+
+            var mod = totalNumberOfRecords % pageSize;
+            var totalPageCount = totalNumberOfRecords / pageSize + (mod == 0 ? 0 : 1);
+
+            return new PagedResult<TDto>
+            {
+                Items = results,
+                PageNumber = page,
+                PageSize = results.Count(),
+                TotalNumberOfPages = totalPageCount,
+                TotalNumberOfRecords = totalNumberOfRecords,
+            };
         }
     }
 }

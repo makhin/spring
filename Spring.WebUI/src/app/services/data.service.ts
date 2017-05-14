@@ -3,11 +3,12 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import {Injectable} from '@angular/core';
 import {Observable} from "rxjs/Observable";
-import {Http, Response, Headers} from '@angular/http';
+import {Http, Response, Headers, URLSearchParams} from '@angular/http';
 import {Contract} from "app/models/Contract";
 import {AuthService} from "../Shared/auth.service";
 import {ContractItem} from "../models/ContractItem";
 import {CustomerItem} from "../models/CustomerItem";
+import {PaginatedResult, Pagination} from "../models/Pagination";
 
 @Injectable()
 export class DataService {
@@ -54,10 +55,32 @@ export class DataService {
       .catch(this.handleError);
   }
 
-  getCustomersByContract(id: number){
-    return this.http.get('api/customers/' + id, { headers: this.authService.jsonHeaders() })
-      .map((resp: Response) => resp.json())
-      .map((data: any) => {return <Array<CustomerItem>>data;})
+  getCustomersByContract(id: number, page?: number, itemsPerPage?: number, filter?: string): Observable<PaginatedResult<CustomerItem[]>> {
+    var paginatedResult: PaginatedResult<CustomerItem[]> = new PaginatedResult<CustomerItem[]>();
+
+    let options = {
+      id: id,
+      page: page,
+      pageSize: itemsPerPage,
+      globalFilter: filter
+    };
+
+    let params = new URLSearchParams();
+    for(let key in options){
+      params.set(key, options[key])
+    }
+
+    return this.http.get('api/customers/contract?' + params.toString(), { headers: this.authService.jsonHeaders() })
+      .map((resp: Response) => JSON.parse(resp.text(), this.reviver))
+      .map((data: any) => {
+        paginatedResult.result = data.items;
+        paginatedResult.pagination = new Pagination();
+        paginatedResult.pagination.ItemsPerPage = data.pageSize;
+        paginatedResult.pagination.CurrentPage = data.pageNumber;
+        paginatedResult.pagination.TotalItems = data.totalNumberOfRecords;
+        paginatedResult.pagination.TotalPages = data.totalNumberOfPages;
+        return paginatedResult;
+      })
       .catch(this.handleError);
   }
 
@@ -66,7 +89,7 @@ export class DataService {
     if (typeof value === "string" && datePattern.test(value)) {
       let d = new Date(value);
       let date = new Date(d.getTime() + (d.getTimezoneOffset() * 60000));
-      return {year: date.getFullYear(), month: date.getMonth()+1, day: date.getDate()};
+      return date;
     }
 
     return value;
@@ -75,8 +98,8 @@ export class DataService {
   replacer(key, value): any {
     if (typeof(value) === 'object') {
       for (var k in value) {
-        if (value[k] != null && value[k].hasOwnProperty('year') && value[k].hasOwnProperty('month') && value[k].hasOwnProperty('day')) {
-          var d = new Date(value[k].year, value[k].month-1, value[k].day);
+        if (value[k] != null && value[k] instanceof Date) {
+          var d = value[k];
           value[k] = new Date(d.getTime() - (d.getTimezoneOffset() * 60000)).toISOString();
         }
       }

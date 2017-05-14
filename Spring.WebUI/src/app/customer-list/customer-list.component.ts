@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {CustomerItem} from "../models/CustomerItem";
 import {DataService} from "../services/data.service";
 import {LazyLoadEvent} from "primeng/components/common/api";
+import {PaginatedResult} from "../models/Pagination";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-client-list',
@@ -11,26 +13,24 @@ import {LazyLoadEvent} from "primeng/components/common/api";
 
 export class CustomerListComponent implements OnInit {
   public customerItems: CustomerItem[];
-  datasource: CustomerItem[];
   totalRecords: number;
+  contractId: number;
+  selectedCustomer: CustomerItem;
 
-
-  public constructor(private dataService: DataService) { }
+  public constructor(private activatedRoute: ActivatedRoute, private dataService: DataService) { }
 
   public ngOnInit():void {
-      this.dataService.getCustomersByContract(1).subscribe(
-        (data: Array<CustomerItem>) => {
-          this.datasource = data;
-          this.totalRecords = this.datasource.length;
-          this.customerItems = this.datasource.slice(0, 10);
-        });
+    this.activatedRoute.params.subscribe(params => {
+      this.contractId = +params['id'];
+    });
   }
 
   loadCarsLazy(event: LazyLoadEvent) {
-    setTimeout(() => {
-      if(this.datasource) {
-        this.customerItems = this.datasource.slice(event.first, (event.first + event.rows));
-      }
-    }, 250);
+    let currentPage = (event.first - event.first % event.rows) / event.rows + 1;
+    this.dataService.getCustomersByContract(this.contractId, currentPage, event.rows, event.globalFilter).subscribe(
+      (res: PaginatedResult<CustomerItem[]>) => {
+        this.customerItems = res.result;
+        this.totalRecords = res.pagination.TotalItems;
+      });
   }
 }

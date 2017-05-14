@@ -1,10 +1,22 @@
 <div class="container">
-  <p-dataTable [value]="customerItems" [lazy]="true" [rows]="10" [paginator]="true"
-               [totalRecords]="totalRecords" (onLazyLoad)="loadCarsLazy($event)">
+  <div class="ui-widget-header" style="padding:4px 10px;border-bottom: 0 none">
+    <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+    <input #gb type="text" pInputText size="25" placeholder="Поиск по ФИО и ИНН">
+  </div>
+  <p-dataTable [value]="customerItems" [lazy]="true" [rows]="10" [paginator]="true" [globalFilter]="gb" filterDelay="500" emptyMessage="Не найдено ни одного клиента"
+               [totalRecords]="totalRecords" (onLazyLoad)="loadCarsLazy($event)" selectionMode="single" [(selection)]="selectedCustomer" dataKey="id">
     <p-header>Клиенты</p-header>
-    <p-column field="name" header="ФИО"></p-column>
-    <p-column field="tin" header="ИНН"></p-column>
-    <p-column field="startDate" header="Дата начала"></p-column>
-    <p-column field="endDate" header="Дата окончания"></p-column>
+    <p-column field="name" header="ФИО" [style]="{'width':'50%'}"></p-column>
+    <p-column field="tin" header="ИНН" [style]="{'text-align':'center'}"></p-column>
+    <p-column field="startDate" header="Дата начала" [style]="{'text-align':'center'}">
+      <ng-template let-col let-customer="rowData" pTemplate="body">
+        {{customer.startDate | date:'dd.MM.yyyy'}}
+      </ng-template>
+    </p-column>
+    <p-column field="endDate" header="Дата окончания" [style]="{'text-align':'center'}">
+      <ng-template let-col let-customer="rowData" pTemplate="body" >
+        {{customer.endDate | date:'dd.MM.yyyy'}}
+      </ng-template>
+    </p-column>
   </p-dataTable>
 </div>

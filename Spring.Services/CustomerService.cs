@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper.QueryableExtensions;
+using Microsoft.EntityFrameworkCore;
 using Spring.DbContext.Models;
 using Spring.Dto;
 using Spring.Repositories;
@@ -10,7 +13,7 @@ namespace Spring.Services
 {
     public interface ICustomerService
     {
-        Task<IEnumerable<CustomerItemDto>> GetByContractId(int contractId);
+        Task<PagedResult<CustomerItemDto>> GetByContractId(int contractId, int page, int pageSize, string globalFilter);
     }
 
     public class CustomerService: ICustomerService
@@ -22,9 +25,10 @@ namespace Spring.Services
             _customerItemRepository = customerItemRepository;
         }
 
-        public async Task<IEnumerable<CustomerItemDto>> GetByContractId(int contractId)
+        public async Task<PagedResult<CustomerItemDto>> GetByContractId(int contractId, int page, int pageSize, string globalFilter)
         {
-            return await _customerItemRepository.AllByCondition(c => c.ContractId == contractId && c.Id < 10);
+            return await _customerItemRepository.GetPagedResult(
+                c => c.ContractId == contractId && (globalFilter == null || c.Name.StartsWith(globalFilter) || c.TIN.StartsWith(globalFilter)), page, pageSize);
         }
     }
 }

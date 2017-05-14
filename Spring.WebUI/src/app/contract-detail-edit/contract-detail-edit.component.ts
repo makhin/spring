@@ -4,21 +4,19 @@ import { Router, ActivatedRoute } from '@angular/router';
 import {SlimLoadingBarService} from "ng2-slim-loading-bar";
 import { ToastrService } from 'ngx-toastr';
 import {DataService} from "../services/data.service";
-import {NgbDateParserFormatter, NgbDateStruct} from "@ng-bootstrap/ng-bootstrap";
-import {SpringNgbDateParserFormatter} from "../Shared/spring-ngb-date-parser-formatter";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-contract-detail',
   templateUrl: './contract-detail-edit.component.html',
-  styleUrls: ['./contract-detail-edit.component.css'],
-  providers: [{provide: NgbDateParserFormatter, useClass: SpringNgbDateParserFormatter}]
+  styleUrls: ['./contract-detail-edit.component.css']
 })
 
 export class ContractDetailEditComponent implements OnInit {
   contract: Contract;
   id: number;
   contractForm: FormGroup;
+  ru: any;
 
   constructor(private router: Router,
               private activatedRoute: ActivatedRoute,
@@ -29,6 +27,15 @@ export class ContractDetailEditComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.ru = {
+      firstDayOfWeek: 0,
+      dayNames: [ "понедельник","вторник","среда","четверг","пятница","суббота","воскресение" ],
+      dayNamesShort: [ "пнд","втр","срд","чтв","птн","сбт","вск" ],
+      dayNamesMin: [ "Пн","Вт","Ср","Чт","Пт","Сб","Вс" ],
+      monthNames: [ "январь","февраль","март","апрель","май","июнь","июль","август","сентябрь","октябрь","ноябрь","декабрь" ],
+      monthNamesShort: [ "янв","фев","мар","апр","май","июн","июл","авг","сен","окт","ноя","дек" ]
+    }
+
     this.activatedRoute.params.subscribe(params => {
       this.id = +params['id'];
       if (this.id > 0) {
@@ -117,6 +124,7 @@ export class ContractDetailEditComponent implements OnInit {
 
   onUpdate() {
     this.contract = this.contractForm.value;
+    this.contract.id = this.id;
     this.loadingBarService.start();
     this.dataService.editContract(this.contract)
       .subscribe(() => {

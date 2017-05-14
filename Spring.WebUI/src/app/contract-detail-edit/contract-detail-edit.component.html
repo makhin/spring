@@ -20,29 +20,21 @@
       </div>
     </div>
     <div class="form-group row">
-        <label for="beginDate" class="col-md-2 col-form-label">Дата начала:</label>
+        <label class="col-md-2 col-form-label">Дата начала:</label>
         <div class="input-group col-md-2">
-          <input class="form-control" id="beginDate" placeholder="дд.мм.гггг" name="beginDate"
-                 [formControl]="contractForm.controls['beginDate']" ngbDatepicker #d1="ngbDatepicker">
-          <div class="input-group-addon" (click)="d1.toggle()">
-            <i class="fa fa-calendar" aria-hidden="true" style="width: 1.2rem; height: 1rem; cursor: pointer;"></i>
-          </div>
+          <p-calendar id="beginDate" name="beginDate" [formControl]="contractForm.controls['beginDate']" [showIcon]="true" [locale]="ru" dateFormat="dd.mm.yy"></p-calendar>
         </div>
     </div>
     <div class="form-group row">
-      <label for="endDate" class="col-md-2 col-form-label">Дата начала:</label>
+      <label class="col-md-2 col-form-label">Дата начала:</label>
       <div class="input-group col-md-2">
-        <input class="form-control" id="endDate" placeholder="дд.мм.гггг" name="endDate"
-               [formControl]="contractForm.controls['endDate']" ngbDatepicker #d2="ngbDatepicker">
-        <div class="input-group-addon" (click)="d2.toggle()">
-          <i class="fa fa-calendar" aria-hidden="true" style="width: 1.2rem; height: 1rem; cursor: pointer;"></i>
-        </div>
+        <p-calendar id="endDate" name="endDate" [formControl]="contractForm.controls['endDate']" [showIcon]="true" [locale]="ru" dateFormat="dd.mm.yy"></p-calendar>
       </div>
     </div>
     <div class="form-group row">
       <div class="form-check col-md-2">
         <label class="form-check-label">
-          <input class="form-check-input" type="checkbox" id="isActive" name="isActive" [formControl]="contractForm.controls['isActive']">
+          <p-checkbox [formControl]="contractForm.controls['isActive']" binary="true" id="isActive" name="isActive"></p-checkbox>
           Активный
         </label>
       </div>
