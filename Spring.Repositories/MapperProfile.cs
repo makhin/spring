@@ -13,11 +13,12 @@ namespace Spring.Repositories
 
             // TODO find way to include only dto columns to query
             CreateMap<Customer, CustomerItemDto>()
-                .IgnoreAllPropertiesWithAnInaccessibleSetter()
-                .ConstructProjectionUsing(src => new CustomerItemDto
-                {
-                    ContractId = src.Contract.Id,
-                });
+                .IgnoreAllPropertiesWithAnInaccessibleSetter();
+
+            CreateMap<Customer, CustomerShortDetailsDto>()
+                .IgnoreAllPropertiesWithAnInaccessibleSetter();
+
+            CreateMap<Customer, CustomerDto>().ReverseMap();
         }
     }
 }

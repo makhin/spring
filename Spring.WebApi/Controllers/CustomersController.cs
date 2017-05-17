@@ -1,6 +1,11 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Spring.Dto;
 using Spring.Services;
+using Spring.WebApi.Helpers;
 
 namespace Spring.WebApi.Controllers
 {
@@ -26,5 +31,89 @@ namespace Spring.WebApi.Controllers
 
             return Ok(value);
         }
+
+        [HttpGet("{id}/short")]
+        public async Task<IActionResult> GetShortDetails(int id)
+        {
+            var value = await _service.GetShortDetails(id);
+            if (value == null)
+            {
+                return NoContent();
+            }
+
+            return Ok(value);
+        }
+
+        [HttpGet("{id}/full")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            var value = await _service.Get(id);
+            if (value == null)
+            {
+                return NoContent();
+            }
+
+            return Ok(value);
+        }
+
+        // POST api/sampleData
+        [HttpPut]
+        public async Task<IActionResult> Put([FromBody]CustomerDto value)
+        {
+            ICollection<ValidationResult> results;
+
+            if (!value.IsModelValid(out results))
+            {
+                return BadRequest(results);
+            }
+
+            try
+            {
+                await _service.Insert(value);
+                return Ok(value);
+            }
+            catch (Exception)
+            {
+                return NotFound("An error occurred; new record not saved");
+            }
+        }
+
+        // PUT api/sampleData/5
+        [HttpPost]
+        public async Task<IActionResult> Post([FromBody]CustomerDto value)
+        {
+            ICollection<ValidationResult> results;
+
+            if (!value.IsModelValid(out results))
+            {
+                return BadRequest(results);
+            }
+
+            try
+            {
+                await _service.Update(value);
+                return Ok();
+            }
+            catch (Exception)
+            {
+                return NotFound("An error occurred; record not updated");
+            }
+        }
+
+        // DELETE api/sampleData/5
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            try
+            {
+                await _service.Delete(id);
+                return Ok();
+            }
+            catch (Exception)
+            {
+                return NotFound("An error occurred; not deleted");
+            }
+        }
+
     }
 }

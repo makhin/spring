@@ -5,6 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="6.0.2" />
+    <PackageReference Include="AutoMapper.Collection" Version="3.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Spring.Dto\Spring.Dto.csproj" />
     <ProjectReference Include="..\Spring.Repositories\Spring.Repositories.csproj" />
   </ItemGroup>

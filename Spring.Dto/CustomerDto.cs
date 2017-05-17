@@ -1,21 +1,22 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using Spring.DbContext.Models;
+using Spring.Dto.Validations;
 
-namespace Spring.DbContext.Models
+namespace Spring.Dto
 {
-    public class Customer : IEntityBase
+    public class CustomerDto: IEntityBase, IValidatableObject
     {
-        [Key]
         public int Id { get; set; }
 
-        public Contract Contract { get; set; }
+        public int ContractId { get; set; }
 
-        [Required]
         public string Name { get; set; }
 
         public DateTime? DateOfBirth { get; set; }
 
-        [MaxLength(10), MinLength(10)]
         public string TIN { get; set; }
 
         public string Department { get; set; }
@@ -28,6 +29,8 @@ namespace Spring.DbContext.Models
 
         public string Position { get; set; }
 
+        public string AdditionalInfo { get; set; }
+
         public string CardNumber { get; set; }
 
         public string Address { get; set; }
@@ -36,10 +39,15 @@ namespace Spring.DbContext.Models
 
         public string Passport { get; set; }
 
-        public string AdditionalInfo { get; set; }
-
         public DateTime StartDate { get; set; }
 
         public DateTime? EndDate { get; set; }
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            var validator = new CustomerDtoValidator();
+            var result = validator.Validate(this);
+            return result.Errors.Select(item => new ValidationResult(item.ErrorMessage, new[] { item.PropertyName }));
+        }
     }
 }

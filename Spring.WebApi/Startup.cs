@@ -42,7 +42,7 @@ namespace Spring.WebApi
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
 
-            services.AddScoped(typeof(IRepository<,>), typeof(Repository<,>));
+            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddTransient<IContractService, ContractService>();
             services.AddTransient<ICustomerService, CustomerService>();
 

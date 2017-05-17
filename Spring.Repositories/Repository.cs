@@ -1,68 +1,57 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 using System.Threading.Tasks;
-using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 using Spring.DbContext.DbContext;
 using Spring.DbContext.Models;
-using Spring.Dto;
 
 namespace Spring.Repositories
 {
-    public interface IRepository<TDto, TTable> where TDto : IEntityBase where TTable : class, IEntityBase
+    public interface IRepository<TTable> where TTable : class, IEntityBase
     {
-        Task<IEnumerable<TDto>> AllByCondition(Expression<Func<TDto, bool>> predicate);
-        Task<IEnumerable<TDto>> GetAll();
-        Task<TDto> Get(int id);
-        Task<TDto> Insert(TDto entity);
-        Task<TDto> Update(TDto entity);
+        IQueryable<TTable> GetByCondition(Expression<Func<TTable, bool>> predicate);
+        IQueryable<TTable> GetAll();
+        Task<TTable> Get(int id);
+        Task<TTable> Insert(TTable entity);
+        Task<TTable> Update(TTable entity);
         Task<int> Delete(int id);
-        Task<PagedResult<TDto>> GetPagedResult(Expression<Func<TDto, bool>> predicate, int page, int pageSize);
     }
 
-    public class Repository<TDto, TTable> : IRepository<TDto, TTable> where TDto : IEntityBase where TTable : class, IEntityBase
+    public class Repository<TTable> : IRepository<TTable> where TTable : class, IEntityBase
     {
         private readonly SpringDbContext context;
-        private readonly IMapper _mapper;
         private readonly DbSet<TTable> entities;
 
-        public Repository(SpringDbContext context, IMapper mapper)
+        public Repository(SpringDbContext context)
         {
             this.context = context;
-            _mapper = mapper;
             entities = context.Set<TTable>();
         }
 
-        public async Task<IEnumerable<TDto>> AllByCondition(Expression<Func<TDto, bool>> predicate)
+        public IQueryable<TTable> GetByCondition(Expression<Func<TTable, bool>> predicate)
         {
-            return await entities.ProjectTo<TDto>().Where(predicate).ToListAsync();
+            return entities.Where(predicate);
         }
 
-        public async Task<IEnumerable<TDto>> GetAll()
+        public IQueryable<TTable> GetAll()
         {
-            return await entities.ProjectTo<TDto>().ToListAsync();
+            return entities;
         }
 
-        public async Task<TDto> Get(int id)
+        public async Task<TTable> Get(int id)
         {
-            var entity = await entities.DefaultIfEmpty(null).SingleOrDefaultAsync(a => a.Id == id);            
-            return _mapper.Map<TDto>(entity);
+            return await entities.SingleOrDefaultAsync(a => a.Id == id);            
         }
 
-        public async Task<TDto> Insert(TDto dto)
+        public async Task<TTable> Insert(TTable entity)
         {
             try
             {
-                dto.Id = 0;
-                var entity = _mapper.Map<TTable>(dto);
                 await context.AddAsync(entity);
                 await context.SaveChangesAsync();
-                return dto;
+                return entity;
             }
             catch (DbUpdateException exception)
             {
@@ -70,9 +59,9 @@ namespace Spring.Repositories
                 throw new Exception("An error occurred; new record not saved");
             }
         }
-        public async Task<TDto> Update(TDto dto)
+        public async Task<TTable> Update(TTable entity)
         {
-            bool recordExists = entities.Any(a => a.Id == dto.Id);
+            bool recordExists = entities.Any(a => a.Id == entity.Id);
 
             if (!recordExists)
             {
@@ -81,10 +70,9 @@ namespace Spring.Repositories
 
             try
             {
-                var entity = _mapper.Map<TTable>(dto);
                 entities.Update(entity);
                 await context.SaveChangesAsync();
-                return dto;
+                return entity;
             }
             catch (DbUpdateException exception)
             {
@@ -112,30 +100,6 @@ namespace Spring.Repositories
                 Debug.WriteLine("An exception occurred: {0}, {1}", exception.InnerException, exception.Message);
                 throw new Exception("An error occurred; not deleted");
             }
-        }
-
-        public async Task<PagedResult<TDto>> GetPagedResult(Expression<Func<TDto, bool>> predicate, int page, int pageSize)
-        {
-            var skipAmount = pageSize * (page - 1);
-            var projection = entities.ProjectTo<TDto>().Where(predicate);
-
-            var totalNumberOfRecords = await projection.CountAsync();
-            var results = await projection
-                .Skip(skipAmount)
-                .Take(pageSize)
-                .ToListAsync();
-
-            var mod = totalNumberOfRecords % pageSize;
-            var totalPageCount = totalNumberOfRecords / pageSize + (mod == 0 ? 0 : 1);
-
-            return new PagedResult<TDto>
-            {
-                Items = results,
-                PageNumber = page,
-                PageSize = results.Count(),
-                TotalNumberOfPages = totalPageCount,
-                TotalNumberOfRecords = totalNumberOfRecords,
-            };
         }
     }
 }

@@ -1,34 +1,92 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 using Spring.DbContext.Models;
 using Spring.Dto;
 using Spring.Repositories;
+using Spring.Repositories.Extensions;
 
 namespace Spring.Services
 {
     public interface ICustomerService
     {
         Task<PagedResult<CustomerItemDto>> GetByContractId(int contractId, int page, int pageSize, string globalFilter);
+
+        Task<CustomerShortDetailsDto> GetShortDetails(int clientId);
+
+        Task<CustomerDto> Get(int id);
+
+        Task<CustomerDto> Update(CustomerDto dto);
+
+        Task<CustomerDto> Insert(CustomerDto dto);
+
+        Task<int> Delete(int id);
     }
 
     public class CustomerService: ICustomerService
     {
-        private readonly IRepository<CustomerItemDto, Customer> _customerItemRepository;
+        private readonly IRepository<Customer> _customerRepository;
+        private readonly IMapper _mapper;
 
-        public CustomerService(IRepository<CustomerItemDto, Customer> customerItemRepository)
+        public CustomerService(IRepository<Customer> customerRepository, IMapper mapper)
         {
-            _customerItemRepository = customerItemRepository;
+            _customerRepository = customerRepository;
+            _mapper = mapper;
         }
 
         public async Task<PagedResult<CustomerItemDto>> GetByContractId(int contractId, int page, int pageSize, string globalFilter)
         {
-            return await _customerItemRepository.GetPagedResult(
-                c => c.ContractId == contractId && (globalFilter == null || c.Name.StartsWith(globalFilter) || c.TIN.StartsWith(globalFilter)), page, pageSize);
+            var customers = _customerRepository.GetAll()
+                .Where(c => c.Contract.Id == contractId && (globalFilter == null || c.Name.StartsWith(globalFilter) ||
+                                                            c.TIN.StartsWith(globalFilter)));
+
+            var totalNumberOfRecords = await customers.CountAsync();
+            var projection = await customers.GetByPage(page, pageSize).ProjectTo<CustomerItemDto>().ToListAsync();
+
+            var mod = totalNumberOfRecords % pageSize;
+            var totalPageCount = totalNumberOfRecords / pageSize + (mod == 0 ? 0 : 1);
+
+            return new PagedResult<CustomerItemDto>
+            {
+                Items = projection,
+                PageNumber = page,
+                PageSize = projection.Count,
+                TotalNumberOfPages = totalPageCount,
+                TotalNumberOfRecords = totalNumberOfRecords,
+            };
+        }
+
+        public async Task<CustomerShortDetailsDto> GetShortDetails(int clientId)
+        {
+            var customer = await _customerRepository.Get(clientId);
+            return _mapper.Map<Customer, CustomerShortDetailsDto>(customer);
+        }
+
+        public async Task<CustomerDto> Get(int id)
+        {
+            var contract = await _customerRepository.Get(id);
+            return _mapper.Map<Customer, CustomerDto>(contract);
+        }
+
+        public async Task<CustomerDto> Update(CustomerDto dto)
+        {
+            var contract = _mapper.Map<CustomerDto, Customer>(dto);
+            await _customerRepository.Update(contract);
+            return dto;
+        }
+
+        public async Task<CustomerDto> Insert(CustomerDto dto)
+        {
+            var contract = _mapper.Map<CustomerDto, Customer>(dto);
+            var newContract = await _customerRepository.Insert(contract);
+            return _mapper.Map<Customer, CustomerDto>(newContract);
+        }
+
+        public async Task<int> Delete(int id)
+        {
+            return await _customerRepository.Delete(id);
         }
     }
 }
