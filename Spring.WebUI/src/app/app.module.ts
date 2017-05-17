@@ -5,9 +5,14 @@ import { HttpModule } from '@angular/http';
 import { Router, RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
+
 import {DataTableModule} from 'primeng/components/datatable/datatable';
 import {CalendarModule} from 'primeng/components/calendar/calendar';
 import {CheckboxModule} from 'primeng/components/checkbox/checkbox';
+import {InputMaskModule} from 'primeng/components/inputmask/inputmask';
+import {SelectButtonModule} from 'primeng/components/selectbutton/selectbutton';
+import {DropdownModule} from 'primeng/components/dropdown/dropdown';
+import {AutoCompleteModule} from 'primeng/components/autocomplete/autocomplete';
 
 import { AppComponent } from './app.component';
 import { ContractListComponent } from './contract-list/contract-list.component';
@@ -31,6 +36,7 @@ import { LOGGING_ERROR_HANDLER_OPTIONS } from './services/logging-error-handler'
 import { SlimLoadingBarModule } from "ng2-slim-loading-bar";
 import {DataService} from "./services/data.service";
 import { CustomerListComponent } from './customer-list/customer-list.component';
+import { CustomerDetailEditComponent } from './customer-detail-edit/customer-detail-edit.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +51,8 @@ import { CustomerListComponent } from './customer-list/customer-list.component';
     NavComponent,
     FooterComponent,
     SavePanelComponent,
-    CustomerListComponent
+    CustomerListComponent,
+    CustomerDetailEditComponent
   ],
   imports: [
     BrowserModule,
@@ -58,6 +65,10 @@ import { CustomerListComponent } from './customer-list/customer-list.component';
     DataTableModule,
     CalendarModule,
     CheckboxModule,
+    InputMaskModule,
+    SelectButtonModule,
+    DropdownModule,
+    AutoCompleteModule,
     RouterModule,
     AppRouting
   ],

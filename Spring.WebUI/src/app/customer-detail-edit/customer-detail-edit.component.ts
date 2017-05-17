@@ -1,32 +1,37 @@
 import { Component, OnInit } from '@angular/core';
-import { Contract } from '../models/Contract';
-import { Router, ActivatedRoute } from '@angular/router';
-import {SlimLoadingBarService} from "ng2-slim-loading-bar";
-import { ToastrService } from 'ngx-toastr';
-import {DataService} from "../services/data.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {DataService} from "../services/data.service";
+import {ToastrService} from "ngx-toastr";
+import {SlimLoadingBarService} from "ng2-slim-loading-bar";
+import {ActivatedRoute, Router} from "@angular/router";
+import {Customer} from "../models/Customer";
+import {SelectItem} from "primeng/components/common/api";
 
 @Component({
-  selector: 'app-contract-detail',
-  templateUrl: './contract-detail-edit.component.html',
-  styleUrls: ['./contract-detail-edit.component.css']
+  selector: 'app-customer-detail-edit',
+  templateUrl: './customer-detail-edit.component.html',
+  styleUrls: ['./customer-detail-edit.component.sass']
 })
-
-export class ContractDetailEditComponent implements OnInit {
-  contract: Contract;
+export class CustomerDetailEditComponent implements OnInit {
+  customer: Customer;
+  contractId: number;
   id: number;
-  contractForm: FormGroup;
+  customerForm: FormGroup;
   ru: any;
+  sexTypes: SelectItem[];
+  groups: SelectItem[];
+  departments:string[];
 
   constructor(private router: Router,
               private activatedRoute: ActivatedRoute,
               private loadingBarService:SlimLoadingBarService,
               private toastrService: ToastrService,
               private dataService: DataService,
-              private fb: FormBuilder) {
-  }
+              private fb: FormBuilder) { }
 
   ngOnInit() {
+    this.contractId = 1;
+
     this.ru = {
       firstDayOfWeek: 0,
       dayNames: [ "понедельник","вторник","среда","четверг","пятница","суббота","воскресение" ],
@@ -36,38 +41,57 @@ export class ContractDetailEditComponent implements OnInit {
       monthNamesShort: [ "янв","фев","мар","апр","май","июн","июл","авг","сен","окт","ноя","дек" ]
     }
 
+    this.sexTypes = [];
+    this.sexTypes.push({label: 'Мужчина', value: true});
+    this.sexTypes.push({label: 'Женщина', value: false});
+
+    this.groups = [];
+    this.groups.push({label: '', value: null});
+    this.groups.push({label: '1', value: 1});
+    this.groups.push({label: '2', value: 2});
+    this.groups.push({label: '3', value: 3});
+
     this.activatedRoute.params.subscribe(params => {
       this.id = +params['id'];
       if (this.id > 0) {
-        this.loadContract();
+        this.loadCustomer();
       }
       else {
-        this.contract = new Contract();
-        this.contract.id = 0;
+        this.customer = new Customer();
+        this.customer.id = 0;
         this.buildForm();
       }
     });
   }
 
   buildForm(): void {
-    this.contractForm = this.fb.group({
-      'name': [this.contract.name, [Validators.required]],
-      'code': [this.contract.code, [Validators.required, Validators.minLength(3), Validators.maxLength(10)]],
-      'description': [this.contract.description],
-      'beginDate': [this.contract.beginDate],
-      'endDate': [this.contract.endDate],
-      'isActive': [this.contract.isActive, [Validators.required]]
-    });
-    this.contractForm.valueChanges
+    this.customerForm = this.fb.group({
+      'name': [this.customer.name, [Validators.required]],
+      'tin': [this.customer.tin, []],
+      'address': [this.customer.address, []],
+      'passport': [this.customer.passport, []],
+      'department': [this.customer.department, []],
+      'personnelNumber': [this.customer.personnelNumber, []],
+      'dateOfBirth': [this.customer.dateOfBirth, []],
+      'additionalInfo': [this.customer.additionalInfo, []],
+      'cardNumber': [this.customer.cardNumber, []],
+      'disabilityGroup': [this.customer.disabilityGroup, []],
+      'mobilePhone': [this.customer.mobilePhone, []],
+      'position': [this.customer.position, []],
+      'sex': [this.customer.sex, []],
+      'startDate': [this.customer.startDate, []],
+      'endDate': [this.customer.endDate, []],
+          });
+    this.customerForm.valueChanges
       .subscribe(data => this.onValueChanged(data));
   }
 
   onValueChanged(data?: any) {
-    if (!this.contractForm) {
+    if (!this.customerForm) {
       return;
     }
-    const form = this.contractForm;
-    for (const controlName in this.contractForm.controls) {
+    const form = this.customerForm;
+    for (const controlName in this.customerForm.controls) {
       const control = form.get(controlName);
       if (control && control.dirty && !control.valid) {
         const message = this.validationMessages[controlName];
@@ -77,24 +101,17 @@ export class ContractDetailEditComponent implements OnInit {
       }
     }
   }
+
   validationMessages = {
     'name': {
-      'required': 'Название обязательно',
-    },
-    'code': {
-      'required': 'Код обязателен',
-      'maxlength': 'Код должен быть меньше 11 знаков',
-      'minlength': 'Код должен быть больше 2 знаков',
-    },
-    'isActive': {
-      'required': 'Необходимо указать активный или нет',
-    },
+      'required': 'ФИО обязательно',
+    }
   };
 
-  loadContract(){
+  loadCustomer(){
     this.loadingBarService.start();
-    this.dataService.getContract(this.id).subscribe((data: Contract) => {
-        this.contract = data;
+    this.dataService.getCustomer(this.id).subscribe((data: Customer) => {
+        this.customer = data;
         this.buildForm();
         this.loadingBarService.complete();
       },
@@ -106,11 +123,14 @@ export class ContractDetailEditComponent implements OnInit {
   }
 
   onInsert() {
-    this.contract = this.contractForm.value;
+    this.customer = this.customerForm.value;
+    if (this.customer.disabilityGroup === 0){
+        this.customer.disabilityGroup = null;
+    }
     this.loadingBarService.start();
-    this.dataService.addContract(this.contract).subscribe(
+    this.dataService.addCustomer(this.customer).subscribe(
       (data) => {
-        this.contract = data;
+        this.customer = data;
         this.loadingBarService.complete();
         this.toastrService.success('Сохранено');
         this.router.navigate(['']);
@@ -123,10 +143,13 @@ export class ContractDetailEditComponent implements OnInit {
   }
 
   onUpdate() {
-    this.contract = this.contractForm.value;
-    this.contract.id = this.id;
+    this.customer = this.customerForm.value;
+    if (this.customer.disabilityGroup === 0){
+      this.customer.disabilityGroup = null;
+    }
+    this.customer.id = this.id;
     this.loadingBarService.start();
-    this.dataService.editContract(this.contract)
+    this.dataService.editCustomer(this.customer)
       .subscribe(() => {
           this.loadingBarService.complete();
           this.toastrService.success('Сохранено');
@@ -140,7 +163,7 @@ export class ContractDetailEditComponent implements OnInit {
 
   onDelete() {
     this.loadingBarService.start();
-    this.dataService.deleteContract(this.id)
+    this.dataService.deleteCustomer(this.id)
       .subscribe(() => {
           this.loadingBarService.complete();
           this.router.navigate(['']);
@@ -150,6 +173,12 @@ export class ContractDetailEditComponent implements OnInit {
           this.toastrService.error(error, 'Ошибка удаления');
           console.log(error);
         });
+  }
+
+  OnDepartmentLookup(event) {
+    this.dataService.getDepartmentsByContract(this.contractId, event.query).subscribe(data => {
+      this.departments = data;
+    });
   }
 
   onBack() {

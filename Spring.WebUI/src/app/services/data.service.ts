@@ -10,6 +10,7 @@ import {ContractItem} from "../models/ContractItem";
 import {CustomerItem} from "../models/CustomerItem";
 import {PaginatedResult, Pagination} from "../models/Pagination";
 import {CustomerShort} from "../models/CustomerShort";
+import {Customer} from "../models/Customer";
 
 @Injectable()
 export class DataService {
@@ -92,6 +93,53 @@ export class DataService {
       .catch(this.handleError);
   }
 
+  getCustomer(id: number): Observable<Customer> {
+    return this.http.get('api/customers/' + id + '/full')
+      .map((resp: Response) => JSON.parse(resp.text(), this.reviver))
+      .map((data: Customer) => data)
+      .catch(this.handleError);
+  }
+
+  editCustomer(customer: Customer) {
+    const clone = { ...(new Customer()), ...customer };
+    let body = JSON.stringify(clone, this.replacer);
+    return this.http
+      .post('api/customers/', body, { headers: this.authService.jsonHeaders() })
+      .map((resp: Response) => {return;})
+      .catch(this.handleError);
+  }
+
+  addCustomer(customer: Customer) {
+    const clone = { ...(new Customer()), ...customer };
+    let body = JSON.stringify(clone, this.replacer);
+    return this.http
+      .put('api/customers/', body, { headers: this.authService.jsonHeaders() })
+      .map((resp: Response) => JSON.parse(resp.text(), this.reviver))
+      .map((data: Contract) => data)
+      .catch(this.handleError);
+  }
+
+  deleteCustomer(id: number) {
+    return this.http.delete('api/customers/' + id, { headers: this.authService.jsonHeaders() })
+      .map((res: Response) => {return;})
+      .catch(this.handleError);
+  }
+
+  getDepartmentsByContract(id: number, s: string) {
+    let options = {
+      id: id,
+      s: s
+    };
+
+    let params = new URLSearchParams();
+    for(let key in options){
+      params.set(key, options[key])
+    }
+    return this.http.get('api/customers/departments?' + params.toString(), { headers: this.authService.jsonHeaders() })
+      .map((res: Response) => res.json())
+      .catch(this.handleError);
+  }
+
   reviver(key, value): any {
     var datePattern = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}$/;
     if (typeof value === "string" && datePattern.test(value)) {
@@ -123,7 +171,7 @@ export class DataService {
         if (error.status === 400){
           const data = error.json();
           data.forEach((err) => {
-            modelStateErrors += err.errorMessage;
+            modelStateErrors += err.errorMessage + "; ";
           });
         }
         else {

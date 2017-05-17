@@ -5,6 +5,7 @@ import {LazyLoadEvent} from "primeng/components/common/api";
 import {PaginatedResult} from "../models/Pagination";
 import {ActivatedRoute} from "@angular/router";
 import {CustomerShort} from "../models/CustomerShort";
+import {SlimLoadingBarService} from "ng2-slim-loading-bar";
 
 @Component({
   selector: 'app-client-list',
@@ -19,7 +20,7 @@ export class CustomerListComponent implements OnInit {
   selectedCustomer: CustomerItem;
   customerShort: CustomerShort;
 
-  public constructor(private activatedRoute: ActivatedRoute, private dataService: DataService) { }
+  public constructor(private activatedRoute: ActivatedRoute, private dataService: DataService, private loadingBarService:SlimLoadingBarService,) { }
 
   public ngOnInit():void {
     this.activatedRoute.params.subscribe(params => {
@@ -28,17 +29,17 @@ export class CustomerListComponent implements OnInit {
   }
 
   loadCarsLazy(event: LazyLoadEvent) {
+    this.loadingBarService.start();
     let currentPage = (event.first - event.first % event.rows) / event.rows + 1;
     this.dataService.getCustomersByContract(this.contractId, currentPage, event.rows, event.globalFilter).subscribe(
       (res: PaginatedResult<CustomerItem[]>) => {
         this.customerItems = res.result;
         this.totalRecords = res.pagination.TotalItems;
+        this.loadingBarService.complete();
       });
   }
 
   onRowSelect(event) {
-
-
     this.dataService.getCustomerShort(event.data.id).subscribe(
       (res: CustomerShort) => {
         this.customerShort = res;

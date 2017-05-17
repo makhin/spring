@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Spring.DbContext.Models
 {
@@ -8,7 +9,12 @@ namespace Spring.DbContext.Models
         [Key]
         public int Id { get; set; }
 
-        public Contract Contract { get; set; }
+        [Required]
+        [ForeignKey("Contract")]
+        public int ContractId { get; set; }
+
+        [Required]
+        public virtual Contract Contract { get; set; }
 
         [Required]
         public string Name { get; set; }

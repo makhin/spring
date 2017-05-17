@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
@@ -23,6 +24,8 @@ namespace Spring.Services
         Task<CustomerDto> Insert(CustomerDto dto);
 
         Task<int> Delete(int id);
+
+        Task<IList<string>> GetDepartmentsByContract(int id, string s);
     }
 
     public class CustomerService: ICustomerService
@@ -39,7 +42,7 @@ namespace Spring.Services
         public async Task<PagedResult<CustomerItemDto>> GetByContractId(int contractId, int page, int pageSize, string globalFilter)
         {
             var customers = _customerRepository.GetAll()
-                .Where(c => c.Contract.Id == contractId && (globalFilter == null || c.Name.StartsWith(globalFilter) ||
+                .Where(c => c.ContractId == contractId && (globalFilter == null || c.Name.StartsWith(globalFilter) ||
                                                             c.TIN.StartsWith(globalFilter)));
 
             var totalNumberOfRecords = await customers.CountAsync();
@@ -87,6 +90,14 @@ namespace Spring.Services
         public async Task<int> Delete(int id)
         {
             return await _customerRepository.Delete(id);
+        }
+
+        public async Task<IList<string>> GetDepartmentsByContract(int id, string s)
+        {
+            return await _customerRepository.GetByCondition(c => c.ContractId == id && s != null && c.Department.Contains(s))
+                .Select(c => c.Department)
+                .Distinct()
+                .OrderBy(c => c).ToListAsync();
         }
     }
 }

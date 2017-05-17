@@ -21,8 +21,21 @@
   </p-dataTable>
 </div>
 <div *ngIf="customerShort" class="container">
-  {{customerShort.mobilePhone}}
-  {{customerShort.department}}
-  {{customerShort.personnelNumber}}
+  <div class="row">
+    <div class="col-md-2"><h6>Подразделение</h6></div>
+    <div class="col-md-2">{{customerShort.department}}</div>
+    <div class="col-md-2"><h6>Табельный номер</h6></div>
+    <div class="col-md-2">{{customerShort.personnelNumber}}</div>
+    <div class="col-md-2"><h6>Телефон</h6></div>
+    <div class="col-md-2">{{customerShort.mobilePhone}}</div>
+  </div>
+  <div class="row">
+    <div class="col-md-2"><h6>Группа инвалидности</h6></div>
+    <div class="col-md-2">{{customerShort.disabilityGroup}}</div>
+    <div class="col-md-2"><h6>Должность</h6></div>
+    <div class="col-md-2">{{customerShort.position}}</div>
+    <div class="col-md-2"><h6></h6></div>
+    <div class="col-md-2"></div>
+  </div>
 </div>
 

@@ -8,9 +8,10 @@ using Spring.DbContext.DbContext;
 namespace Spring.DbContext.Migrations
 {
     [DbContext(typeof(SpringDbContext))]
-    partial class SpringDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170517141803_UpdateCustomer")]
+    partial class UpdateCustomer
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
@@ -210,7 +211,7 @@ namespace Spring.DbContext.Migrations
 
                     b.Property<string>("CardNumber");
 
-                    b.Property<int>("ContractId");
+                    b.Property<int?>("ContractId");
 
                     b.Property<DateTime?>("DateOfBirth");
 
@@ -286,8 +287,7 @@ namespace Spring.DbContext.Migrations
                 {
                     b.HasOne("Spring.DbContext.Models.Contract", "Contract")
                         .WithMany()
-                        .HasForeignKey("ContractId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("ContractId");
                 });
         }
     }

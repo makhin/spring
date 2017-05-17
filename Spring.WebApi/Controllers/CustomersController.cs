@@ -56,6 +56,18 @@ namespace Spring.WebApi.Controllers
             return Ok(value);
         }
 
+        [HttpGet("departments")]
+        public async Task<IActionResult> GetDepartmentsByContract(int id, string s)
+        {
+            var value = await _service.GetDepartmentsByContract(id, s);
+            if (value == null)
+            {
+                return NoContent();
+            }
+
+            return Ok(value);
+        }
+
         // POST api/sampleData
         [HttpPut]
         public async Task<IActionResult> Put([FromBody]CustomerDto value)
@@ -114,6 +126,5 @@ namespace Spring.WebApi.Controllers
                 return NotFound("An error occurred; not deleted");
             }
         }
-
     }
 }
