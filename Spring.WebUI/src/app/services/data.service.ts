@@ -9,6 +9,7 @@ import {AuthService} from "../Shared/auth.service";
 import {ContractItem} from "../models/ContractItem";
 import {CustomerItem} from "../models/CustomerItem";
 import {PaginatedResult, Pagination} from "../models/Pagination";
+import {CustomerShort} from "../models/CustomerShort";
 
 @Injectable()
 export class DataService {
@@ -81,6 +82,13 @@ export class DataService {
         paginatedResult.pagination.TotalPages = data.totalNumberOfPages;
         return paginatedResult;
       })
+      .catch(this.handleError);
+  }
+
+  getCustomerShort(id: number): Observable<CustomerShort> {
+    return this.http.get('api/customers/' + id + '/short')
+      .map((resp: Response) => JSON.parse(resp.text(), this.reviver))
+      .map((data: CustomerShort) => data)
       .catch(this.handleError);
   }
 

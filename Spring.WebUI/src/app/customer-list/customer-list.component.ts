@@ -4,6 +4,7 @@ import {DataService} from "../services/data.service";
 import {LazyLoadEvent} from "primeng/components/common/api";
 import {PaginatedResult} from "../models/Pagination";
 import {ActivatedRoute} from "@angular/router";
+import {CustomerShort} from "../models/CustomerShort";
 
 @Component({
   selector: 'app-client-list',
@@ -16,6 +17,7 @@ export class CustomerListComponent implements OnInit {
   totalRecords: number;
   contractId: number;
   selectedCustomer: CustomerItem;
+  customerShort: CustomerShort;
 
   public constructor(private activatedRoute: ActivatedRoute, private dataService: DataService) { }
 
@@ -31,6 +33,15 @@ export class CustomerListComponent implements OnInit {
       (res: PaginatedResult<CustomerItem[]>) => {
         this.customerItems = res.result;
         this.totalRecords = res.pagination.TotalItems;
+      });
+  }
+
+  onRowSelect(event) {
+
+
+    this.dataService.getCustomerShort(event.data.id).subscribe(
+      (res: CustomerShort) => {
+        this.customerShort = res;
       });
   }
 }

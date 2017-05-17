@@ -4,7 +4,7 @@
     <input #gb type="text" pInputText size="25" placeholder="Поиск по ФИО и ИНН">
   </div>
   <p-dataTable [value]="customerItems" [lazy]="true" [rows]="10" [paginator]="true" [globalFilter]="gb" filterDelay="500" emptyMessage="Не найдено ни одного клиента"
-               [totalRecords]="totalRecords" (onLazyLoad)="loadCarsLazy($event)" selectionMode="single" [(selection)]="selectedCustomer" dataKey="id">
+               [totalRecords]="totalRecords" (onLazyLoad)="loadCarsLazy($event)" (onRowSelect)="onRowSelect($event)" selectionMode="single" [(selection)]="selectedCustomer" dataKey="id">
     <p-header>Клиенты</p-header>
     <p-column field="name" header="ФИО" [style]="{'width':'50%'}"></p-column>
     <p-column field="tin" header="ИНН" [style]="{'text-align':'center'}"></p-column>
@@ -20,3 +20,9 @@
     </p-column>
   </p-dataTable>
 </div>
+<div *ngIf="customerShort" class="container">
+  {{customerShort.mobilePhone}}
+  {{customerShort.department}}
+  {{customerShort.personnelNumber}}
+</div>
+
