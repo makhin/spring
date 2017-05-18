@@ -16,6 +16,7 @@ const appRoutes: Routes = [
     { path: 'login', component: LoginComponent, data: { title: 'Login' } },
     { path: 'contract/:id/edit', component: ContractDetailEditComponent, data: { title: 'Контракт' }  },
     { path: 'contract/:id/customers', component: CustomerListComponent, data: { title: 'Клиенты' }  },
+    { path: 'customer/:id/new', component: CustomerDetailEditComponent, data: { title: 'Клиент' }  },
     { path: 'customer/:id/edit', component: CustomerDetailEditComponent, data: { title: 'Клиент' }  },
     { path: 'register', component: RegisterComponent, data: { title: 'Register' } },
     { path: 'about', component: AboutComponent, data: { title: 'About' } },

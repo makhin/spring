@@ -1,6 +1,7 @@
 import { IEntity } from './IEntity'
 export class Customer implements IEntity {
   id: number;
+  contractId: number;
   name: string;
   tin: string;
   dateOfBirth: Date;

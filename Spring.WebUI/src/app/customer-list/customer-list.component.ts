@@ -3,7 +3,7 @@ import {CustomerItem} from "../models/CustomerItem";
 import {DataService} from "../services/data.service";
 import {LazyLoadEvent} from "primeng/components/common/api";
 import {PaginatedResult} from "../models/Pagination";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {CustomerShort} from "../models/CustomerShort";
 import {SlimLoadingBarService} from "ng2-slim-loading-bar";
 
@@ -20,7 +20,7 @@ export class CustomerListComponent implements OnInit {
   selectedCustomer: CustomerItem;
   customerShort: CustomerShort;
 
-  public constructor(private activatedRoute: ActivatedRoute, private dataService: DataService, private loadingBarService:SlimLoadingBarService,) { }
+  public constructor(private activatedRoute: ActivatedRoute, private dataService: DataService, private loadingBarService:SlimLoadingBarService, private router: Router) { }
 
   public ngOnInit():void {
     this.activatedRoute.params.subscribe(params => {
@@ -44,5 +44,17 @@ export class CustomerListComponent implements OnInit {
       (res: CustomerShort) => {
         this.customerShort = res;
       });
+  }
+
+  onEdit(id: number) {
+    this.router.navigate(['customer', id, 'edit']);
+  }
+
+  onInsert(id: number) {
+    this.router.navigate(['customer', id, 'new' ]);
+  }
+
+  onBack() {
+    this.router.navigate(['']);
   }
 }

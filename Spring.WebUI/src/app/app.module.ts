@@ -37,6 +37,7 @@ import { SlimLoadingBarModule } from "ng2-slim-loading-bar";
 import {DataService} from "./services/data.service";
 import { CustomerListComponent } from './customer-list/customer-list.component';
 import { CustomerDetailEditComponent } from './customer-detail-edit/customer-detail-edit.component';
+import {Localization} from "./Shared/Localization";
 
 @NgModule({
   declarations: [
@@ -77,6 +78,7 @@ import { CustomerDetailEditComponent } from './customer-detail-edit/customer-det
     ErrorLogService,
     DataService,
     FormBuilder,
+    Localization,
     // CAUTION: This providers collection overrides the CORE ErrorHandler with our
     // custom version of the service that logs errors to the ErrorLogService.
     LOGGING_ERROR_HANDLER_PROVIDERS,

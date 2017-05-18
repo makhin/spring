@@ -1,7 +1,15 @@
 <div class="container">
-  <div class="ui-widget-header" style="padding:4px 10px;border-bottom: 0 none">
-    <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
-    <input #gb type="text" pInputText size="25" placeholder="Поиск по ФИО и ИНН">
+  <div class="row mb-md-2 mt-md-2">
+    <div class="col-md-4">
+      <button type="button" value="Back" (click)="onBack()" class="btn btn-primary">Назад</button>
+    </div>
+    <div class="col-md-4">
+      <button type="button" value="Save" (click)="onInsert(contractId)" class="btn btn-primary">Добавить</button>
+      <button type="button" value="Edit" (click)="onEdit(customerShort.id)" class="btn btn-primary" [disabled]="!customerShort">Изменить</button>
+    </div>
+    <div class="col-md-4">
+      <input #gb type="text" class="form-control mr-sm-2" pInputText size="25" placeholder="Поиск по ФИО и ИНН">
+    </div>
   </div>
   <p-dataTable [value]="customerItems" [lazy]="true" [rows]="10" [paginator]="true" [globalFilter]="gb" filterDelay="500" emptyMessage="Не найдено ни одного клиента"
                [totalRecords]="totalRecords" (onLazyLoad)="loadCarsLazy($event)" (onRowSelect)="onRowSelect($event)" selectionMode="single" [(selection)]="selectedCustomer" dataKey="id">
@@ -21,7 +29,7 @@
   </p-dataTable>
 </div>
 <div *ngIf="customerShort" class="container">
-  <div class="row">
+  <div class="row mt-md-2">
     <div class="col-md-2"><h6>Подразделение</h6></div>
     <div class="col-md-2">{{customerShort.department}}</div>
     <div class="col-md-2"><h6>Табельный номер</h6></div>

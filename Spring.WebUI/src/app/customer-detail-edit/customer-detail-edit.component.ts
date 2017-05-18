@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {DataService} from "../services/data.service";
 import {ToastrService} from "ngx-toastr";
@@ -6,6 +6,8 @@ import {SlimLoadingBarService} from "ng2-slim-loading-bar";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Customer} from "../models/Customer";
 import {SelectItem} from "primeng/components/common/api";
+import {Observable} from "rxjs/Observable";
+import {Localization} from "../Shared/Localization";
 
 @Component({
   selector: 'app-customer-detail-edit',
@@ -13,11 +15,12 @@ import {SelectItem} from "primeng/components/common/api";
   styleUrls: ['./customer-detail-edit.component.sass']
 })
 export class CustomerDetailEditComponent implements OnInit {
-  customer: Customer;
   contractId: number;
+  customer: Customer;
   id: number;
   customerForm: FormGroup;
   ru: any;
+  dateFormat: string;
   sexTypes: SelectItem[];
   groups: SelectItem[];
   departments:string[];
@@ -27,19 +30,12 @@ export class CustomerDetailEditComponent implements OnInit {
               private loadingBarService:SlimLoadingBarService,
               private toastrService: ToastrService,
               private dataService: DataService,
-              private fb: FormBuilder) { }
+              private fb: FormBuilder,
+              private loc: Localization) { }
 
   ngOnInit() {
-    this.contractId = 1;
-
-    this.ru = {
-      firstDayOfWeek: 0,
-      dayNames: [ "понедельник","вторник","среда","четверг","пятница","суббота","воскресение" ],
-      dayNamesShort: [ "пнд","втр","срд","чтв","птн","сбт","вск" ],
-      dayNamesMin: [ "Пн","Вт","Ср","Чт","Пт","Сб","Вс" ],
-      monthNames: [ "январь","февраль","март","апрель","май","июнь","июль","август","сентябрь","октябрь","ноябрь","декабрь" ],
-      monthNamesShort: [ "янв","фев","мар","апр","май","июн","июл","авг","сен","окт","ноя","дек" ]
-    }
+    this.ru = this.loc.calendarRu();
+    this.dateFormat = this.loc.dateFormatRu();
 
     this.sexTypes = [];
     this.sexTypes.push({label: 'Мужчина', value: true});
@@ -51,15 +47,24 @@ export class CustomerDetailEditComponent implements OnInit {
     this.groups.push({label: '2', value: 2});
     this.groups.push({label: '3', value: 3});
 
-    this.activatedRoute.params.subscribe(params => {
-      this.id = +params['id'];
+    this.activatedRoute.url.subscribe(segments => {
+      if (segments[2].path === "new"){
+        this.id = 0;
+        this.contractId = +segments[1].path;
+      }else {
+        this.id = +segments[1].path;
+      }
       if (this.id > 0) {
         this.loadCustomer();
       }
-      else {
+      else if (this.contractId > 0){
         this.customer = new Customer();
         this.customer.id = 0;
+        this.customer.contractId = this.contractId;
         this.buildForm();
+      }
+      else{
+        Observable.throw('Не указан идентификатор клиента или контракта');
       }
     });
   }
@@ -112,6 +117,7 @@ export class CustomerDetailEditComponent implements OnInit {
     this.loadingBarService.start();
     this.dataService.getCustomer(this.id).subscribe((data: Customer) => {
         this.customer = data;
+        this.contractId = this.customer.contractId;
         this.buildForm();
         this.loadingBarService.complete();
       },
@@ -127,6 +133,7 @@ export class CustomerDetailEditComponent implements OnInit {
     if (this.customer.disabilityGroup === 0){
         this.customer.disabilityGroup = null;
     }
+    this.customer.contractId = this.contractId;
     this.loadingBarService.start();
     this.dataService.addCustomer(this.customer).subscribe(
       (data) => {
@@ -148,6 +155,7 @@ export class CustomerDetailEditComponent implements OnInit {
       this.customer.disabilityGroup = null;
     }
     this.customer.id = this.id;
+    this.customer.contractId = this.contractId;
     this.loadingBarService.start();
     this.dataService.editCustomer(this.customer)
       .subscribe(() => {

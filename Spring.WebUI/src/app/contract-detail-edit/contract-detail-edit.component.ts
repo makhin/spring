@@ -5,6 +5,7 @@ import {SlimLoadingBarService} from "ng2-slim-loading-bar";
 import { ToastrService } from 'ngx-toastr';
 import {DataService} from "../services/data.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {Localization} from "../Shared/Localization";
 
 @Component({
   selector: 'app-contract-detail',
@@ -17,24 +18,20 @@ export class ContractDetailEditComponent implements OnInit {
   id: number;
   contractForm: FormGroup;
   ru: any;
+  dateFormat:string;
 
   constructor(private router: Router,
               private activatedRoute: ActivatedRoute,
               private loadingBarService:SlimLoadingBarService,
               private toastrService: ToastrService,
               private dataService: DataService,
-              private fb: FormBuilder) {
+              private fb: FormBuilder,
+              private loc: Localization) {
   }
 
   ngOnInit() {
-    this.ru = {
-      firstDayOfWeek: 0,
-      dayNames: [ "понедельник","вторник","среда","четверг","пятница","суббота","воскресение" ],
-      dayNamesShort: [ "пнд","втр","срд","чтв","птн","сбт","вск" ],
-      dayNamesMin: [ "Пн","Вт","Ср","Чт","Пт","Сб","Вс" ],
-      monthNames: [ "январь","февраль","март","апрель","май","июнь","июль","август","сентябрь","октябрь","ноябрь","декабрь" ],
-      monthNamesShort: [ "янв","фев","мар","апр","май","июн","июл","авг","сен","окт","ноя","дек" ]
-    }
+    this.ru = this.loc.calendarRu();
+    this.dateFormat = this.loc.dateFormatRu();
 
     this.activatedRoute.params.subscribe(params => {
       this.id = +params['id'];

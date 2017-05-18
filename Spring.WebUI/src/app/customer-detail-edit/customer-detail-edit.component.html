@@ -1,5 +1,5 @@
 <form [formGroup]="customerForm" *ngIf="customer" (ngSubmit)="onSubmit()">
-  <div class="container mt-4 pt-4 pb-4" style="background:#ebeff2">
+  <div class="container mt-md-2 pt-md-4 pb-md-4" style="background:#ebeff2">
     <div class="form-group row" [ngClass]="{'has-danger':!customerForm.controls['name'].valid && customerForm.controls['name'].touched}">
       <label for="name" class="col-md-2 col-form-label">ФИО:</label>
       <div class="col-md-4">
@@ -51,7 +51,7 @@
     <div class="form-group row">
       <label class="col-md-2 col-form-label">Дата рождения:</label>
       <div class="input-group col-md-2">
-        <p-calendar id="beginDate" name="dateOfBirth" [formControl]="customerForm.controls['dateOfBirth']" [showIcon]="true" [locale]="ru" dateFormat="dd.mm.yy"></p-calendar>
+        <p-calendar id="beginDate" name="dateOfBirth" [formControl]="customerForm.controls['dateOfBirth']" [showIcon]="true" [locale]="ru" dateFormat="{{dateFormat}}"></p-calendar>
       </div>
     </div>
     <div class="form-group row">
@@ -82,13 +82,13 @@
     <div class="form-group row">
       <label class="col-md-2 col-form-label">Начало страховки:</label>
       <div class="input-group col-md-2">
-        <p-calendar id="startDate" name="startDate" [formControl]="customerForm.controls['startDate']" [showIcon]="true" [locale]="ru" dateFormat="dd.mm.yy"></p-calendar>
+        <p-calendar id="startDate" name="startDate" [formControl]="customerForm.controls['startDate']" [showIcon]="true" [locale]="ru" dateFormat="{{dateFormat}}"></p-calendar>
       </div>
     </div>
     <div class="form-group row">
       <label class="col-md-2 col-form-label">Окончание страховки:</label>
       <div class="input-group col-md-2">
-        <p-calendar id="endDate" name="endDate" [formControl]="customerForm.controls['endDate']" [showIcon]="true" [locale]="ru" dateFormat="dd.mm.yy"></p-calendar>
+        <p-calendar id="endDate" name="endDate" [formControl]="customerForm.controls['endDate']" [showIcon]="true" [locale]="ru" dateFormat="{{dateFormat}}"></p-calendar>
       </div>
     </div>
     <div class="d-flex justify-content-between">
@@ -101,6 +101,9 @@
         <button type="button" value="Save" (click)="onInsert()" [disabled]="!customerForm.valid" class="btn btn-primary">Добавить</button>
       </ng-template>
     </div>
+  </div>
+  <div class="container">
+    <div class="row">&nbsp;</div>
   </div>
 </form>
 

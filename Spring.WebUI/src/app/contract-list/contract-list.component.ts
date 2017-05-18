@@ -25,6 +25,6 @@ export class ContractListComponent implements OnInit {
   }
 
   onContractClients(id: number) {
-    this.router.navigate(['contract', id, 'clients']);
+    this.router.navigate(['contract', id, 'customers']);
   }
 }
