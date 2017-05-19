@@ -8,9 +8,10 @@ using Spring.DbContext.DbContext;
 namespace Spring.DbContext.Migrations
 {
     [DbContext(typeof(SpringDbContext))]
-    partial class SpringDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170519061659_ICToCustomer")]
+    partial class ICToCustomer
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
@@ -266,14 +267,10 @@ namespace Spring.DbContext.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime?>("BeginDate");
-
                     b.Property<int>("CustomerId");
 
                     b.Property<string>("Discriminator")
                         .IsRequired();
-
-                    b.Property<DateTime?>("EndDate");
 
                     b.Property<int?>("HospitalId");
 
@@ -316,9 +313,13 @@ namespace Spring.DbContext.Migrations
                 {
                     b.HasBaseType("Spring.DbContext.Models.InsuranceCase");
 
-                    b.Property<DateTime?>("DocumentDate");
+                    b.Property<DateTime>("BeginDate");
 
-                    b.Property<DateTime?>("ReportDate");
+                    b.Property<DateTime>("DocumentDate");
+
+                    b.Property<DateTime>("EndDate");
+
+                    b.Property<DateTime>("ReportDate");
 
                     b.ToTable("MedicalInsuranceCase");
 

@@ -8,9 +8,10 @@ using Spring.DbContext.DbContext;
 namespace Spring.DbContext.Migrations
 {
     [DbContext(typeof(SpringDbContext))]
-    partial class SpringDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170518125613_AddMkb10")]
+    partial class AddMkb10
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
@@ -245,55 +246,18 @@ namespace Spring.DbContext.Migrations
                     b.ToTable("Customers");
                 });
 
-            modelBuilder.Entity("Spring.DbContext.Models.Hospital", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Name");
-
-                    b.Property<int>("ParentId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ParentId");
-
-                    b.ToTable("Hospitals");
-                });
-
             modelBuilder.Entity("Spring.DbContext.Models.InsuranceCase", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime?>("BeginDate");
-
-                    b.Property<int>("CustomerId");
-
-                    b.Property<string>("Discriminator")
-                        .IsRequired();
-
-                    b.Property<DateTime?>("EndDate");
-
-                    b.Property<int?>("HospitalId");
-
-                    b.Property<int?>("Mkb10Id");
-
-                    b.Property<int?>("Therapy");
-
-                    b.Property<int?>("Threatment");
+                    b.Property<int>("Mkb10Id");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CustomerId");
-
-                    b.HasIndex("HospitalId");
 
                     b.HasIndex("Mkb10Id");
 
                     b.ToTable("InsuranceCases");
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("InsuranceCase");
                 });
 
             modelBuilder.Entity("Spring.DbContext.Models.Mkb10", b =>
@@ -310,19 +274,6 @@ namespace Spring.DbContext.Migrations
                     b.HasIndex("ParentId");
 
                     b.ToTable("Mkb10s");
-                });
-
-            modelBuilder.Entity("Spring.DbContext.Models.MedicalInsuranceCase", b =>
-                {
-                    b.HasBaseType("Spring.DbContext.Models.InsuranceCase");
-
-                    b.Property<DateTime?>("DocumentDate");
-
-                    b.Property<DateTime?>("ReportDate");
-
-                    b.ToTable("MedicalInsuranceCase");
-
-                    b.HasDiscriminator().HasValue("MedicalInsuranceCase");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>
@@ -370,28 +321,12 @@ namespace Spring.DbContext.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Spring.DbContext.Models.Hospital", b =>
-                {
-                    b.HasOne("Spring.DbContext.Models.Hospital", "Parent")
-                        .WithMany()
-                        .HasForeignKey("ParentId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
             modelBuilder.Entity("Spring.DbContext.Models.InsuranceCase", b =>
                 {
-                    b.HasOne("Spring.DbContext.Models.Customer", "Customer")
-                        .WithMany()
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Spring.DbContext.Models.Hospital", "Hospital")
-                        .WithMany()
-                        .HasForeignKey("HospitalId");
-
                     b.HasOne("Spring.DbContext.Models.Mkb10", "Mkb10")
                         .WithMany()
-                        .HasForeignKey("Mkb10Id");
+                        .HasForeignKey("Mkb10Id")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Spring.DbContext.Models.Mkb10", b =>

@@ -11,9 +11,13 @@ namespace Spring.DbContext.DbContext
         }
         public DbSet<Contract> Contracts { get; set; }
         public DbSet<Customer> Customers { get; set; }
+        public DbSet<InsuranceCase> InsuranceCases { get; set; }
+        public DbSet<Mkb10> Mkb10s { get; set; }
+        public DbSet<Hospital> Hospitals { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<MedicalInsuranceCase>();
             base.OnModelCreating(modelBuilder);
         }
     }

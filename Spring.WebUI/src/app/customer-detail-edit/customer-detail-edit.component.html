@@ -1,92 +1,92 @@
 <form [formGroup]="customerForm" *ngIf="customer" (ngSubmit)="onSubmit()">
   <div class="container mt-md-2 pt-md-4 pb-md-4" style="background:#ebeff2">
     <div class="form-group row" [ngClass]="{'has-danger':!customerForm.controls['name'].valid && customerForm.controls['name'].touched}">
-      <label for="name" class="col-md-2 col-form-label">ФИО:</label>
+      <label for="name" class="col-md-3 col-form-label">ФИО:</label>
       <div class="col-md-4">
         <input type="text" class="form-control" id="name" name="name" [formControl]="customerForm.controls['name']" placeholder="ФИО...">
       </div>
     </div>
     <div class="form-group row">
-      <label for="tin" class="col-md-2 col-form-label">ИНН:</label>
+      <label for="tin" class="col-md-3 col-form-label">ИНН:</label>
       <div class="col-md-4">
         <p-inputMask mask="9999999999" id="tin" name="tin" [formControl]="customerForm.controls['tin']" slotChar=" "></p-inputMask>
       </div>
     </div>
     <div class="form-group row">
-      <label for="department" class="col-md-2 col-form-label">Подразделение:</label>
+      <label for="department" class="col-md-3 col-form-label">Подразделение:</label>
       <div class="col-md-4">
         <p-autoComplete [formControl]="customerForm.controls['department']" id="department" name="department" [suggestions]="departments" (completeMethod)="OnDepartmentLookup($event)"></p-autoComplete>
       </div>
     </div>
     <div class="form-group row">
-      <label for="personnelNumber" class="col-md-2 col-form-label">Табельный номер:</label>
-      <div class="col-md-4">
+      <label for="personnelNumber" class="col-md-3 col-form-label">Табельный номер:</label>
+      <div class="col-md-2">
         <input type="text" class="form-control" id="personnelNumber" name="personnelNumber" [formControl]="customerForm.controls['personnelNumber']" placeholder="Табельный номер...">
       </div>
     </div>
     <div class="form-group row">
-      <label for="position" class="col-md-2 col-form-label">Должность:</label>
+      <label for="position" class="col-md-3 col-form-label">Должность:</label>
       <div class="col-md-4">
         <input type="text" class="form-control" id="position" name="position" [formControl]="customerForm.controls['position']" placeholder="Должность...">
       </div>
     </div>
     <div class="form-group row">
-      <label for="disabilityGroup" class="col-md-2 col-form-label">Группа инвалидности:</label>
+      <label for="disabilityGroup" class="col-md-3 col-form-label">Группа инвалидности:</label>
       <div class="col-md-4">
         <p-dropdown [options]="groups" id="disabilityGroup" name="disabilityGroup" [formControl]="customerForm.controls['disabilityGroup']"></p-dropdown>
       </div>
     </div>
     <div class="form-group row">
-      <label for="address" class="col-md-2 col-form-label">Адрес:</label>
-      <div class="col-md-10">
+      <label for="address" class="col-md-3 col-form-label">Адрес:</label>
+      <div class="col-md-9">
         <input type="text" class="form-control" id="address" name="address" [formControl]="customerForm.controls['address']" placeholder="Адрес...">
       </div>
     </div>
     <div class="form-group row">
-      <label for="passport" class="col-md-2 col-form-label">Паспорт:</label>
-      <div class="col-md-10">
+      <label for="passport" class="col-md-3 col-form-label">Паспорт:</label>
+      <div class="col-md-9">
         <input type="text" class="form-control" id="passport" name="passport" [formControl]="customerForm.controls['passport']" placeholder="Паспорт...">
       </div>
     </div>
     <div class="form-group row">
-      <label class="col-md-2 col-form-label">Дата рождения:</label>
+      <label class="col-md-3 col-form-label">Дата рождения:</label>
       <div class="input-group col-md-2">
         <p-calendar id="beginDate" name="dateOfBirth" [formControl]="customerForm.controls['dateOfBirth']" [showIcon]="true" [locale]="ru" dateFormat="{{dateFormat}}"></p-calendar>
       </div>
     </div>
     <div class="form-group row">
-      <label for="cardNumber" class="col-md-2 col-form-label">Карта:</label>
+      <label for="cardNumber" class="col-md-3 col-form-label">Карта:</label>
       <div class="col-md-4">
         <p-inputMask mask="9999-9999-9999-9999" id="cardNumber" name="cardNumber" [formControl]="customerForm.controls['cardNumber']" slotChar=" "></p-inputMask>
       </div>
     </div>
     <div class="form-group row">
-      <label for="mobilePhone" class="col-md-2 col-form-label">Телефон:</label>
+      <label for="mobilePhone" class="col-md-3 col-form-label">Телефон:</label>
       <div class="col-md-4">
         <p-inputMask mask="(999) 999-9999" id="mobilePhone" name="mobilePhone" [formControl]="customerForm.controls['mobilePhone']" slotChar=" "></p-inputMask>
       </div>
     </div>
     <div class="form-group row">
-      <label for="sex" class="col-md-2 col-form-label">Пол:</label>
+      <label for="sex" class="col-md-3 col-form-label">Пол:</label>
       <div class="col-md-4">
         <p-selectButton [options]="sexTypes" id="sex" name="sex" [formControl]="customerForm.controls['sex']"></p-selectButton>
       </div>
     </div>
     <div class="form-group row">
-      <label for="additionalInfo" class="col-md-2 col-form-label">Дополнительные сведения:</label>
-      <div class="col-md-10">
+      <label for="additionalInfo" class="col-md-3 col-form-label">Дополнительные сведения:</label>
+      <div class="col-md-9">
         <textarea [formControl]="customerForm.controls['additionalInfo']" class="form-control" id="additionalInfo"
                   name="additionalInfo" rows="5" placeholder="Дополнительные сведения..."></textarea>
       </div>
     </div>
     <div class="form-group row">
-      <label class="col-md-2 col-form-label">Начало страховки:</label>
+      <label class="col-md-3 col-form-label">Начало страховки:</label>
       <div class="input-group col-md-2">
         <p-calendar id="startDate" name="startDate" [formControl]="customerForm.controls['startDate']" [showIcon]="true" [locale]="ru" dateFormat="{{dateFormat}}"></p-calendar>
       </div>
     </div>
     <div class="form-group row">
-      <label class="col-md-2 col-form-label">Окончание страховки:</label>
+      <label class="col-md-3 col-form-label">Окончание страховки:</label>
       <div class="input-group col-md-2">
         <p-calendar id="endDate" name="endDate" [formControl]="customerForm.controls['endDate']" [showIcon]="true" [locale]="ru" dateFormat="{{dateFormat}}"></p-calendar>
       </div>

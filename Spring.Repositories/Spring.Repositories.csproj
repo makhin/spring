@@ -14,10 +14,4 @@
     <ProjectReference Include="..\Spring.Dto\Spring.Dto.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Reference Include="AutoMapper">
-      <HintPath>..\..\..\..\.nuget\packages\automapper\6.0.0\lib\netstandard1.3\AutoMapper.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
 </Project>

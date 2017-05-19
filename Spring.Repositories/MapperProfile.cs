@@ -19,6 +19,11 @@ namespace Spring.Repositories
                 .IgnoreAllPropertiesWithAnInaccessibleSetter();
 
             CreateMap<Customer, CustomerDto>().ReverseMap();
+
+            CreateMap<InsuranceCase, InsuranceCaseItemDto>()
+                .ForMember(dst=>dst.Mkb10Code, opt=>opt.MapFrom(src=>src.Mkb10.Code))
+                .ForMember(dst => dst.HospitalName, opt => opt.MapFrom(src => src.Hospital.Name))
+                .IgnoreAllPropertiesWithAnInaccessibleSetter();            
         }
     }
 }

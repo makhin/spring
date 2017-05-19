@@ -8,9 +8,10 @@ using Spring.DbContext.DbContext;
 namespace Spring.DbContext.Migrations
 {
     [DbContext(typeof(SpringDbContext))]
-    partial class SpringDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170519061446_FixHospital")]
+    partial class FixHospital
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
@@ -266,14 +267,8 @@ namespace Spring.DbContext.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime?>("BeginDate");
-
-                    b.Property<int>("CustomerId");
-
                     b.Property<string>("Discriminator")
                         .IsRequired();
-
-                    b.Property<DateTime?>("EndDate");
 
                     b.Property<int?>("HospitalId");
 
@@ -284,8 +279,6 @@ namespace Spring.DbContext.Migrations
                     b.Property<int?>("Threatment");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CustomerId");
 
                     b.HasIndex("HospitalId");
 
@@ -316,9 +309,13 @@ namespace Spring.DbContext.Migrations
                 {
                     b.HasBaseType("Spring.DbContext.Models.InsuranceCase");
 
-                    b.Property<DateTime?>("DocumentDate");
+                    b.Property<DateTime>("BeginDate");
 
-                    b.Property<DateTime?>("ReportDate");
+                    b.Property<DateTime>("DocumentDate");
+
+                    b.Property<DateTime>("EndDate");
+
+                    b.Property<DateTime>("ReportDate");
 
                     b.ToTable("MedicalInsuranceCase");
 
@@ -380,11 +377,6 @@ namespace Spring.DbContext.Migrations
 
             modelBuilder.Entity("Spring.DbContext.Models.InsuranceCase", b =>
                 {
-                    b.HasOne("Spring.DbContext.Models.Customer", "Customer")
-                        .WithMany()
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("Spring.DbContext.Models.Hospital", "Hospital")
                         .WithMany()
                         .HasForeignKey("HospitalId");
