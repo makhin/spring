@@ -11,6 +11,7 @@ import {CustomerItem} from "../models/CustomerItem";
 import {PaginatedResult, Pagination} from "../models/Pagination";
 import {CustomerShort} from "../models/CustomerShort";
 import {Customer} from "../models/Customer";
+import {InsuranceCaseItem} from "../models/InsuranceCaseItem";
 
 @Injectable()
 export class DataService {
@@ -139,6 +140,16 @@ export class DataService {
       .map((res: Response) => res.json())
       .catch(this.handleError);
   }
+
+  getInsuranceCaseItemsByCustomerId(id: number) : Observable<Array<InsuranceCaseItem>> {
+    return this.http.get('api/insurancecases/' + id, {headers: this.authService.jsonHeaders()})
+      .map((resp: Response) => resp.json())
+      .map((data: any) => {
+        return <Array<InsuranceCaseItem>>data;
+      })
+      .catch(this.handleError);
+  }
+
 
   reviver(key, value): any {
     var datePattern = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}$/;

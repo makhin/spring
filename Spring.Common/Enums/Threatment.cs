@@ -1,14 +1,19 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Runtime.Serialization;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+
 namespace Spring.Common.Enums
 {
-    public enum Threatment
+    [JsonConverter(typeof(StringEnumConverter))]
+    public enum Threatment:int
     {
-        [Display(Name = "Поликлиника")] Polyclinic = 1,
-        [Display(Name = "Стационар")] Hospital = 2,
-        [Display(Name = "Травмпункт")] EmergencyRoom = 3,
-        [Display(Name = "Дневной стационар")] DayHospital = 4,
-        [Display(Name = "Беременность и Роды")] Pregnancy = 5,
-        [Display(Name = "Дополнительные опции")] AdditionalOptions = 6,
-        [Display(Name = "Критические заболевания")] CriticalDiseases = 7
+        [EnumMember(Value = "Поликлиника")] Polyclinic = 1,
+        [EnumMember(Value = "Стационар")] Hospital = 2,
+        [EnumMember(Value = "Травмпункт")] EmergencyRoom = 3,
+        [EnumMember(Value = "Дневной стационар")] DayHospital = 4,
+        [EnumMember(Value = "Беременность и Роды")] Pregnancy = 5,
+        [EnumMember(Value = "Дополнительные опции")] AdditionalOptions = 6,
+        [EnumMember(Value = "Критические заболевания")] CriticalDiseases = 7
     }
 }

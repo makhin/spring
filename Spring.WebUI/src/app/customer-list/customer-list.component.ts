@@ -28,7 +28,7 @@ export class CustomerListComponent implements OnInit {
     });
   }
 
-  loadCarsLazy(event: LazyLoadEvent) {
+  loadCustomersLazy(event: LazyLoadEvent) {
     this.loadingBarService.start();
     let currentPage = (event.first - event.first % event.rows) / event.rows + 1;
     this.dataService.getCustomersByContract(this.contractId, currentPage, event.rows, event.globalFilter).subscribe(

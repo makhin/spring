@@ -19,7 +19,7 @@ namespace Spring.WebApi.Controllers
             _service = service;
         }
 
-        [HttpGet("{:id}")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetByCustomerId(int id)
         {
             var value = await _service.GetAllByCustomerId(id);

@@ -38,6 +38,7 @@ import {DataService} from "./services/data.service";
 import { CustomerListComponent } from './customer-list/customer-list.component';
 import { CustomerDetailEditComponent } from './customer-detail-edit/customer-detail-edit.component';
 import {Localization} from "./Shared/Localization";
+import { InsuranceCaseListComponent } from './insurance-case-list/insurance-case-list.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import {Localization} from "./Shared/Localization";
     FooterComponent,
     SavePanelComponent,
     CustomerListComponent,
-    CustomerDetailEditComponent
+    CustomerDetailEditComponent,
+    InsuranceCaseListComponent
   ],
   imports: [
     BrowserModule,

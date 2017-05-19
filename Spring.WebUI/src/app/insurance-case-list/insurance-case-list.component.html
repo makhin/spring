@@ -1,0 +1,29 @@
+<div class="container">
+  <div class="row mb-md-2 mt-md-2">
+    <div class="col-md-6">
+      <button type="button" value="Back"  class="btn btn-primary">Назад</button>
+    </div>
+    <div class="col-md-6 text-right">
+      <button type="button" value="Save" class="btn btn-primary">Добавить</button>
+      <button type="button" value="Edit" class="btn btn-primary" [disabled]="!caseId">Изменить</button>
+    </div>
+  </div>
+  <p-dataTable [value]="insuranceCaseItems" [rows]="20" [paginator]="false" emptyMessage="Не найдено ни одного случая"
+               (onRowSelect)="onRowSelect($event)" selectionMode="single" [(selection)]="selectedCase" dataKey="id">
+    <p-header>Страховые случаи</p-header>
+    <p-column field="id" header="№" [style]="{'width':'5%', 'text-align':'right'}"></p-column>
+    <p-column field="mkb10Code" header="Диагноз" [style]="{'text-align':'center'}"></p-column>
+    <p-column field="threatment" header="Лечение" [style]="{'text-align':'center'}"></p-column>
+    <p-column field="hospitalName" header="ЛПУ" [style]="{'text-align':'center'}"></p-column>
+    <p-column field="startDate" header="Дата начала" [style]="{'text-align':'center'}">
+      <ng-template let-col let-case="rowData" pTemplate="body">
+        {{case.beginDate | date:'dd.MM.yyyy'}}
+      </ng-template>
+    </p-column>
+    <p-column field="endDate" header="Дата окончания" [style]="{'text-align':'center'}">
+      <ng-template let-col let-case="rowData" pTemplate="body" >
+        {{case.endDate | date:'dd.MM.yyyy'}}
+      </ng-template>
+    </p-column>
+  </p-dataTable>
+</div>
