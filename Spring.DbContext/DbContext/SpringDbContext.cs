@@ -17,7 +17,10 @@ namespace Spring.DbContext.DbContext
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<MedicalInsuranceCase>();
+            modelBuilder.Entity<InsuranceCase>()
+                .HasDiscriminator<int>("CaseType")
+                .HasValue<MedicalInsuranceCase>(1);
+
             base.OnModelCreating(modelBuilder);
         }
     }

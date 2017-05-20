@@ -7,6 +7,7 @@ using System.IO;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using Spring.DbContext.DbContext;
 using Spring.DbContext.Models;
@@ -46,6 +47,7 @@ namespace Spring.WebApi
             services.AddTransient<IContractService, ContractService>();
             services.AddTransient<ICustomerService, CustomerService>();
             services.AddTransient<IInsuranceCaseService, InsuranceCaseService>();
+            services.AddTransient<ILookupService, LookupService>();
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<SpringDbContext>()
@@ -61,8 +63,9 @@ namespace Spring.WebApi
             ).AddJsonOptions(opts =>
             {
                 // Force Camel Case to JSON
-                opts.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-            }); ;
+                opts.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();               
+                opts.SerializerSettings.Converters.Add(new StringEnumConverter { CamelCaseText = true });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

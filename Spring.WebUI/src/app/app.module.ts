@@ -28,7 +28,6 @@ import { AppRouting } from './app.routing';
 import {AuthService} from './Shared/auth.service';
 import { NavComponent } from './nav/nav.component';
 import { FooterComponent } from './footer/footer.component';
-import { SavePanelComponent } from './save-panel/save-panel.component';
 
 import { ErrorLogService } from './services/error-log.service';
 import { LOGGING_ERROR_HANDLER_PROVIDERS } from './services/logging-error-handler';
@@ -52,7 +51,6 @@ import { InsuranceCaseListComponent } from './insurance-case-list/insurance-case
     PageNotFoundComponent,
     NavComponent,
     FooterComponent,
-    SavePanelComponent,
     CustomerListComponent,
     CustomerDetailEditComponent,
     InsuranceCaseListComponent

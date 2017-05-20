@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Spring.DbContext.Models;
+﻿using Spring.DbContext.Models;
 
 namespace Spring.Dto
 {

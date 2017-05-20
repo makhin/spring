@@ -19,4 +19,12 @@ export class ContractListComponent implements OnInit {
   getAll() {
     this.dataService.getAllContracts().subscribe((data: Array<ContractItem>) => {this.contractItems = data; });
   }
+
+  onContractDetailEdit(id: number) {
+    this.router.navigate(['contract', id, 'edit']);
+  }
+
+  onContractClients(id: number) {
+    this.router.navigate(['contract', id, 'customers']);
+  }
 }

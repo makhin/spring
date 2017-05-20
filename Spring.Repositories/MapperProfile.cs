@@ -21,6 +21,9 @@ namespace Spring.Repositories
 
             CreateMap<Customer, CustomerDto>().ReverseMap();
 
+            CreateMap<Hospital, HospitalDto>().IgnoreAllPropertiesWithAnInaccessibleSetter();
+            CreateMap<Mkb10, Mkb10Dto>().IgnoreAllPropertiesWithAnInaccessibleSetter();
+
             CreateMap<InsuranceCase, InsuranceCaseItemDto>()
                 .ForMember(dst => dst.Mkb10Code,
                     opt => opt.MapFrom(

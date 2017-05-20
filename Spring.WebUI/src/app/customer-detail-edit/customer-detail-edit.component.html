@@ -1,5 +1,5 @@
 <form [formGroup]="customerForm" *ngIf="customer" (ngSubmit)="onSubmit()">
-  <div class="container mt-md-2 pt-md-4 pb-md-4" style="background:#ebeff2">
+  <div class="container mt-md-2 pt-md-2 pb-md-2 bg-faded">
     <div class="form-group row" [ngClass]="{'has-danger':!customerForm.controls['name'].valid && customerForm.controls['name'].touched}">
       <label for="name" class="col-md-3 col-form-label">ФИО:</label>
       <div class="col-md-4">

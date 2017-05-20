@@ -1,5 +1,5 @@
 <form [formGroup]="contractForm" *ngIf="contract" (ngSubmit)="onSubmit()">
-  <div class="container mt-4 pt-4 pb-4" style="background:#ebeff2">
+  <div class="container mt-md-2 pt-2 pb-2 bg-faded">
     <div class="form-group row" [ngClass]="{'has-danger':!contractForm.controls['name'].valid && contractForm.controls['name'].touched}">
       <label for="name" class="col-md-3 col-form-label">Короткое имя:</label>
       <div class="col-md-4">
