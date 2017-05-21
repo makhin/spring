@@ -12,6 +12,9 @@ import {PaginatedResult, Pagination} from "../models/Pagination";
 import {CustomerShort} from "../models/CustomerShort";
 import {Customer} from "../models/Customer";
 import {InsuranceCaseItem} from "../models/InsuranceCaseItem";
+import {MedicalInsuranceCase} from "../models/MedicalInsuranceCase";
+import {Localization} from "../Shared/Localization";
+import {ErrorHandler} from "app/Shared/ErrorHandler";
 
 @Injectable()
 export class DataService {
@@ -23,43 +26,43 @@ export class DataService {
     return this.http.get('api/contracts/', { headers: this.authService.jsonHeaders() })
       .map((resp: Response) => resp.json())
       .map((data: any) => {return <Array<ContractItem>>data;})
-      .catch(this.handleError);
+      .catch(ErrorHandler.handleError);
   }
 
   getContract(id: number): Observable<Contract> {
     return this.http.get('api/contracts/' + id)
-      .map((resp:Response) => JSON.parse(resp.text(), this.reviver))
+      .map((resp:Response) => JSON.parse(resp.text(), Localization.reviver))
       .map((data: Contract) => data)
-      .catch(this.handleError);
+      .catch(ErrorHandler.handleError);
   }
 
   editContract(contract: Contract) {
     const clone = { ...(new Contract()), ...contract };
-    let body = JSON.stringify(clone, this.replacer);
+    let body = JSON.stringify(clone, Localization.replacer);
     return this.http
       .post('api/contracts/', body, { headers: this.authService.jsonHeaders() })
       .map((resp: Response) => {return;})
-      .catch(this.handleError);
+      .catch(ErrorHandler.handleError);
   }
 
   addContract(contract: Contract) {
     const clone = { ...(new Contract()), ...contract };
-    let body = JSON.stringify(clone, this.replacer);
+    let body = JSON.stringify(clone, Localization.replacer);
     return this.http
       .put('api/contracts/', body, { headers: this.authService.jsonHeaders() })
-      .map((resp: Response) => JSON.parse(resp.text(), this.reviver))
+      .map((resp: Response) => JSON.parse(resp.text(), Localization.reviver))
       .map((data: Contract) => data)
-      .catch(this.handleError);
+      .catch(ErrorHandler.handleError);
   }
 
   deleteContract(id: number) {
     return this.http.delete('api/contracts/' + id, { headers: this.authService.jsonHeaders() })
       .map((res: Response) => {return;})
-      .catch(this.handleError);
+      .catch(ErrorHandler.handleError);
   }
 
   getCustomersByContract(id: number, page?: number, itemsPerPage?: number, filter?: string): Observable<PaginatedResult<CustomerItem[]>> {
-    var paginatedResult: PaginatedResult<CustomerItem[]> = new PaginatedResult<CustomerItem[]>();
+    let paginatedResult: PaginatedResult<CustomerItem[]> = new PaginatedResult<CustomerItem[]>();
 
     let options = {
       id: id,
@@ -74,7 +77,7 @@ export class DataService {
     }
 
     return this.http.get('api/customers/contract?' + params.toString(), { headers: this.authService.jsonHeaders() })
-      .map((resp: Response) => JSON.parse(resp.text(), this.reviver))
+      .map((resp: Response) => JSON.parse(resp.text(), Localization.reviver))
       .map((data: any) => {
         paginatedResult.result = data.items;
         paginatedResult.pagination = new Pagination();
@@ -84,46 +87,46 @@ export class DataService {
         paginatedResult.pagination.TotalPages = data.totalNumberOfPages;
         return paginatedResult;
       })
-      .catch(this.handleError);
+      .catch(ErrorHandler.handleError);
   }
 
   getCustomerShort(id: number): Observable<CustomerShort> {
     return this.http.get('api/customers/' + id + '/short')
-      .map((resp: Response) => JSON.parse(resp.text(), this.reviver))
+      .map((resp: Response) => JSON.parse(resp.text(), Localization.reviver))
       .map((data: CustomerShort) => data)
-      .catch(this.handleError);
+      .catch(ErrorHandler.handleError);
   }
 
   getCustomer(id: number): Observable<Customer> {
     return this.http.get('api/customers/' + id + '/full')
-      .map((resp: Response) => JSON.parse(resp.text(), this.reviver))
+      .map((resp: Response) => JSON.parse(resp.text(), Localization.reviver))
       .map((data: Customer) => data)
-      .catch(this.handleError);
+      .catch(ErrorHandler.handleError);
   }
 
   editCustomer(customer: Customer) {
     const clone = { ...(new Customer()), ...customer };
-    let body = JSON.stringify(clone, this.replacer);
+    let body = JSON.stringify(clone, Localization.replacer);
     return this.http
       .post('api/customers/', body, { headers: this.authService.jsonHeaders() })
       .map((resp: Response) => {return;})
-      .catch(this.handleError);
+      .catch(ErrorHandler.handleError);
   }
 
   addCustomer(customer: Customer) {
     const clone = { ...(new Customer()), ...customer };
-    let body = JSON.stringify(clone, this.replacer);
+    let body = JSON.stringify(clone, Localization.replacer);
     return this.http
       .put('api/customers/', body, { headers: this.authService.jsonHeaders() })
-      .map((resp: Response) => JSON.parse(resp.text(), this.reviver))
+      .map((resp: Response) => JSON.parse(resp.text(), Localization.reviver))
       .map((data: Contract) => data)
-      .catch(this.handleError);
+      .catch(ErrorHandler.handleError);
   }
 
   deleteCustomer(id: number) {
     return this.http.delete('api/customers/' + id, { headers: this.authService.jsonHeaders() })
       .map((res: Response) => {return;})
-      .catch(this.handleError);
+      .catch(ErrorHandler.handleError);
   }
 
   getDepartmentsByContract(id: number, s: string) {
@@ -138,7 +141,7 @@ export class DataService {
     }
     return this.http.get('api/customers/departments?' + params.toString(), { headers: this.authService.jsonHeaders() })
       .map((res: Response) => res.json())
-      .catch(this.handleError);
+      .catch(ErrorHandler.handleError);
   }
 
   getInsuranceCaseItemsByCustomerId(id: number) : Observable<Array<InsuranceCaseItem>> {
@@ -147,53 +150,13 @@ export class DataService {
       .map((data: any) => {
         return <Array<InsuranceCaseItem>>data;
       })
-      .catch(this.handleError);
+      .catch(ErrorHandler.handleError);
   }
 
-
-  reviver(key, value): any {
-    var datePattern = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}$/;
-    if (typeof value === "string" && datePattern.test(value)) {
-      let d = new Date(value);
-      let date = new Date(d.getTime() + (d.getTimezoneOffset() * 60000));
-      return date;
-    }
-
-    return value;
-  }
-
-  replacer(key, value): any {
-    if (typeof(value) === 'object') {
-      for (var k in value) {
-        if (value[k] != null && value[k] instanceof Date) {
-          var d = value[k];
-          value[k] = new Date(d.getTime() - (d.getTimezoneOffset() * 60000)).toISOString();
-        }
-      }
-    }
-    return value;
-  }
-
-  private handleError(error: Response | any) {
-    var modelStateErrors: string = '';
-    var applicationError: string = '';
-
-    if (error instanceof Response){
-        if (error.status === 400){
-          const data = error.json();
-          data.forEach((err) => {
-            modelStateErrors += err.errorMessage + "; ";
-          });
-        }
-        else {
-          const body = error.text() || '';
-          applicationError = `${error.status} - ${error.statusText || ''} ${body}`;
-        }
-    }
-    else {
-      applicationError = error.message ? error.message : error.toString();
-    }
-    modelStateErrors = modelStateErrors === '' ? null : modelStateErrors;
-    return Observable.throw(applicationError || modelStateErrors || 'Server error');
+  getMedicalCase(id: number): Observable<MedicalInsuranceCase> {
+  return this.http.get('api/insurancecases/' + id + '/medical')
+    .map((resp: Response) => JSON.parse(resp.text(), Localization.reviver))
+    .map((data: MedicalInsuranceCase) => data)
+    .catch(ErrorHandler.handleError);
   }
 }

@@ -30,8 +30,8 @@ export class ContractDetailEditComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.ru = this.loc.calendarRu();
-    this.dateFormat = this.loc.dateFormatRu();
+    this.ru = Localization.calendarRu();
+    this.dateFormat = Localization.dateFormatRu();
 
     this.activatedRoute.params.subscribe(params => {
       this.id = +params['id'];

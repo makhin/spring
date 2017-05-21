@@ -38,6 +38,8 @@ import { CustomerListComponent } from './customer-list/customer-list.component';
 import { CustomerDetailEditComponent } from './customer-detail-edit/customer-detail-edit.component';
 import {Localization} from "./Shared/Localization";
 import { InsuranceCaseListComponent } from './insurance-case-list/insurance-case-list.component';
+import {LookupService} from "./services/lookup.service";
+import { InsuranceCaseDetailEditComponent } from './insurance-case-detail-edit/insurance-case-detail-edit.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +55,8 @@ import { InsuranceCaseListComponent } from './insurance-case-list/insurance-case
     FooterComponent,
     CustomerListComponent,
     CustomerDetailEditComponent,
-    InsuranceCaseListComponent
+    InsuranceCaseListComponent,
+    InsuranceCaseDetailEditComponent
   ],
   imports: [
     BrowserModule,
@@ -77,6 +80,7 @@ import { InsuranceCaseListComponent } from './insurance-case-list/insurance-case
     AuthService,
     ErrorLogService,
     DataService,
+    LookupService,
     FormBuilder,
     Localization,
     // CAUTION: This providers collection overrides the CORE ErrorHandler with our

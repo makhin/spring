@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Spring.Dto;
 using Spring.Services;
 
 namespace Spring.WebApi.Controllers
@@ -19,6 +20,18 @@ namespace Spring.WebApi.Controllers
         public async Task<IActionResult> GetByCustomerId(int id)
         {
             var value = await _service.GetAllByCustomerId(id);
+            if (value == null)
+            {
+                return NoContent();
+            }
+
+            return Ok(value);
+        }
+
+        [HttpGet("{id}/medical")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            var value = await _service.Get(id);            
             if (value == null)
             {
                 return NoContent();

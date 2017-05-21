@@ -32,6 +32,16 @@ namespace Spring.Repositories
                             : src.Mkb10.Code.Substring(0, (int)src.Mkb10.Code.IndexOf(" ", StringComparison.Ordinal))))
                 .ForMember(dst => dst.HospitalName, opt => opt.MapFrom(src => src.Hospital.Name))
                 .IgnoreAllPropertiesWithAnInaccessibleSetter();
+
+
+            CreateMap<InsuranceCase, InsuranceCaseDto>()
+                .ForMember(
+                    dst => dst.CaseType,
+                    opt => opt.MapFrom(src => src is MedicalInsuranceCase ? 1 : 0)
+                )
+                .ReverseMap();
+
+            CreateMap<MedicalInsuranceCase, MedicalInsuranceCaseDto>().IncludeBase<InsuranceCase, InsuranceCaseDto>();
         }
     }
 }

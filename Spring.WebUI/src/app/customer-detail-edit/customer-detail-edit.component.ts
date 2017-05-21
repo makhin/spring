@@ -34,8 +34,8 @@ export class CustomerDetailEditComponent implements OnInit {
               private loc: Localization) { }
 
   ngOnInit() {
-    this.ru = this.loc.calendarRu();
-    this.dateFormat = this.loc.dateFormatRu();
+    this.ru = Localization.calendarRu();
+    this.dateFormat = Localization.dateFormatRu();
 
     this.sexTypes = [];
     this.sexTypes.push({label: 'Мужчина', value: true});

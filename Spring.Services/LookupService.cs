@@ -38,12 +38,30 @@ namespace Spring.Services
 
         public async Task<IEnumerable<Mkb10Dto>> GetMkb10(string s)
         {
-            return await _mkb10Repository.GetAll()
-                .Where(c => c.Code.Contains(s))
-                .Take(10)
-                .OrderBy(c => c.Code)
+            const int maxCount = 10;
+
+            var byCode = await _mkb10Repository.GetAll()
+                .Where(c => c.Code.StartsWith(s) && c.ParentId != null)
+                .OrderBy(c => c.Id)
+                .Take(maxCount)
                 .ProjectTo<Mkb10Dto>()
                 .ToListAsync();
+
+            var countAsync = byCode.Count;
+
+            if (countAsync < maxCount)
+            {
+                var byName = await _mkb10Repository.GetAll()
+                    .Where(c => !c.Code.StartsWith(s) && c.Code.Contains(s) && c.ParentId != null)
+                    .OrderBy(c => c.Id)
+                    .Take(maxCount - countAsync)
+                    .ProjectTo<Mkb10Dto>()
+                    .ToListAsync();
+
+                byCode.AddRange(byName);
+            }
+
+            return byCode;
         }
 
         public static List<T> ToList<T>() where T : struct

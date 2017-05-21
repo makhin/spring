@@ -1,0 +1,25 @@
+<form [formGroup]="caseForm" *ngIf="insuranceCase" (ngSubmit)="onSubmit()">
+  <div class="container mt-md-2 pt-md-2 pb-md-2 bg-faded">
+    <div class="form-group row">
+      <label for="mkb10" class="col-md-3 col-form-label">МКБ 10:</label>
+      <div class="col-md-8">
+        <p-autoComplete [formControl]="caseForm.controls['mkb10']" [size]="90" id="mkb10" name="mkb10" [suggestions]="mkb10s" field="code" dataKey="id" (completeMethod)="onMkb10Lookup($event)" placeholder="Диагноз...">
+        </p-autoComplete>
+      </div>
+    </div>
+    <div class="d-flex justify-content-between">
+      <button type="button" value="Back" (click)="onBack()" class="btn btn-primary">Назад</button>
+      <div *ngIf="insuranceCase.id != 0; else elseBlock">
+        <button type="button" value="Update" (click)="onUpdate()" [disabled]="!caseForm.valid" class="btn btn-primary">Сохранить</button>
+        <button type="button" value="Delete" (click)="onDelete()" class="btn btn-primary">Удалить</button>
+      </div>
+      <ng-template #elseBlock>
+        <button type="button" value="Save" (click)="onInsert()" [disabled]="!caseForm.valid" class="btn btn-primary">Добавить</button>
+      </ng-template>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row">&nbsp;</div>
+  </div>
+</form>
+

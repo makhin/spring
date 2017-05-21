@@ -31,10 +31,10 @@
     "typings": "^2.1.1",
     "zone.js": "^0.8.4",
     "bootstrap": "^4.0.0-alpha.6",
-    "font-awesome": "4.7.0"
+    "font-awesome": "^4.7.0"
   },
   "devDependencies": {
-    "@angular/cli": "1.0.1",
+    "@angular/cli": "^1.0.4",
     "@angular/compiler-cli": "^4.0.0",
     "@types/jasmine": "2.5.47",
     "@types/node": "~7.0.14",

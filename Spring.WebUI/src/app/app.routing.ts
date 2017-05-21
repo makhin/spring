@@ -10,6 +10,7 @@ import { ContractDetailEditComponent } from './contract-detail-edit/contract-det
 import {CustomerListComponent} from "./customer-list/customer-list.component";
 import {CustomerDetailEditComponent} from "./customer-detail-edit/customer-detail-edit.component";
 import {InsuranceCaseListComponent} from "app/insurance-case-list/insurance-case-list.component";
+import {InsuranceCaseDetailEditComponent} from "./insurance-case-detail-edit/insurance-case-detail-edit.component";
 
 const appRoutes: Routes = [
     { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -20,6 +21,7 @@ const appRoutes: Routes = [
     { path: 'customer/:id/new', component: CustomerDetailEditComponent, data: { title: 'Клиент' }  },
     { path: 'customer/:id/edit', component: CustomerDetailEditComponent, data: { title: 'Клиент' }  },
     { path: 'customer/:id/cases', component: InsuranceCaseListComponent, data: { title: 'Случаи' }  },
+    { path: 'case/:id/edit', component: InsuranceCaseDetailEditComponent, data: { title: 'Случаи' }  },
     { path: 'register', component: RegisterComponent, data: { title: 'Register' } },
     { path: 'about', component: AboutComponent, data: { title: 'About' } },
     { path: '**', component: PageNotFoundComponent }
