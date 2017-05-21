@@ -39,7 +39,7 @@ namespace Spring.Services
 
         public async Task<InsuranceCaseDto> Get(int id)
         {
-            var @case = await _insuranceCaseRepository.Get(id);
+            var @case = await _insuranceCaseRepository.Get(id, ic => ic.Mkb10, ic => ic.Hospital);
             return _mapper.Map<InsuranceCase, InsuranceCaseDto>(@case);
         }
     }

@@ -12,7 +12,7 @@ namespace Spring.Dto
 
         public string Mkb10Code { get; set; }
 
-        public Threatment? Threatment { get; set; }
+        public Treatment? Treatment { get; set; }
 
         public string HospitalName { get; set; }
 

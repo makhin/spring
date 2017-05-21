@@ -4,13 +4,11 @@ import 'rxjs/add/operator/catch';
 import {Injectable, OnInit} from '@angular/core';
 import {Http, Response, Headers, URLSearchParams} from '@angular/http';
 import {AuthService} from "../Shared/auth.service";
-import {SelectItem} from "primeng/dist/components/common/api";
 import {ErrorHandler} from "../Shared/ErrorHandler";
+import {Observable} from "rxjs/Observable";
 
 @Injectable()
 export class LookupService implements OnInit  {
-  therapy: SelectItem[];
-  threatments: SelectItem[];
 
   constructor(private http: Http, private authService: AuthService) {
   }
@@ -19,39 +17,16 @@ export class LookupService implements OnInit  {
 
   }
 
-  getTherapy(): SelectItem[] {
-    if (this.therapy) {
-      return this.therapy;
-    }
-    this.http.get('api/lookup/therapy', {headers: this.authService.jsonHeaders()})
+  getTherapy(): Observable<string> {
+    return this.http.get('api/lookup/therapy', {headers: this.authService.jsonHeaders()})
       .map((resp: Response) => resp.json())
-      .map((data: any) => {
-        this.therapy = [];
-        for (let item of data) {
-          this.therapy.push({label: item, value: item});
-        }
-      }).catch(ErrorHandler.handleError).subscribe(
-      () => {
-        return this.therapy
-      });
+      .catch(ErrorHandler.handleError)
   }
 
-  getThreatment(): SelectItem[] {
-    if (this.threatments) {
-      return this.threatments;
-    }
-    this.http.get('api/lookup/threatment', {headers: this.authService.jsonHeaders()})
+  getThreatment(): Observable<string> {
+    return this.http.get('api/lookup/treatment', {headers: this.authService.jsonHeaders()})
       .map((resp: Response) => resp.json())
-      .map((data: any) => {
-        this.threatments = [];
-        for (let item of data) {
-          this.threatments.push({label: item, value: item});
-        }
-      })
       .catch(ErrorHandler.handleError)
-      .subscribe(() => {
-        return this.threatments
-      });
   }
 
   getMkb10(s: string) {
@@ -59,4 +34,11 @@ export class LookupService implements OnInit  {
       .map((res: Response) => res.json())
       .catch(ErrorHandler.handleError);
   }
+
+  getHospital(parentId?: number) {
+    return this.http.get('api/lookup/' + parentId + '/hospital', {headers: this.authService.jsonHeaders()})
+      .map((res: Response) => res.json())
+      .catch(ErrorHandler.handleError);
+  }
+
 }

@@ -16,13 +16,13 @@ namespace Spring.Dto
 
         public int CaseType { get; set; }
 
-        public int? Mkb10Id { get; set; }
+        public Mkb10Dto Mkb10 { get; set; }
 
-        public Threatment? Threatment { get; set; }
+        public Treatment? Treatment { get; set; }
 
         public Therapy? Therapy { get; set; }
 
-        public int? HospitalId { get; set; }
+        public HospitalDto Hospital { get; set; }
 
         public DateTime? BeginDate { get; set; }
 

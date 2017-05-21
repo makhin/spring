@@ -6,7 +6,7 @@ namespace Spring.Dto.Validations
     {
         public InsuranceCaseDtoValidator()
         {
-            RuleFor(c => c.Mkb10Id).NotNull().WithMessage("Диагноз не может быть пустым");
+            RuleFor(c => c.Mkb10).NotNull().WithMessage("Диагноз не может быть пустым");
         }
     }
 }

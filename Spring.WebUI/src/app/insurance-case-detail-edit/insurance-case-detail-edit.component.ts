@@ -24,6 +24,8 @@ export class InsuranceCaseDetailEditComponent implements OnInit {
   dateFormat: string;
   therapy: SelectItem[];
   treatments: SelectItem[];
+  hospitals: SelectItem[];
+  hospitalDepartments: SelectItem[];
   mkb10s:SelectItem[];
 
   constructor(private router: Router,
@@ -32,17 +34,38 @@ export class InsuranceCaseDetailEditComponent implements OnInit {
               private toastrService: ToastrService,
               private lookupService: LookupService,
               private dataService: DataService,
-              private fb: FormBuilder,
-              private loc: Localization) {
+              private fb: FormBuilder) {
   }
 
   ngOnInit() {
+
+    this.loadingBarService.start();
     this.ru = Localization.calendarRu();
     this.dateFormat = Localization.dateFormatRu();
 
-    this.therapy = this.lookupService.getTherapy();
-    this.treatments = this.lookupService.getThreatment();
+    this.lookupService.getTherapy().subscribe((data: any) => {
+      this.therapy = [];
+      this.therapy.push({label:'', value: null});
+      for (let item of data) {
+        this.therapy.push({label: item, value: item});
+      }
+    });
+    this.lookupService.getThreatment().subscribe((data: any) => {
+      this.treatments = [];
+      this.treatments.push({label:'', value: null});
+      for (let item of data) {
+        this.treatments.push({label: item, value: item});
+      }
+    });
+    this.lookupService.getHospital(null).subscribe((data: any) => {
+      this.hospitals = [];
+      this.hospitals.push({label:'', value: null});
+      for (let item of data) {
+        this.hospitals.push({label: item.name, value: item});
+      }
+    });
 
+    this.hospitalDepartments = [];
 
     this.activatedRoute.url.subscribe(segments => {
       if (segments[2].path === "new"){
@@ -59,6 +82,7 @@ export class InsuranceCaseDetailEditComponent implements OnInit {
         this.insuranceCase.id = 0;
         this.insuranceCase.customerId = this.customerId;
         this.buildForm();
+        this.loadingBarService.complete();
       }
       else{
         Observable.throw('Не указан идентификатор клиента или контракта');
@@ -69,6 +93,10 @@ export class InsuranceCaseDetailEditComponent implements OnInit {
   buildForm(): void {
     this.caseForm = this.fb.group({
       'mkb10': [this.insuranceCase.mkb10, [Validators.required]],
+      'therapy': [this.insuranceCase.therapy],
+      'treatment': [this.insuranceCase.treatment],
+      'hospital': [],
+      'hospitalDepartments': []
     });
     this.caseForm.valueChanges
       .subscribe(data => this.onValueChanged(data));
@@ -97,7 +125,6 @@ export class InsuranceCaseDetailEditComponent implements OnInit {
   };
 
   loadCase(){
-    this.loadingBarService.start();
     this.dataService.getMedicalCase(this.id).subscribe((data: MedicalInsuranceCase) => {
         this.insuranceCase = data;
         this.customerId = this.insuranceCase.customerId;

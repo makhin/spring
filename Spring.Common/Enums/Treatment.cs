@@ -5,7 +5,7 @@ using Newtonsoft.Json.Converters;
 namespace Spring.Common.Enums
 {
     [JsonConverter(typeof(StringEnumConverter))]
-    public enum Threatment:int
+    public enum Treatment:int
     {
         [EnumMember(Value = "Поликлиника")] Polyclinic = 1,
         [EnumMember(Value = "Стационар")] Hospital = 2,

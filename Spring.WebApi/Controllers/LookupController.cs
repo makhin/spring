@@ -26,14 +26,14 @@ namespace Spring.WebApi.Controllers
             return Ok(LookupService.ToList<Therapy>());
         }
 
-        [HttpGet("threatment")]
-        public IActionResult GetThreatments()
+        [HttpGet("treatment")]
+        public IActionResult GetTreatments()
         {
-            return Ok(LookupService.ToList<Threatment>());
+            return Ok(LookupService.ToList<Treatment>());
         }
 
-        [HttpGet("{id}/hospitals")]
-        public async Task<IActionResult> GetHospitals(int id)
+        [HttpGet("{id}/hospital")]
+        public async Task<IActionResult> GetHospitals(int? id)
         {
             return Ok(await _service.GetHospitals(id));
         }

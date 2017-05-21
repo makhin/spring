@@ -13,7 +13,7 @@ namespace Spring.Repositories
     {
         IQueryable<TTable> GetByCondition(Expression<Func<TTable, bool>> predicate);
         IQueryable<TTable> GetAll();
-        Task<TTable> Get(int id);
+        Task<TTable> Get(int id, params Expression<Func<TTable, object>>[] includeProperties);
         Task<TTable> Insert(TTable entity);
         Task<TTable> Update(TTable entity);
         Task<int> Delete(int id);
@@ -40,9 +40,15 @@ namespace Spring.Repositories
             return entities;
         }
 
-        public async Task<TTable> Get(int id)
+        public async Task<TTable> Get(int id, params Expression<Func<TTable, object>>[] includeProperties)
         {
-            return await entities.SingleOrDefaultAsync(a => a.Id == id);            
+            IQueryable<TTable> query = entities;
+            foreach (var includeProperty in includeProperties)
+            {
+                query = query.Include(includeProperty);
+            }
+
+            return await query.SingleOrDefaultAsync(a => a.Id == id);            
         }
 
         public async Task<TTable> Insert(TTable entity)

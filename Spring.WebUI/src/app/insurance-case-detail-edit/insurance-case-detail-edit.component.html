@@ -7,6 +7,30 @@
         </p-autoComplete>
       </div>
     </div>
+    <div class="form-group row">
+      <label for="hospital" class="col-md-3 col-form-label">ЛПУ:</label>
+      <div class="col-md-4">
+        <p-dropdown [options]="hospitals" id="hospital" name="hospital" [formControl]="caseForm.controls['hospital']"></p-dropdown>
+      </div>
+    </div>
+    <!--<div class="form-group row">-->
+      <!--<label for="hospitalDepartment" class="col-md-3 col-form-label">Отделение:</label>-->
+      <!--<div class="col-md-4">-->
+        <!--<p-dropdown [options]="hospitalDepartments" id="hospitalDepartment" name="hospitalDepartment" [formControl]="caseForm.controls['hospitalDepartment']"></p-dropdown>-->
+      <!--</div>-->
+    <!--</div>-->
+    <div class="form-group row">
+      <label for="treatment" class="col-md-3 col-form-label">Лечение:</label>
+      <div class="col-md-4">
+        <p-dropdown [options]="treatments" autoWidth="false" id="treatment" name="treatment" [formControl]="caseForm.controls['treatment']"></p-dropdown>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="therapy" class="col-md-3 col-form-label">Терапия:</label>
+      <div class="col-md-4">
+        <p-dropdown [options]="therapy" autoWidth="false" id="therapy" name="therapy" [formControl]="caseForm.controls['therapy']"></p-dropdown>
+      </div>
+    </div>
     <div class="d-flex justify-content-between">
       <button type="button" value="Back" (click)="onBack()" class="btn btn-primary">Назад</button>
       <div *ngIf="insuranceCase.id != 0; else elseBlock">

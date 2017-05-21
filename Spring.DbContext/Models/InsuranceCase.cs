@@ -20,7 +20,7 @@ namespace Spring.DbContext.Models
 
         public virtual Mkb10 Mkb10 { get; set; }
 
-        public Threatment? Threatment { get; set; }
+        public Treatment? Treatment { get; set; }
 
         public Therapy? Therapy { get; set; }
 

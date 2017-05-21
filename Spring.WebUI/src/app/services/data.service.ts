@@ -154,7 +154,7 @@ export class DataService {
   }
 
   getMedicalCase(id: number): Observable<MedicalInsuranceCase> {
-  return this.http.get('api/insurancecases/' + id + '/medical')
+  return this.http.get('api/insurancecases/' + id + '/case')
     .map((resp: Response) => JSON.parse(resp.text(), Localization.reviver))
     .map((data: MedicalInsuranceCase) => data)
     .catch(ErrorHandler.handleError);
