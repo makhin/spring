@@ -1,9 +1,21 @@
 import { IEntity } from './IEntity'
-export class MedicalInsuranceCase implements IEntity {
+import {Hospital} from "./Hospital";
+import {Mkb10} from "./Mkb10";
+export class InsuranceCase implements IEntity {
   id: number;
   customerId: number;
-  mkb10: string;
-  hospital: string;
+  mkb10: Mkb10;
+  hospital: Hospital;
+  hospitalId: number;
+  hospitalDepartmentId:number;
   therapy: string;
   treatment: string;
+  beginDate:Date;
+  endDate:Date;
 }
+
+export class MedicalInsuranceCase extends InsuranceCase {
+  reportDate: Date;
+  documentDate: Date;
+}
+

@@ -7,7 +7,7 @@ import {ToastrService} from "ngx-toastr";
 import {Localization} from "../Shared/Localization";
 import {LookupService} from "../services/lookup.service";
 import {MedicalInsuranceCase} from "../models/MedicalInsuranceCase";
-import {Observable} from "rxjs/Observable";
+import {Observable} from "rxjs/Rx";
 import {DataService} from "../services/data.service";
 
 @Component({
@@ -38,30 +38,30 @@ export class InsuranceCaseDetailEditComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    this.hospitals = [];
+    this.hospitalDepartments = [];
+    this.therapy = [];
+    this.treatments = [];
     this.loadingBarService.start();
     this.ru = Localization.calendarRu();
     this.dateFormat = Localization.dateFormatRu();
 
     this.lookupService.getTherapy().subscribe((data: any) => {
-      this.therapy = [];
       this.therapy.push({label:'', value: null});
       for (let item of data) {
         this.therapy.push({label: item, value: item});
       }
     });
     this.lookupService.getThreatment().subscribe((data: any) => {
-      this.treatments = [];
       this.treatments.push({label:'', value: null});
       for (let item of data) {
         this.treatments.push({label: item, value: item});
       }
     });
     this.lookupService.getHospital(null).subscribe((data: any) => {
-      this.hospitals = [];
       this.hospitals.push({label:'', value: null});
       for (let item of data) {
-        this.hospitals.push({label: item.name, value: item});
+        this.hospitals.push({label: item.name, value: item.id});
       }
     });
 
@@ -77,15 +77,12 @@ export class InsuranceCaseDetailEditComponent implements OnInit {
       if (this.id > 0) {
         this.loadCase();
       }
-      else if (this.customerId > 0){
+      else {
         this.insuranceCase = new MedicalInsuranceCase();
         this.insuranceCase.id = 0;
         this.insuranceCase.customerId = this.customerId;
         this.buildForm();
         this.loadingBarService.complete();
-      }
-      else{
-        Observable.throw('Не указан идентификатор клиента или контракта');
       }
     });
   }
@@ -95,8 +92,12 @@ export class InsuranceCaseDetailEditComponent implements OnInit {
       'mkb10': [this.insuranceCase.mkb10, [Validators.required]],
       'therapy': [this.insuranceCase.therapy],
       'treatment': [this.insuranceCase.treatment],
-      'hospital': [],
-      'hospitalDepartments': []
+      'hospital': [this.insuranceCase.hospitalId],
+      'hospitalDepartment': [this.insuranceCase.hospitalDepartmentId],
+      'beginDate': [this.insuranceCase.beginDate],
+      'endDate': [this.insuranceCase.endDate],
+      'reportDate': [this.insuranceCase.reportDate],
+      'documentDate': [this.insuranceCase.documentDate]
     });
     this.caseForm.valueChanges
       .subscribe(data => this.onValueChanged(data));
@@ -124,23 +125,56 @@ export class InsuranceCaseDetailEditComponent implements OnInit {
     }
   };
 
-  loadCase(){
-    this.dataService.getMedicalCase(this.id).subscribe((data: MedicalInsuranceCase) => {
-        this.insuranceCase = data;
-        this.customerId = this.insuranceCase.customerId;
-        this.buildForm();
-        this.loadingBarService.complete();
+  loadCase() {
+    this.dataService.getInsuranceCase(this.id).map((data: MedicalInsuranceCase) => {
+        if (data.hospital.parentId == null) {
+          data.hospitalId = data.hospital.id
+        }
+        else {
+          data.hospitalId = data.hospital.parentId;
+          data.hospitalDepartmentId = data.hospital.id;
+        }
+        return data;
+      }
+    ).subscribe((data: MedicalInsuranceCase) => {
+        this.customerId = data.customerId;
+        if (data.hospitalDepartmentId != null){
+          this.lookupService.getHospital(data.hospitalId).subscribe((dpts) => {
+            this.hospitalDepartments = [];
+            this.hospitalDepartments.push({label: '', value: null});
+            for (let item of dpts) {
+              this.hospitalDepartments.push({label: item.name, value: item.id});
+            }
+            this.insuranceCase = data;
+            this.buildForm();
+          });
+        }
+        else {
+          this.insuranceCase = data;
+          this.buildForm();
+        }
       },
       error => {
-        this.loadingBarService.complete();
         this.toastrService.error(error, 'Ошибка загрузки');
-        console.log(error);
+      },
+      () => {
+        this.loadingBarService.complete();
       });
   }
 
   onMkb10Lookup(event){
     this.lookupService.getMkb10(event.query).subscribe(data => {
       this.mkb10s = data;
+    });
+  }
+
+  onHospitalChange(event){
+    this.lookupService.getHospital(event.value).subscribe((dpts) => {
+      this.hospitalDepartments = [];
+      this.hospitalDepartments.push({label: '', value: null});
+      for (let item of dpts) {
+        this.hospitalDepartments.push({label: item.name, value: item.id});
+      }
     });
   }
 }

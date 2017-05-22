@@ -12,7 +12,7 @@ import {PaginatedResult, Pagination} from "../models/Pagination";
 import {CustomerShort} from "../models/CustomerShort";
 import {Customer} from "../models/Customer";
 import {InsuranceCaseItem} from "../models/InsuranceCaseItem";
-import {MedicalInsuranceCase} from "../models/MedicalInsuranceCase";
+import {InsuranceCase, MedicalInsuranceCase} from "../models/MedicalInsuranceCase";
 import {Localization} from "../Shared/Localization";
 import {ErrorHandler} from "app/Shared/ErrorHandler";
 
@@ -153,10 +153,10 @@ export class DataService {
       .catch(ErrorHandler.handleError);
   }
 
-  getMedicalCase(id: number): Observable<MedicalInsuranceCase> {
-  return this.http.get('api/insurancecases/' + id + '/case')
+  getInsuranceCase(id: number): Observable<InsuranceCase> {
+  return this.http.get('api/insurancecases/' + id + '/full')
     .map((resp: Response) => JSON.parse(resp.text(), Localization.reviver))
-    .map((data: MedicalInsuranceCase) => data)
+    .map((data: InsuranceCase) => data)
     .catch(ErrorHandler.handleError);
   }
 }

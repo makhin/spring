@@ -21,6 +21,38 @@ namespace Spring.DbContext.DbContext
                 .HasDiscriminator<int>("CaseType")
                 .HasValue<MedicalInsuranceCase>(1);
 
+            modelBuilder.Entity<Contract>()
+                .Property(e => e.BeginDate)
+                .HasColumnType("date");
+            modelBuilder.Entity<Contract>()
+                .Property(e => e.EndDate)
+                .HasColumnType("date");
+
+            modelBuilder.Entity<Customer>()
+                .Property(e => e.DateOfBirth)
+                .HasColumnType("date");
+            modelBuilder.Entity<Customer>()
+                .Property(e => e.StartDate)
+                .HasColumnType("date");
+            modelBuilder.Entity<Customer>()
+                .Property(e => e.EndDate)
+                .HasColumnType("date");
+
+
+            modelBuilder.Entity<InsuranceCase>()
+                .Property(e => e.BeginDate)
+                .HasColumnType("date");
+            modelBuilder.Entity<InsuranceCase>()
+                .Property(e => e.EndDate)
+                .HasColumnType("date");
+
+            modelBuilder.Entity<MedicalInsuranceCase>()
+                .Property(e => e.ReportDate)
+                .HasColumnType("date");
+            modelBuilder.Entity<MedicalInsuranceCase>()
+                .Property(e => e.DocumentDate)
+                .HasColumnType("date");
+
             base.OnModelCreating(modelBuilder);
         }
     }

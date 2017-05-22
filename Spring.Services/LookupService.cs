@@ -12,7 +12,7 @@ namespace Spring.Services
 {
     public interface ILookupService
     {
-        Task<IEnumerable<HospitalDto>> GetHospitals(int parentid);
+        Task<IEnumerable<HospitalDto>> GetHospitals(int? parentid);
         Task<IEnumerable<Mkb10Dto>> GetMkb10(string s);
     }
 
@@ -27,7 +27,7 @@ namespace Spring.Services
             _mkb10Repository = mkb10Repository;
         }
 
-        public async Task<IEnumerable<HospitalDto>> GetHospitals(int parentId)
+        public async Task<IEnumerable<HospitalDto>> GetHospitals(int? parentId)
         {
             return await _hospitalRepository.GetAll()
                 .Where(c => c.ParentId == parentId)

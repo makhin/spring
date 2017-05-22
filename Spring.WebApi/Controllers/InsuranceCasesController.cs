@@ -28,7 +28,7 @@ namespace Spring.WebApi.Controllers
             return Ok(value);
         }
 
-        [HttpGet("{id}/medical")]
+        [HttpGet("{id}/full")]
         public async Task<IActionResult> GetById(int id)
         {
             var value = await _service.Get(id);            

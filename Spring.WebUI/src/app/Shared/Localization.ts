@@ -19,10 +19,10 @@ export class Localization {
   }
 
   static reviver(key, value): any {
+
     const datePattern = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}$/;
     if (typeof value === "string" && datePattern.test(value)) {
-      let d = new Date(value);
-      return new Date(d.getTime() + (d.getTimezoneOffset() * 60000));
+      return new Date(value);
     }
 
     return value;

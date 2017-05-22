@@ -10,15 +10,15 @@
     <div class="form-group row">
       <label for="hospital" class="col-md-3 col-form-label">ЛПУ:</label>
       <div class="col-md-4">
-        <p-dropdown [options]="hospitals" id="hospital" name="hospital" [formControl]="caseForm.controls['hospital']"></p-dropdown>
+        <p-dropdown [options]="hospitals" id="hospital" name="hospital" [formControl]="caseForm.controls['hospital']" (onChange) = "onHospitalChange($event)"></p-dropdown>
       </div>
     </div>
-    <!--<div class="form-group row">-->
-      <!--<label for="hospitalDepartment" class="col-md-3 col-form-label">Отделение:</label>-->
-      <!--<div class="col-md-4">-->
-        <!--<p-dropdown [options]="hospitalDepartments" id="hospitalDepartment" name="hospitalDepartment" [formControl]="caseForm.controls['hospitalDepartment']"></p-dropdown>-->
-      <!--</div>-->
-    <!--</div>-->
+    <div class="form-group row">
+      <label for="hospitalDepartment" class="col-md-3 col-form-label">Отделение:</label>
+      <div class="col-md-4">
+        <p-dropdown [options]="hospitalDepartments" id="hospitalDepartment" name="hospitalDepartment" [formControl]="caseForm.controls['hospitalDepartment']"></p-dropdown>
+      </div>
+    </div>
     <div class="form-group row">
       <label for="treatment" class="col-md-3 col-form-label">Лечение:</label>
       <div class="col-md-4">
@@ -31,6 +31,31 @@
         <p-dropdown [options]="therapy" autoWidth="false" id="therapy" name="therapy" [formControl]="caseForm.controls['therapy']"></p-dropdown>
       </div>
     </div>
+    <div class="form-group row">
+      <label class="col-md-3 col-form-label">Начало:</label>
+      <div class="input-group col-md-2">
+        <p-calendar id="beginDate" name="beginDate" [formControl]="caseForm.controls['beginDate']" [showIcon]="true" [locale]="ru" dateFormat="{{dateFormat}}"></p-calendar>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-md-3 col-form-label">Окончание:</label>
+      <div class="input-group col-md-2">
+        <p-calendar id="endDate" name="endDate" [formControl]="caseForm.controls['endDate']" [showIcon]="true" [locale]="ru" dateFormat="{{dateFormat}}"></p-calendar>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-md-3 col-form-label">Отчёт:</label>
+      <div class="input-group col-md-2">
+        <p-calendar id="reportDate" name="reportDate" [formControl]="caseForm.controls['reportDate']" [showIcon]="true" [locale]="ru" dateFormat="{{dateFormat}}"></p-calendar>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-md-3 col-form-label">Документы:</label>
+      <div class="input-group col-md-2">
+        <p-calendar id="documentDate" name="documentDate" [formControl]="caseForm.controls['documentDate']" [showIcon]="true" [locale]="ru" dateFormat="{{dateFormat}}"></p-calendar>
+      </div>
+    </div>
+
     <div class="d-flex justify-content-between">
       <button type="button" value="Back" (click)="onBack()" class="btn btn-primary">Назад</button>
       <div *ngIf="insuranceCase.id != 0; else elseBlock">
