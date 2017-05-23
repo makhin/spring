@@ -8,9 +8,10 @@ using Spring.DbContext.DbContext;
 namespace Spring.DbContext.Migrations
 {
     [DbContext(typeof(SpringDbContext))]
-    partial class SpringDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170523165832_Orders2")]
+    partial class Orders2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
@@ -326,7 +327,9 @@ namespace Spring.DbContext.Migrations
                     b.Property<decimal>("Amount")
                         .HasColumnType("Money");
 
-                    b.Property<int>("MedicalInsuranceCaseId");
+                    b.Property<int>("InsuranceCaseId");
+
+                    b.Property<int?>("MedicalInsuranceCaseId");
 
                     b.Property<DateTime?>("OrderDate")
                         .HasColumnType("date");
@@ -341,6 +344,8 @@ namespace Spring.DbContext.Migrations
                     b.Property<string>("RecipeNumber");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("InsuranceCaseId");
 
                     b.HasIndex("MedicalInsuranceCaseId");
 
@@ -440,10 +445,14 @@ namespace Spring.DbContext.Migrations
 
             modelBuilder.Entity("Spring.DbContext.Models.Order", b =>
                 {
-                    b.HasOne("Spring.DbContext.Models.MedicalInsuranceCase", "MedicalInsuranceCase")
-                        .WithMany("Orders")
-                        .HasForeignKey("MedicalInsuranceCaseId")
+                    b.HasOne("Spring.DbContext.Models.InsuranceCase", "InsuranceCase")
+                        .WithMany()
+                        .HasForeignKey("InsuranceCaseId")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Spring.DbContext.Models.MedicalInsuranceCase")
+                        .WithMany("Orders")
+                        .HasForeignKey("MedicalInsuranceCaseId");
                 });
         }
     }

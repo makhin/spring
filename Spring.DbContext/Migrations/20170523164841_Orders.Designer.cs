@@ -8,9 +8,10 @@ using Spring.DbContext.DbContext;
 namespace Spring.DbContext.Migrations
 {
     [DbContext(typeof(SpringDbContext))]
-    partial class SpringDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170523164841_Orders")]
+    partial class Orders
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
@@ -326,7 +327,7 @@ namespace Spring.DbContext.Migrations
                     b.Property<decimal>("Amount")
                         .HasColumnType("Money");
 
-                    b.Property<int>("MedicalInsuranceCaseId");
+                    b.Property<int>("InsuranceCaseId");
 
                     b.Property<DateTime?>("OrderDate")
                         .HasColumnType("date");
@@ -342,7 +343,7 @@ namespace Spring.DbContext.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MedicalInsuranceCaseId");
+                    b.HasIndex("InsuranceCaseId");
 
                     b.ToTable("Orders");
                 });
@@ -440,9 +441,9 @@ namespace Spring.DbContext.Migrations
 
             modelBuilder.Entity("Spring.DbContext.Models.Order", b =>
                 {
-                    b.HasOne("Spring.DbContext.Models.MedicalInsuranceCase", "MedicalInsuranceCase")
-                        .WithMany("Orders")
-                        .HasForeignKey("MedicalInsuranceCaseId")
+                    b.HasOne("Spring.DbContext.Models.InsuranceCase", "InsuranceCase")
+                        .WithMany()
+                        .HasForeignKey("InsuranceCaseId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
         }

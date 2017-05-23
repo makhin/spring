@@ -33,7 +33,6 @@ namespace Spring.Repositories
                 .ForMember(dst => dst.HospitalName, opt => opt.MapFrom(src => src.Hospital.Name))
                 .IgnoreAllPropertiesWithAnInaccessibleSetter();
 
-
             CreateMap<InsuranceCase, InsuranceCaseDto>()
                 .ForMember(
                     dst => dst.CaseType,
@@ -41,7 +40,11 @@ namespace Spring.Repositories
                 )
                 .ReverseMap();
 
-            CreateMap<MedicalInsuranceCase, MedicalInsuranceCaseDto>().IncludeBase<InsuranceCase, InsuranceCaseDto>();
+            CreateMap<Order, OrderDto>().IgnoreAllPropertiesWithAnInaccessibleSetter();
+
+            CreateMap<MedicalInsuranceCase, MedicalInsuranceCaseDto>()
+                .ForMember(dst => dst.Orders, opt => opt.MapFrom(src => src.Orders))
+                .IncludeBase<InsuranceCase, InsuranceCaseDto>();
         }
     }
 }

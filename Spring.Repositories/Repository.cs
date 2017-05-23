@@ -43,7 +43,7 @@ namespace Spring.Repositories
         public async Task<TTable> Get(int id, params Expression<Func<TTable, object>>[] includeProperties)
         {
             IQueryable<TTable> query = entities;
-            foreach (var includeProperty in includeProperties)
+            foreach (var includeProperty in includeProperties.Where(p => p != null))
             {
                 query = query.Include(includeProperty);
             }

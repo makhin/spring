@@ -9,5 +9,6 @@ namespace Spring.Dto
     {
         public DateTime? ReportDate { get; set; }
         public DateTime? DocumentDate { get; set; }
+        public virtual ICollection<OrderDto> Orders { get; set; }
     }
 }

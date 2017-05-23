@@ -19,12 +19,12 @@ namespace Spring.Services
     public class InsuranceCaseService : IInsuranceCaseService
     {
         private readonly IRepository<InsuranceCase> _insuranceCaseRepository;
-        private readonly IRepository<MedicalInsuranceCase> _medicalRepository;
+        private readonly IRepository<Order> _orderRepository;
         private readonly IMapper _mapper;
 
-        public InsuranceCaseService(IRepository<InsuranceCase> insuranceCaseRepository, IRepository<MedicalInsuranceCase> medicalRepository, IMapper mapper)
+        public InsuranceCaseService(IRepository<InsuranceCase> insuranceCaseRepository, IRepository<Order> orderRepository, IMapper mapper)
         {
-            _medicalRepository = medicalRepository;
+            _orderRepository = orderRepository;
             _insuranceCaseRepository = insuranceCaseRepository;
             _mapper = mapper;            
         }
@@ -39,8 +39,15 @@ namespace Spring.Services
 
         public async Task<InsuranceCaseDto> Get(int id)
         {
-            var @case = await _insuranceCaseRepository.Get(id, ic => ic.Mkb10, ic => ic.Hospital);
-            return _mapper.Map<InsuranceCase, InsuranceCaseDto>(@case);
+            var insuranceCase = await _insuranceCaseRepository.Get(id, ic => ic.Mkb10, ic => ic.Hospital);
+            if (insuranceCase is MedicalInsuranceCase)
+            {
+                var medicalInsuranceCase = insuranceCase as MedicalInsuranceCase;
+                medicalInsuranceCase.Orders = _orderRepository.GetAll().Where(o => o.MedicalInsuranceCaseId == medicalInsuranceCase.Id).ToList();
+            }
+
+            var insuranceCaseDto = _mapper.Map<InsuranceCase, InsuranceCaseDto>(insuranceCase);
+            return insuranceCaseDto;
         }
     }
 }

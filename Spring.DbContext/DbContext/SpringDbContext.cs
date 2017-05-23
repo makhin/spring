@@ -12,6 +12,7 @@ namespace Spring.DbContext.DbContext
         public DbSet<Contract> Contracts { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<InsuranceCase> InsuranceCases { get; set; }
+        public DbSet<Order> Orders { get; set; }
         public DbSet<Mkb10> Mkb10s { get; set; }
         public DbSet<Hospital> Hospitals { get; set; }
 
@@ -38,7 +39,6 @@ namespace Spring.DbContext.DbContext
                 .Property(e => e.EndDate)
                 .HasColumnType("date");
 
-
             modelBuilder.Entity<InsuranceCase>()
                 .Property(e => e.BeginDate)
                 .HasColumnType("date");
@@ -52,6 +52,16 @@ namespace Spring.DbContext.DbContext
             modelBuilder.Entity<MedicalInsuranceCase>()
                 .Property(e => e.DocumentDate)
                 .HasColumnType("date");
+
+            modelBuilder.Entity<Order>()
+                .Property(e => e.OrderDate)
+                .HasColumnType("date");
+            modelBuilder.Entity<Order>()
+                .Property(e => e.RecipeDate)
+                .HasColumnType("date");
+            modelBuilder.Entity<Order>()
+                .Property(e => e.Amount)
+                .HasColumnType("Money");
 
             base.OnModelCreating(modelBuilder);
         }
