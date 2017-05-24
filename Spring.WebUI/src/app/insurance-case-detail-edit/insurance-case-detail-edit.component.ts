@@ -9,6 +9,7 @@ import {LookupService} from "../services/lookup.service";
 import {MedicalInsuranceCase} from "../models/MedicalInsuranceCase";
 import {Observable} from "rxjs/Rx";
 import {DataService} from "../services/data.service";
+import {Order} from "../models/Order";
 
 @Component({
   selector: 'app-insurance-case-detail-edit',
@@ -27,6 +28,9 @@ export class InsuranceCaseDetailEditComponent implements OnInit {
   hospitals: SelectItem[];
   hospitalDepartments: SelectItem[];
   mkb10s:SelectItem[];
+
+  order: Order = new Order();
+  displayOrderDialog: boolean;
 
   constructor(private router: Router,
               private activatedRoute: ActivatedRoute,
@@ -176,5 +180,9 @@ export class InsuranceCaseDetailEditComponent implements OnInit {
         this.hospitalDepartments.push({label: item.name, value: item.id});
       }
     });
+  }
+
+  showDialogToAdd() {
+    this.displayOrderDialog = true;
   }
 }

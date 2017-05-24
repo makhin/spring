@@ -1,6 +1,7 @@
 import { IEntity } from './IEntity'
 import {Hospital} from "./Hospital";
 import {Mkb10} from "./Mkb10";
+import {Order} from "./Order";
 export class InsuranceCase implements IEntity {
   id: number;
   customerId: number;
@@ -17,5 +18,6 @@ export class InsuranceCase implements IEntity {
 export class MedicalInsuranceCase extends InsuranceCase {
   reportDate: Date;
   documentDate: Date;
+  orders: Array<Order>;
 }
 

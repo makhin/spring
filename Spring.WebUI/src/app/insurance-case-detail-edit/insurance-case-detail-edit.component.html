@@ -56,6 +56,47 @@
       </div>
     </div>
 
+    <div class="form-group row">
+      <p-dataTable [value]="insuranceCase.orders" selectionMode="single" [paginator]="true" rows="15" [responsive]="true">
+        <p-header>Медикаменты</p-header>
+        <p-headerColumnGroup>
+          <p-row>
+            <p-column header="№" rowspan="2"></p-column>
+            <p-column header="Счет" colspan="2"></p-column>
+            <p-column header="Рецепт" colspan="2"></p-column>
+            <p-column header="Сумма" rowspan="2"></p-column>
+            <p-column header="Аптека" rowspan="2"></p-column>
+          </p-row>
+          <p-row>
+            <p-column header="Номер"></p-column>
+            <p-column header="Дата"></p-column>
+            <p-column header="Номер"></p-column>
+            <p-column header="Дата"></p-column>
+          </p-row>
+        </p-headerColumnGroup>
+        <p-column field="id" [style]="{'text-align':'center'}"></p-column>
+        <p-column field="orderNumber" [style]="{'text-align':'center'}"></p-column>
+        <p-column field="orderDate" [style]="{'text-align':'center'}">
+          <ng-template let-col let-med="rowData" pTemplate="body" >
+            {{med.orderDate | date:'dd.MM.yyyy'}}
+          </ng-template>
+        </p-column>
+        <p-column field="recipeNumber" [style]="{'text-align':'center'}"></p-column>
+        <p-column field="recipedate" [style]="{'text-align':'center'}">
+          <ng-template let-col let-med="rowData" pTemplate="body" >
+            {{med.recipeDate | date:'dd.MM.yyyy'}}
+          </ng-template>
+        </p-column>
+        <p-column field="amount" [style]="{'text-align':'right'}">
+          <ng-template let-col let-med="rowData" pTemplate="body">
+            {{med.amount |  number:'1.2-2'}}
+          </ng-template>
+        </p-column>
+        <p-column field="pharmacy" [style]="{'text-align':'center'}"></p-column>
+        <p-footer><div class="ui-helper-clearfix" style="width:100%"><button type="button" value="AddOrder" (click)="showDialogToAdd()" class="btn btn-primary">Добавить</button></div></p-footer>
+      </p-dataTable>
+    </div>
+
     <div class="d-flex justify-content-between">
       <button type="button" value="Back" (click)="onBack()" class="btn btn-primary">Назад</button>
       <div *ngIf="insuranceCase.id != 0; else elseBlock">
@@ -71,4 +112,60 @@
     <div class="row">&nbsp;</div>
   </div>
 </form>
+<p-dialog header="Медикаменты" [(visible)]="displayOrderDialog" [responsive]="true" showEffect="fade" [modal]="true" [width] = "500">
+  <div class="container pt-md-2 pb-md-5 mb-md-4 bg-faded" *ngIf="order">
+    <fieldset class="form-group">
+      <legend>Счёт</legend>
+      <div class="form-group row">
+        <label class="col-md-3 col-form-label"for="orderDate">Дата:</label>
+        <div class="input-group col-md-2">
+          <p-calendar id="orderDate" [(ngModel)]="order.orderDate" name="orderDate" [showIcon]="true" [locale]="ru" dateFormat="{{dateFormat}}"></p-calendar>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-md-3 col-form-label"for="orderNumber">Номер:</label>
+        <div class="input-group col-md-2">
+          <input pInputText id="orderNumber" [(ngModel)]="order.orderNumber" />
+        </div>
+      </div>
+    </fieldset>
+    <fieldset class="form-group">
+      <legend>Рецепт</legend>
+      <div class="form-group row">
+        <label class="col-md-3 col-form-label"for="orderDate">Дата:</label>
+        <div class="input-group col-md-2">
+          <p-calendar id="recipeDate" [(ngModel)]="order.recipeDate" name="recipeDate" [showIcon]="true" [locale]="ru" dateFormat="{{dateFormat}}"></p-calendar>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-md-3 col-form-label"for="recipeNumber">Номер:</label>
+        <div class="input-group col-md-2">
+          <input pInputText id="recipeNumber" [(ngModel)]="order.recipeNumber" />
+        </div>
+      </div>
+    </fieldset>
+    <fieldset class="form-group">
+      <legend> </legend>
+      <div class="form-group row">
+        <label class="col-md-3 col-form-label"for="amount">Сумма:</label>
+        <div class="input-group col-md-3">
+          <input pInputText id="amount" [(ngModel)]="order.amount" />
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-md-3 col-form-label"for="pharmacy">Аптека:</label>
+        <div class="input-group col-md-3">
+          <input pInputText id="pharmacy" [(ngModel)]="order.pharmacy" />
+        </div>
+      </div>
+    </fieldset>
+  </div>
+  <p-footer>
+    <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+      <button type="button" pButton icon="fa-close" (click)="delete()" label="Delete"></button>
+      <button type="button" pButton icon="fa-check" (click)="save()" label="Save"></button>
+    </div>
+  </p-footer>
+</p-dialog>
+
 

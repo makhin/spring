@@ -13,6 +13,7 @@ import {InputMaskModule} from 'primeng/components/inputmask/inputmask';
 import {SelectButtonModule} from 'primeng/components/selectbutton/selectbutton';
 import {DropdownModule} from 'primeng/components/dropdown/dropdown';
 import {AutoCompleteModule} from 'primeng/components/autocomplete/autocomplete';
+import {DialogModule} from 'primeng/components/dialog/dialog';
 
 import { AppComponent } from './app.component';
 import { ContractListComponent } from './contract-list/contract-list.component';
@@ -73,6 +74,7 @@ import { InsuranceCaseDetailEditComponent } from './insurance-case-detail-edit/i
     SelectButtonModule,
     DropdownModule,
     AutoCompleteModule,
+    DialogModule,
     RouterModule,
     AppRouting
   ],
