@@ -21,6 +21,7 @@ export class InsuranceCaseDetailEditComponent implements OnInit {
   insuranceCase: MedicalInsuranceCase;
   id: number;
   caseForm: FormGroup;
+  orderForm: FormGroup;
   ru: any;
   dateFormat: string;
   therapy: SelectItem[];
@@ -29,7 +30,7 @@ export class InsuranceCaseDetailEditComponent implements OnInit {
   hospitalDepartments: SelectItem[];
   mkb10s:SelectItem[];
 
-  order: Order = new Order();
+  order: Order;
   displayOrderDialog: boolean;
 
   constructor(private router: Router,
@@ -105,6 +106,17 @@ export class InsuranceCaseDetailEditComponent implements OnInit {
     });
     this.caseForm.valueChanges
       .subscribe(data => this.onValueChanged(data));
+  }
+
+  buildOrderForm(): void {
+    this.orderForm = this.fb.group({
+      'orderDate': [this.order.orderDate],
+      'orderNumber': [this.order.orderNumber],
+      'recipeDate': [this.order.recipeDate],
+      'recipeNumber': [this.order.recipeNumber],
+      'amount': [this.order.amount],
+      'pharmacy': [this.order.pharmacy]
+    });
   }
 
   onValueChanged(data?: any) {
@@ -183,6 +195,8 @@ export class InsuranceCaseDetailEditComponent implements OnInit {
   }
 
   showDialogToAdd() {
+    this.order = new Order();
+    this.buildOrderForm();
     this.displayOrderDialog = true;
   }
 }
