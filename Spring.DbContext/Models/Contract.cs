@@ -22,10 +22,10 @@ namespace Spring.DbContext.Models
         public string Description { get; set; }
 
         [DataType(DataType.Date)]
-        public DateTime BeginDate { get; set; }
+        public DateTime? BeginDate { get; set; }
 
         [DataType(DataType.Date)]
-        public DateTime EndDate { get; set; }
+        public DateTime? EndDate { get; set; }
 
         [Required]
         public bool IsActive { get; set; }
