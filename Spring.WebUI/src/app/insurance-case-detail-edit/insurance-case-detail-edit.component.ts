@@ -28,14 +28,14 @@ export class InsuranceCaseDetailEditComponent implements OnInit {
   treatments: SelectItem[];
   hospitals: SelectItem[];
   hospitalDepartments: SelectItem[];
-  mkb10s:SelectItem[];
+  mkb10s: SelectItem[];
 
   order: Order;
   displayOrderDialog: boolean;
 
   constructor(private router: Router,
               private activatedRoute: ActivatedRoute,
-              private loadingBarService:SlimLoadingBarService,
+              private loadingBarService: SlimLoadingBarService,
               private toastrService: ToastrService,
               private lookupService: LookupService,
               private dataService: DataService,
@@ -52,19 +52,19 @@ export class InsuranceCaseDetailEditComponent implements OnInit {
     this.dateFormat = Localization.dateFormatRu();
 
     this.lookupService.getTherapy().subscribe((data: any) => {
-      this.therapy.push({label:'', value: null});
+      this.therapy.push({label: '', value: null});
       for (let item of data) {
         this.therapy.push({label: item, value: item});
       }
     });
     this.lookupService.getThreatment().subscribe((data: any) => {
-      this.treatments.push({label:'', value: null});
+      this.treatments.push({label: '', value: null});
       for (let item of data) {
         this.treatments.push({label: item, value: item});
       }
     });
     this.lookupService.getHospital(null).subscribe((data: any) => {
-      this.hospitals.push({label:'', value: null});
+      this.hospitals.push({label: '', value: null});
       for (let item of data) {
         this.hospitals.push({label: item.name, value: item.id});
       }
@@ -73,10 +73,10 @@ export class InsuranceCaseDetailEditComponent implements OnInit {
     this.hospitalDepartments = [];
 
     this.activatedRoute.url.subscribe(segments => {
-      if (segments[2].path === "new"){
+      if (segments[2].path === "new") {
         this.id = 0;
         this.customerId = +segments[1].path;
-      }else {
+      } else {
         this.id = +segments[1].path;
       }
       if (this.id > 0) {
@@ -129,7 +129,7 @@ export class InsuranceCaseDetailEditComponent implements OnInit {
       if (control && control.dirty && !control.valid) {
         const message = this.validationMessages[controlName];
         for (const key in control.errors) {
-          this.toastrService.error(message[key], null, )
+          this.toastrService.error(message[key], null,)
         }
       }
     }
@@ -154,7 +154,7 @@ export class InsuranceCaseDetailEditComponent implements OnInit {
       }
     ).subscribe((data: MedicalInsuranceCase) => {
         this.customerId = data.customerId;
-        if (data.hospitalDepartmentId != null){
+        if (data.hospitalDepartmentId != null) {
           this.lookupService.getHospital(data.hospitalId).subscribe((dpts) => {
             this.hospitalDepartments = [];
             this.hospitalDepartments.push({label: '', value: null});
@@ -178,13 +178,13 @@ export class InsuranceCaseDetailEditComponent implements OnInit {
       });
   }
 
-  onMkb10Lookup(event){
+  onMkb10Lookup(event) {
     this.lookupService.getMkb10(event.query).subscribe(data => {
       this.mkb10s = data;
     });
   }
 
-  onHospitalChange(event){
+  onHospitalChange(event) {
     this.lookupService.getHospital(event.value).subscribe((dpts) => {
       this.hospitalDepartments = [];
       this.hospitalDepartments.push({label: '', value: null});
@@ -195,8 +195,11 @@ export class InsuranceCaseDetailEditComponent implements OnInit {
   }
 
   showDialogToAdd() {
-    this.order = new Order();
-    this.buildOrderForm();
-    this.displayOrderDialog = true;
+    Observable.of(new Order()).subscribe(
+      order => {
+        this.order = order;
+        this.buildOrderForm();
+        this.displayOrderDialog = true;
+      });
   }
 }

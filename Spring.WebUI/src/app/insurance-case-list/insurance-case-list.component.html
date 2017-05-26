@@ -1,11 +1,11 @@
 <div class="container">
   <div class="row mb-md-2 mt-md-2">
     <div class="col-md-6">
-      <button type="button" value="Back"  class="btn btn-primary">Назад</button>
+      <button type="button" value="Back" (click)="onBack()" class="btn btn-primary">Назад</button>
     </div>
     <div class="col-md-6 text-right">
-      <button type="button" value="Save" class="btn btn-primary">Добавить</button>
-      <button type="button" value="Edit" class="btn btn-primary" [disabled]="!caseId">Изменить</button>
+      <button type="button" value="Save" (click)="onAdd(customerId)" class="btn btn-primary">Добавить</button>
+      <button type="button" value="Edit" (click)="onEdit(caseId)" class="btn btn-primary" [disabled]="!caseId">Изменить</button>
     </div>
   </div>
   <p-dataTable [value]="insuranceCaseItems" [rows]="20" [paginator]="false" emptyMessage="Не найдено ни одного случая"

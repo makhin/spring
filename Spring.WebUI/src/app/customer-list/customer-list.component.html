@@ -6,6 +6,7 @@
     <div class="col-md-4">
       <button type="button" value="Save" (click)="onInsert(contractId)" class="btn btn-primary">Добавить</button>
       <button type="button" value="Edit" (click)="onEdit(customerShort.id)" class="btn btn-primary" [disabled]="!customerShort">Изменить</button>
+      <button type="button" value="Edit" (click)="onInsuranceCases(customerShort.id)" class="btn btn-primary" [disabled]="!customerShort">Случаи</button>
     </div>
     <div class="col-md-4">
       <input #gb type="text" class="form-control mr-sm-2" pInputText size="25" placeholder="Поиск по ФИО и ИНН">

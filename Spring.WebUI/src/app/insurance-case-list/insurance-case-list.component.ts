@@ -29,4 +29,16 @@ export class InsuranceCaseListComponent implements OnInit {
   onRowSelect(event) {
     this.caseId = event.data.id
   }
+
+  onEdit(id: number) {
+    this.router.navigate(['case', id, 'edit']);
+  }
+
+  onInsert(id: number) {
+    this.router.navigate(['case', id, 'new' ]);
+  }
+
+  onBack() {
+    this.router.navigate(['']);
+  }
 }

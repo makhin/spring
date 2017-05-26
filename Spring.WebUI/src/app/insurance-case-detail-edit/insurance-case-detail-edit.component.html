@@ -112,8 +112,9 @@
     <div class="row">&nbsp;</div>
   </div>
 </form>
-<p-dialog header="Медикаменты" [(visible)]="displayOrderDialog" showEffect="fade" [modal]="true" [width] = "500">
-    <div class="container pt-md-2 pb-md-5 mb-md-4 bg-faded" *ngIf="order">
+
+<p-dialog header="Медикаменты" [(visible)]="displayOrderDialog" showEffect="fade" [modal]="true" [width] = "500" *ngIf="order">
+    <div class="container pt-md-2 pb-md-5 mb-md-4 bg-faded">
       <form [formGroup]="orderForm" (ngSubmit)="onSubmitOrder()">
       <fieldset class="form-group">
         <legend>Счёт</legend>
@@ -125,7 +126,7 @@
         </div>
         <div class="form-group row">
           <label class="col-md-3 col-form-label"for="orderNumber">Номер:</label>
-          <div class="input-group col-md-2">
+          <div class="input-group col-md-6">
             <input type="text" class="form-control" id="orderNumber" [formControl]="orderForm.controls['orderNumber']" />
           </div>
         </div>
@@ -140,7 +141,7 @@
         </div>
         <div class="form-group row">
           <label class="col-md-3 col-form-label"for="recipeNumber">Номер:</label>
-          <div class="input-group col-md-2">
+          <div class="input-group col-md-6">
             <input type="text" class="form-control" id="recipeNumber" [formControl]="orderForm.controls['recipeNumber']" />
           </div>
         </div>
@@ -149,13 +150,13 @@
         <legend> </legend>
         <div class="form-group row">
           <label class="col-md-3 col-form-label"for="amount">Сумма:</label>
-          <div class="input-group col-md-3">
+          <div class="input-group col-md-6">
             <input type="text" class="form-control" id="amount" [formControl]="orderForm.controls['amount']" />
           </div>
         </div>
         <div class="form-group row">
           <label class="col-md-3 col-form-label"for="pharmacy">Аптека:</label>
-          <div class="input-group col-md-3">
+          <div class="input-group col-md-6">
             <input type="text" class="form-control" id="pharmacy" [formControl]="orderForm.controls['pharmacy']" />
           </div>
         </div>

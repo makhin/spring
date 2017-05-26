@@ -54,6 +54,10 @@ export class CustomerListComponent implements OnInit {
     this.router.navigate(['customer', id, 'new' ]);
   }
 
+  onInsuranceCases(id: number) {
+    this.router.navigate(['customer', id, 'cases' ]);
+  }
+
   onBack() {
     this.router.navigate(['']);
   }

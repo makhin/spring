@@ -5,6 +5,7 @@ import { HttpModule } from '@angular/http';
 import { Router, RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
+import { MoneyMaskModule } from 'ng2-money-mask';
 
 import {DataTableModule} from 'primeng/components/datatable/datatable';
 import {CalendarModule} from 'primeng/components/calendar/calendar';
