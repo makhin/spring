@@ -36,3 +36,11 @@ body {
   100% { transform: rotate(360deg); }
 }
 
+.border {
+  border: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+.ui-calendar.ui-calendar-w-btn input{
+  width: 7em;
+}
+

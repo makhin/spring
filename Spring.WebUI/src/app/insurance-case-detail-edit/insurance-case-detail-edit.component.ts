@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {AbstractControl, FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {SelectItem} from "primeng/dist/components/common/api";
 import {ActivatedRoute, Router} from "@angular/router";
 import {SlimLoadingBarService} from "ng2-slim-loading-bar";
@@ -21,7 +21,6 @@ export class InsuranceCaseDetailEditComponent implements OnInit {
   insuranceCase: MedicalInsuranceCase;
   id: number;
   caseForm: FormGroup;
-  orderForm: FormGroup;
   ru: any;
   dateFormat: string;
   therapy: SelectItem[];
@@ -29,9 +28,6 @@ export class InsuranceCaseDetailEditComponent implements OnInit {
   hospitals: SelectItem[];
   hospitalDepartments: SelectItem[];
   mkb10s: SelectItem[];
-
-  order: Order;
-  displayOrderDialog: boolean;
 
   constructor(private router: Router,
               private activatedRoute: ActivatedRoute,
@@ -102,35 +98,64 @@ export class InsuranceCaseDetailEditComponent implements OnInit {
       'beginDate': [this.insuranceCase.beginDate],
       'endDate': [this.insuranceCase.endDate],
       'reportDate': [this.insuranceCase.reportDate],
-      'documentDate': [this.insuranceCase.documentDate]
+      'documentDate': [this.insuranceCase.documentDate],
+      'orders': this.fb.array(this.buildOrderForm(this.insuranceCase.orders))
     });
     this.caseForm.valueChanges
       .subscribe(data => this.onValueChanged(data));
   }
 
-  buildOrderForm(): void {
-    this.orderForm = this.fb.group({
-      'orderDate': [this.order.orderDate],
-      'orderNumber': [this.order.orderNumber],
-      'recipeDate': [this.order.recipeDate],
-      'recipeNumber': [this.order.recipeNumber],
-      'amount': [this.order.amount],
-      'pharmacy': [this.order.pharmacy]
+  buildOrderForm(orders: Order[]):AbstractControl[] {
+    let orderControls:AbstractControl[] = [];
+
+    for(let order of orders){
+      orderControls.push(this.createOrderGroup(order));
+    }
+
+    return orderControls;
+  }
+
+  createOrderGroup(order: Order){
+    let formGroup = this.fb.group({
+      'id':[order.id],
+      'orderDate': [order.recipeDate],
+      'orderNumber': [order.orderNumber],
+      'recipeDate': [order.recipeDate],
+      'recipeNumber': [order.recipeNumber],
+      'amount': [order.amount, [Validators.required]],
+      'pharmacy': [order.pharmacy]
     });
+    return formGroup;
   }
 
   onValueChanged(data?: any) {
     if (!this.caseForm) {
       return;
     }
-    const form = this.caseForm;
-    for (const controlName in this.caseForm.controls) {
-      const control = form.get(controlName);
-      if (control && control.dirty && !control.valid) {
-        const message = this.validationMessages[controlName];
-        for (const key in control.errors) {
-          this.toastrService.error(message[key], null,)
+    this.iterateByFormGroup(this.caseForm);
+  }
+
+  iterateByFormGroup(group: FormGroup){
+    for (let controlName in group.controls) {
+      const control = group.get(controlName);
+      if (control instanceof FormArray){
+        console.log(control);
+        for (let gr of control.controls) {
+          this.iterateByFormGroup(<FormGroup>gr)
         }
+      }
+      else{
+        this.showValidationMessage(controlName, control)
+      }
+    }
+  }
+
+  showValidationMessage(controlName: string, control: AbstractControl) {
+    if (control && control.dirty && !control.valid) {
+      console.log(control);
+      const message = this.validationMessages[controlName];
+      for (const key in control.errors) {
+        this.toastrService.error(message[key], null,)
       }
     }
   }
@@ -138,7 +163,10 @@ export class InsuranceCaseDetailEditComponent implements OnInit {
   validationMessages = {
     'mkb10': {
       'required': 'Диагноз обязателен',
-    }
+    },
+    'amount':{
+      'required': 'Сумма обязательна',
+    },
   };
 
   loadCase() {
@@ -194,12 +222,13 @@ export class InsuranceCaseDetailEditComponent implements OnInit {
     });
   }
 
-  showDialogToAdd() {
-    Observable.of(new Order()).subscribe(
-      order => {
-        this.order = order;
-        this.buildOrderForm();
-        this.displayOrderDialog = true;
-      });
+  addOrder() {
+    const control = <FormArray>this.caseForm.controls['orders'];
+    control.push(this.createOrderGroup(new Order()));
+  }
+
+  removeOrder(i: number) {
+    const control = <FormArray>this.caseForm.controls['orders'];
+    control.removeAt(i);
   }
 }

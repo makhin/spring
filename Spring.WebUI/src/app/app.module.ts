@@ -42,6 +42,7 @@ import {Localization} from "./Shared/Localization";
 import { InsuranceCaseListComponent } from './insurance-case-list/insurance-case-list.component';
 import {LookupService} from "./services/lookup.service";
 import { InsuranceCaseDetailEditComponent } from './insurance-case-detail-edit/insurance-case-detail-edit.component';
+import {OnlyNumber} from "app/Shared/onlyNumber-directive";
 
 @NgModule({
   declarations: [
@@ -58,7 +59,8 @@ import { InsuranceCaseDetailEditComponent } from './insurance-case-detail-edit/i
     CustomerListComponent,
     CustomerDetailEditComponent,
     InsuranceCaseListComponent,
-    InsuranceCaseDetailEditComponent
+    InsuranceCaseDetailEditComponent,
+    OnlyNumber
   ],
   imports: [
     BrowserModule,
