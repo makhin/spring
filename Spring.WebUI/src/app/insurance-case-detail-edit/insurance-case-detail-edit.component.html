@@ -10,13 +10,13 @@
     <div class="form-group row">
       <label for="hospital" class="col-md-3 col-form-label">ЛПУ:</label>
       <div class="col-md-4">
-        <p-dropdown [options]="hospitals" id="hospital" name="hospital" [formControl]="caseForm.controls['hospital']" (onChange) = "onHospitalChange($event)"></p-dropdown>
+        <p-dropdown [options]="hospitals" id="hospital" name="hospital" [formControl]="caseForm.controls['hospitalId']" (onChange) = "onHospitalChange($event)"></p-dropdown>
       </div>
     </div>
     <div class="form-group row">
       <label for="hospitalDepartment" class="col-md-3 col-form-label">Отделение:</label>
       <div class="col-md-4">
-        <p-dropdown [options]="hospitalDepartments" id="hospitalDepartment" name="hospitalDepartment" [formControl]="caseForm.controls['hospitalDepartment']"></p-dropdown>
+        <p-dropdown [options]="hospitalDepartments" id="hospitalDepartment" name="hospitalDepartment" [formControl]="caseForm.controls['hospitalDepartmentId']"></p-dropdown>
       </div>
     </div>
     <div class="form-group row">
@@ -113,7 +113,7 @@
               <input type="text" class="form-control" id="amount" formControlName="amount" OnlyNumber="true">
             </div>
             <div class="col-2 form-group">
-                <input type="text" class="form-control" id="pharmacy" formControlName="pharmacy">
+              <input type="text" class="form-control" id="pharmacy" formControlName="pharmacy">
             </div>
             <div class="col-1 pt-1">
               <button type="button" value="Delete" class="btn btn-primary  btn-sm" aria-label="Delete" href="#" (click)="removeOrder(i)">

@@ -44,3 +44,7 @@ body {
   width: 7em;
 }
 
+.ui-dropdown    {
+  width:100% !important;
+}
+

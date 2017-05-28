@@ -4,7 +4,14 @@
       <button type="button" value="Back" (click)="onBack()" class="btn btn-primary">Назад</button>
     </div>
     <div class="col-md-6 text-right">
-      <button type="button" value="Save" (click)="onAdd(customerId)" class="btn btn-primary">Добавить</button>
+      <div class="btn-group">
+        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownCaseButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Добавить
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownCaseButton">
+          <button type="button" class="dropdown-item" href="#" (click)="onInsert(customerId)">Медицина</button>
+        </div>
+      </div>
       <button type="button" value="Edit" (click)="onEdit(caseId)" class="btn btn-primary" [disabled]="!caseId">Изменить</button>
     </div>
   </div>

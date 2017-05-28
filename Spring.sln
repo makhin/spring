@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26403.3
+VisualStudioVersion = 15.0.26430.6
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spring.WebApi", "Spring.WebApi\Spring.WebApi.csproj", "{791AC2E9-C7AD-4EED-87CE-2B1353075251}"
 EndProject
@@ -14,6 +14,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spring.Repositories", "Spring.Repositories\Spring.Repositories.csproj", "{CB98DC9A-FDB1-4A54-AC14-46C9DE8F566F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spring.Common", "Spring.Common\Spring.Common.csproj", "{1D1B1139-88DA-4B73-9CFF-60787B40C450}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spring.Tests", "Spring.Tests\Spring.Tests.csproj", "{93491144-87DA-4BB5-A9D5-1F4009EEA03E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{1D1B1139-88DA-4B73-9CFF-60787B40C450}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1D1B1139-88DA-4B73-9CFF-60787B40C450}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1D1B1139-88DA-4B73-9CFF-60787B40C450}.Release|Any CPU.Build.0 = Release|Any CPU
+		{93491144-87DA-4BB5-A9D5-1F4009EEA03E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93491144-87DA-4BB5-A9D5-1F4009EEA03E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93491144-87DA-4BB5-A9D5-1F4009EEA03E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93491144-87DA-4BB5-A9D5-1F4009EEA03E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

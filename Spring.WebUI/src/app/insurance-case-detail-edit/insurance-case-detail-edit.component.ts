@@ -6,10 +6,11 @@ import {SlimLoadingBarService} from "ng2-slim-loading-bar";
 import {ToastrService} from "ngx-toastr";
 import {Localization} from "../Shared/Localization";
 import {LookupService} from "../services/lookup.service";
-import {MedicalInsuranceCase} from "../models/MedicalInsuranceCase";
+import {MedicalInsuranceCase} from "../models/InsuranceCase";
 import {Observable} from "rxjs/Rx";
 import {DataService} from "../services/data.service";
 import {Order} from "../models/Order";
+import {Mkb10} from "../models/Mkb10";
 
 @Component({
   selector: 'app-insurance-case-detail-edit',
@@ -80,8 +81,9 @@ export class InsuranceCaseDetailEditComponent implements OnInit {
       }
       else {
         this.insuranceCase = new MedicalInsuranceCase();
-        this.insuranceCase.id = 0;
         this.insuranceCase.customerId = this.customerId;
+        this.insuranceCase.id = 0;
+        this.insuranceCase.orders = new Array<Order>();
         this.buildForm();
         this.loadingBarService.complete();
       }
@@ -93,8 +95,8 @@ export class InsuranceCaseDetailEditComponent implements OnInit {
       'mkb10': [this.insuranceCase.mkb10, [Validators.required]],
       'therapy': [this.insuranceCase.therapy],
       'treatment': [this.insuranceCase.treatment],
-      'hospital': [this.insuranceCase.hospitalId],
-      'hospitalDepartment': [this.insuranceCase.hospitalDepartmentId],
+      'hospitalId': [this.insuranceCase.hospitalId],
+      'hospitalDepartmentId': [this.insuranceCase.hospitalDepartmentId],
       'beginDate': [this.insuranceCase.beginDate],
       'endDate': [this.insuranceCase.endDate],
       'reportDate': [this.insuranceCase.reportDate],
@@ -106,8 +108,10 @@ export class InsuranceCaseDetailEditComponent implements OnInit {
   }
 
   buildOrderForm(orders: Order[]):AbstractControl[] {
+    if (orders == null){
+      return;
+    }
     let orderControls:AbstractControl[] = [];
-
     for(let order of orders){
       orderControls.push(this.createOrderGroup(order));
     }
@@ -170,17 +174,7 @@ export class InsuranceCaseDetailEditComponent implements OnInit {
   };
 
   loadCase() {
-    this.dataService.getInsuranceCase(this.id).map((data: MedicalInsuranceCase) => {
-        if (data.hospital.parentId == null) {
-          data.hospitalId = data.hospital.id
-        }
-        else {
-          data.hospitalId = data.hospital.parentId;
-          data.hospitalDepartmentId = data.hospital.id;
-        }
-        return data;
-      }
-    ).subscribe((data: MedicalInsuranceCase) => {
+    this.dataService.getInsuranceCase(this.id).subscribe((data: MedicalInsuranceCase) => {
         this.customerId = data.customerId;
         if (data.hospitalDepartmentId != null) {
           this.lookupService.getHospital(data.hospitalId).subscribe((dpts) => {
@@ -224,11 +218,49 @@ export class InsuranceCaseDetailEditComponent implements OnInit {
 
   addOrder() {
     const control = <FormArray>this.caseForm.controls['orders'];
-    control.push(this.createOrderGroup(new Order()));
+    let order = new Order();
+    order.id = 0;
+    control.push(this.createOrderGroup(order));
   }
 
   removeOrder(i: number) {
     const control = <FormArray>this.caseForm.controls['orders'];
     control.removeAt(i);
+  }
+
+  onInsert() {
+    this.insuranceCase = this.caseForm.value;
+    this.insuranceCase.customerId = this.customerId;
+    this.loadingBarService.start();
+    this.dataService.addMedicalInsuranceCase(this.insuranceCase).subscribe(
+      (data) => {
+        this.insuranceCase = data;
+        this.loadingBarService.complete();
+        this.toastrService.success('Сохранено');
+        this.router.navigate(['']);
+      },
+      error => {
+        this.loadingBarService.complete();
+        this.toastrService.error(error, 'Ошибка добавления');
+        console.log(error);
+      });
+  }
+
+
+  onUpdate() {
+    this.insuranceCase = this.caseForm.value;
+    this.insuranceCase.id = this.id;
+    this.insuranceCase.customerId = this.customerId;
+    this.loadingBarService.start();
+    this.dataService.editMedicalInsuranceCase(this.insuranceCase)
+      .subscribe(() => {
+          this.loadingBarService.complete();
+          this.toastrService.success('Сохранено');
+        },
+        error => {
+          this.loadingBarService.complete();
+          this.toastrService.error(error, 'Ошибка сохранения');
+          console.log(error);
+        });
   }
 }

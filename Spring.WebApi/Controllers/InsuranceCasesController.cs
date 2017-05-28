@@ -1,7 +1,11 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Spring.Dto;
 using Spring.Services;
+using Spring.WebApi.Helpers;
 
 namespace Spring.WebApi.Controllers
 {
@@ -38,6 +42,49 @@ namespace Spring.WebApi.Controllers
             }
 
             return Ok(value);
+        }
+
+        [HttpPost("medical")]
+        public async Task<IActionResult> Post([FromBody]MedicalInsuranceCaseDto value)
+        {
+            ICollection<ValidationResult> results;
+
+            if (!value.IsModelValid(out results))
+            {
+                return BadRequest(results);
+            }
+
+            try
+            {
+                await _service.UpdateMedical(value);
+                return Ok();
+            }
+            catch (Exception)
+            {
+                return NotFound("An error occurred; record not updated");
+            }
+        }
+
+        // POST api/sampleData
+        [HttpPut("medical")]
+        public async Task<IActionResult> Put([FromBody]MedicalInsuranceCaseDto value)
+        {
+            ICollection<ValidationResult> results;
+
+            if (!value.IsModelValid(out results))
+            {
+                return BadRequest(results);
+            }
+
+            try
+            {
+                await _service.InsertMedical(value);
+                return Ok(value);
+            }
+            catch (Exception)
+            {
+                return NotFound("An error occurred; new record not saved");
+            }
         }
     }
 }

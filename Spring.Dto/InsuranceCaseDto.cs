@@ -22,7 +22,9 @@ namespace Spring.Dto
 
         public Therapy? Therapy { get; set; }
 
-        public HospitalDto Hospital { get; set; }
+        public int? HospitalId { get; set; }
+
+        public int? HospitalDepartmentId { get; set; }
 
         public DateTime? BeginDate { get; set; }
 

@@ -7,7 +7,7 @@ namespace Spring.DbContext.Models
         public int Id { get; set; }
 
         [ForeignKey("Hospital")]
-        public int ParentId { get; set; }
+        public int? ParentId { get; set; }
 
         public virtual Hospital Parent { get; set; }
 

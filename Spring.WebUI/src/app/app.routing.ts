@@ -22,6 +22,7 @@ const appRoutes: Routes = [
     { path: 'customer/:id/edit', component: CustomerDetailEditComponent, data: { title: 'Клиент' }  },
     { path: 'customer/:id/cases', component: InsuranceCaseListComponent, data: { title: 'Случаи' }  },
     { path: 'case/:id/edit', component: InsuranceCaseDetailEditComponent, data: { title: 'Случаи' }  },
+    { path: 'case/:id/new', component: InsuranceCaseDetailEditComponent, data: { title: 'Случаи' }  },
     { path: 'register', component: RegisterComponent, data: { title: 'Register' } },
     { path: 'about', component: AboutComponent, data: { title: 'About' } },
     { path: '**', component: PageNotFoundComponent }

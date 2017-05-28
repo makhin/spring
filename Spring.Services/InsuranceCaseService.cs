@@ -14,19 +14,22 @@ namespace Spring.Services
     {
         Task<IEnumerable<InsuranceCaseItemDto>> GetAllByCustomerId(int id);
         Task<InsuranceCaseDto> Get(int id);
+        Task<MedicalInsuranceCaseDto> UpdateMedical(MedicalInsuranceCaseDto dto);
+
+        Task<MedicalInsuranceCaseDto> InsertMedical(MedicalInsuranceCaseDto dto);
     }
 
     public class InsuranceCaseService : IInsuranceCaseService
     {
         private readonly IRepository<InsuranceCase> _insuranceCaseRepository;
-        private readonly IRepository<Order> _orderRepository;
+        private readonly IRepository<MedicalInsuranceCase> _medicalInsuranceCaseRepository;
         private readonly IMapper _mapper;
 
-        public InsuranceCaseService(IRepository<InsuranceCase> insuranceCaseRepository, IRepository<Order> orderRepository, IMapper mapper)
+        public InsuranceCaseService(IRepository<InsuranceCase> insuranceCaseRepository, IMapper mapper, IRepository<MedicalInsuranceCase> medicalInsuranceCaseRepository)
         {
-            _orderRepository = orderRepository;
             _insuranceCaseRepository = insuranceCaseRepository;
-            _mapper = mapper;            
+            _mapper = mapper;
+            _medicalInsuranceCaseRepository = medicalInsuranceCaseRepository;
         }
 
         public async Task<IEnumerable<InsuranceCaseItemDto>> GetAllByCustomerId(int id)
@@ -39,15 +42,29 @@ namespace Spring.Services
 
         public async Task<InsuranceCaseDto> Get(int id)
         {
-            var insuranceCase = await _insuranceCaseRepository.Get(id, ic => ic.Mkb10, ic => ic.Hospital);
+            var insuranceCase = await _insuranceCaseRepository.Get(id);
+
             if (insuranceCase is MedicalInsuranceCase)
             {
-                var medicalInsuranceCase = insuranceCase as MedicalInsuranceCase;
-                medicalInsuranceCase.Orders = _orderRepository.GetAll().Where(o => o.MedicalInsuranceCaseId == medicalInsuranceCase.Id).ToList();
+                var medicalInsuranceCase = await _medicalInsuranceCaseRepository.Get(id, ic => ic.Mkb10, ic => ic.Hospital, ic => ic.Orders);
+                var medicalInsuranceCaseDto = _mapper.Map<MedicalInsuranceCase, MedicalInsuranceCaseDto>(medicalInsuranceCase);
+                return medicalInsuranceCaseDto;
             }
+            return null;
+        }
 
-            var insuranceCaseDto = _mapper.Map<InsuranceCase, InsuranceCaseDto>(insuranceCase);
-            return insuranceCaseDto;
+        public async Task<MedicalInsuranceCaseDto> UpdateMedical(MedicalInsuranceCaseDto dto)
+        {
+            var medicalInsuranceCase = _mapper.Map<MedicalInsuranceCaseDto, MedicalInsuranceCase>(dto);
+            await _medicalInsuranceCaseRepository.Update(medicalInsuranceCase);
+            return dto;
+        }
+
+        public async Task<MedicalInsuranceCaseDto> InsertMedical(MedicalInsuranceCaseDto dto)
+        {
+            var medicalInsuranceCase = _mapper.Map<MedicalInsuranceCaseDto, MedicalInsuranceCase>(dto);
+            await _medicalInsuranceCaseRepository.Insert(medicalInsuranceCase);
+            return dto;
         }
     }
 }

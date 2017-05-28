@@ -12,7 +12,7 @@ import {PaginatedResult, Pagination} from "../models/Pagination";
 import {CustomerShort} from "../models/CustomerShort";
 import {Customer} from "../models/Customer";
 import {InsuranceCaseItem} from "../models/InsuranceCaseItem";
-import {InsuranceCase, MedicalInsuranceCase} from "../models/MedicalInsuranceCase";
+import {InsuranceCase, MedicalInsuranceCase} from "../models/InsuranceCase";
 import {Localization} from "../Shared/Localization";
 import {ErrorHandler} from "app/Shared/ErrorHandler";
 
@@ -158,5 +158,24 @@ export class DataService {
     .map((resp: Response) => JSON.parse(resp.text(), Localization.reviver))
     .map((data: InsuranceCase) => data)
     .catch(ErrorHandler.handleError);
+  }
+
+  editMedicalInsuranceCase(medicalInsuranceCase: MedicalInsuranceCase) {
+    const clone = { ...(new MedicalInsuranceCase()), ...medicalInsuranceCase };
+    let body = JSON.stringify(clone, Localization.replacer);
+    return this.http
+      .post('api/insurancecases/medical', body, { headers: this.authService.jsonHeaders() })
+      .map((resp: Response) => {return;})
+      .catch(ErrorHandler.handleError);
+  }
+
+  addMedicalInsuranceCase(medicalInsuranceCase: MedicalInsuranceCase) {
+    const clone = { ...(new MedicalInsuranceCase()), ...medicalInsuranceCase };
+    let body = JSON.stringify(clone, Localization.replacer);
+    return this.http
+      .put('api/insurancecases/medical', body, { headers: this.authService.jsonHeaders() })
+      .map((resp: Response) => JSON.parse(resp.text(), Localization.reviver))
+      .map((data: Contract) => data)
+      .catch(ErrorHandler.handleError);
   }
 }
