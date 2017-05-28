@@ -190,6 +190,6 @@ export class CustomerDetailEditComponent implements OnInit {
   }
 
   onBack() {
-    this.router.navigate(['']);
+    this.router.navigate(['contract',this.contractId, 'customers']);
   }
 }

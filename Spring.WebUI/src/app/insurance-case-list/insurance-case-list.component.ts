@@ -11,6 +11,7 @@ import {DataService} from "../services/data.service";
 export class InsuranceCaseListComponent implements OnInit {
   insuranceCaseItems: InsuranceCaseItem[];
   customerId: number;
+  contractId: number;
   caseId: number;
 
   constructor(private activatedRoute: ActivatedRoute, private dataService: DataService, private router: Router) { }
@@ -18,6 +19,7 @@ export class InsuranceCaseListComponent implements OnInit {
   ngOnInit() {
     this.activatedRoute.params.subscribe(params => {
       this.customerId = +params['id'];
+      this.contractId = 1; //TODO init correct id
       this.getInsuranceCases();
     });
   }
@@ -39,6 +41,6 @@ export class InsuranceCaseListComponent implements OnInit {
   }
 
   onBack() {
-    this.router.navigate(['']);
+    this.router.navigate(['contract', this.contractId ,'customers']);
   }
 }

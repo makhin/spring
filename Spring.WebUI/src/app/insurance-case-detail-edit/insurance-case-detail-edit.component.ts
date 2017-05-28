@@ -237,7 +237,7 @@ export class InsuranceCaseDetailEditComponent implements OnInit {
         this.insuranceCase = data;
         this.loadingBarService.complete();
         this.toastrService.success('Сохранено');
-        this.router.navigate(['']);
+        this.router.navigate(['customer', this.customerId, 'cases']);
       },
       error => {
         this.loadingBarService.complete();
@@ -262,5 +262,9 @@ export class InsuranceCaseDetailEditComponent implements OnInit {
           this.toastrService.error(error, 'Ошибка сохранения');
           console.log(error);
         });
+  }
+
+  onBack(){
+    this.router.navigate(['customer', this.customerId, 'cases']);
   }
 }
