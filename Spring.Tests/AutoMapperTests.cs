@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using AutoMapper;
 using Spring.DbContext.Models;
 using Spring.Dto;
@@ -95,6 +96,27 @@ namespace Spring.Tests
 
             var entity = Mapper.Map<MedicalInsuranceCaseDto, MedicalInsuranceCase>(dto);
             Assert.Equal(expectedHospitaDepartmentId, entity.HospitalId);
+        }
+
+        [Theory]
+        [InlineData(1, 2, 3, null, 6)]
+        [InlineData(null, 2, 3, null, 5)]
+        [InlineData(1, null, 3, null, 4)]
+        [InlineData(1, null, null, 10, 11)]
+        [InlineData(null, null, null, null, null)]
+        public void MappingProfile_MedicalInsuranceCase_TotalAmount(int? food, int? diag, int? treat, int? order, int? expected)
+        {
+            Mapper.Initialize(m => m.AddProfile<MappingProfile>());
+            Mapper.AssertConfigurationIsValid();
+
+            MedicalInsuranceCaseDto dto = new MedicalInsuranceCaseDto { FoodCosts = food, DiagnosisCosts = diag, Treatment—osts = treat};
+            if (order != null)
+            {
+                dto.Orders = new List<OrderDto> {new OrderDto {Amount = (decimal) order}};
+            }
+
+            var entity = Mapper.Map<InsuranceCaseDto, InsuranceCase>(dto);
+            Assert.Equal(expected, entity.TotalAmount);
         }
     }
 }

@@ -29,6 +29,7 @@ export class InsuranceCaseDetailEditComponent implements OnInit {
   hospitals: SelectItem[];
   hospitalDepartments: SelectItem[];
   mkb10s: SelectItem[];
+  totalAmount: number;
 
   constructor(private router: Router,
               private activatedRoute: ActivatedRoute,
@@ -101,10 +102,21 @@ export class InsuranceCaseDetailEditComponent implements OnInit {
       'endDate': [this.insuranceCase.endDate],
       'reportDate': [this.insuranceCase.reportDate],
       'documentDate': [this.insuranceCase.documentDate],
+      'foodCosts': [this.insuranceCase.foodCosts],
+      'diagnosisCosts': [this.insuranceCase.diagnosisCosts],
+      'treatmentСosts': [this.insuranceCase.treatmentСosts],
       'orders': this.fb.array(this.buildOrderForm(this.insuranceCase.orders))
     });
     this.caseForm.valueChanges
       .subscribe(data => this.onValueChanged(data));
+
+    this.caseForm.controls['foodCosts'].valueChanges.subscribe(data => this.calcTotalAmount(data));
+    this.caseForm.controls['diagnosisCosts'].valueChanges.subscribe(data => this.calcTotalAmount(data));
+    this.caseForm.controls['treatmentСosts'].valueChanges.subscribe(data => this.calcTotalAmount(data));
+  }
+
+  calcTotalAmount(data){
+    this.totalAmount = +this.caseForm.controls['foodCosts'].value + +this.caseForm.controls['diagnosisCosts'].value + +this.caseForm.controls['treatmentСosts'].value;
   }
 
   buildOrderForm(orders: Order[]):AbstractControl[] {

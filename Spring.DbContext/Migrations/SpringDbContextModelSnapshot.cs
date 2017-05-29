@@ -257,7 +257,7 @@ namespace Spring.DbContext.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<int>("ParentId");
+                    b.Property<int?>("ParentId");
 
                     b.HasKey("Id");
 
@@ -286,6 +286,8 @@ namespace Spring.DbContext.Migrations
                     b.Property<int?>("Mkb10Id");
 
                     b.Property<int?>("Therapy");
+
+                    b.Property<decimal?>("TotalAmount");
 
                     b.Property<int?>("Treatment");
 
@@ -351,11 +353,17 @@ namespace Spring.DbContext.Migrations
                 {
                     b.HasBaseType("Spring.DbContext.Models.InsuranceCase");
 
+                    b.Property<decimal?>("DiagnosisCosts");
+
                     b.Property<DateTime?>("DocumentDate")
                         .HasColumnType("date");
 
+                    b.Property<decimal?>("FoodCosts");
+
                     b.Property<DateTime?>("ReportDate")
                         .HasColumnType("date");
+
+                    b.Property<decimal?>("TreatmentСosts");
 
                     b.ToTable("MedicalInsuranceCase");
 
@@ -411,8 +419,7 @@ namespace Spring.DbContext.Migrations
                 {
                     b.HasOne("Spring.DbContext.Models.Hospital", "Parent")
                         .WithMany()
-                        .HasForeignKey("ParentId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("ParentId");
                 });
 
             modelBuilder.Entity("Spring.DbContext.Models.InsuranceCase", b =>

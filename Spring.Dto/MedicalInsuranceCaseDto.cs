@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using Spring.DbContext.Models;
 
 namespace Spring.Dto
 {
@@ -9,6 +7,9 @@ namespace Spring.Dto
     {
         public DateTime? ReportDate { get; set; }
         public DateTime? DocumentDate { get; set; }
+        public decimal? DiagnosisCosts { get; set; }
+        public decimal? FoodCosts { get; set; }
+        public decimal? TreatmentСosts { get; set; }
         public virtual ICollection<OrderDto> Orders { get; set; }
     }
 }

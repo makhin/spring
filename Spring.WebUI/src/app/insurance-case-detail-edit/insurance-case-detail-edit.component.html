@@ -9,13 +9,13 @@
     </div>
     <div class="form-group row">
       <label for="hospital" class="col-md-3 col-form-label">ЛПУ:</label>
-      <div class="col-md-4">
+      <div class="col-md-8">
         <p-dropdown [options]="hospitals" id="hospital" name="hospital" [formControl]="caseForm.controls['hospitalId']" (onChange) = "onHospitalChange($event)"></p-dropdown>
       </div>
     </div>
     <div class="form-group row">
       <label for="hospitalDepartment" class="col-md-3 col-form-label">Отделение:</label>
-      <div class="col-md-4">
+      <div class="col-md-8">
         <p-dropdown [options]="hospitalDepartments" id="hospitalDepartment" name="hospitalDepartment" [formControl]="caseForm.controls['hospitalDepartmentId']"></p-dropdown>
       </div>
     </div>
@@ -55,7 +55,25 @@
         <p-calendar id="documentDate" name="documentDate" [formControl]="caseForm.controls['documentDate']" [showIcon]="true" [locale]="ru" dateFormat="{{dateFormat}}"></p-calendar>
       </div>
     </div>
-
+    <div class="form-group row">
+      <label class="col-md-3 col-form-label" for ="foodCosts">Питание:</label>
+      <div class="input-group col-md-2">
+        <input currencyMask type="text" class="form-control" id="foodCosts" formControlName="foodCosts" [options]="{ prefix: '', thousands: ' ' }">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-md-3 col-form-label" for="diagnosisCosts">Диагностика:</label>
+      <div class="input-group col-md-2">
+        <input currencyMask type="text" class="form-control" id="diagnosisCosts" formControlName="diagnosisCosts" [options]="{ prefix: '', thousands: ' ' }">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-md-3 col-form-label" for="treatmentСosts">Лечение:</label>
+      <div class="input-group col-md-2">
+        <input currencyMask type="text" class="form-control" id="treatmentСosts" formControlName="treatmentСosts" [options]="{ prefix: '', thousands: ' ' }">
+      </div>
+    </div>
+    {{totalAmount}}
     <div formArrayName="orders" class="border mb-2 pl-2 pt-2">
       <div class="row">
         <div class="col-3 text-center my-md-auto">
@@ -98,19 +116,19 @@
         <div [formGroupName]="i">
           <div class="row">
             <div class="col-1 form-group">
-              <input type="text" class="form-control" id="orderNumber" formControlName="orderNumber">
+              <input type="text" class="form-control text-right" id="orderNumber" formControlName="orderNumber">
             </div>
             <div class="col-2 form-group">
               <p-calendar class="" id="orderDate" formControlName="orderDate" name="orderDate" [showIcon]="true" [locale]="ru" dateFormat="{{dateFormat}}"></p-calendar>
             </div>
             <div class="col-2 form-group">
-              <input type="text" class="form-control" id="recipeNumber" formControlName="recipeNumber">
+              <input type="text" class="form-control text-right" id="recipeNumber" formControlName="recipeNumber">
             </div>
             <div class="col-2 form-group">
               <p-calendar class="" id="recipeDate" formControlName="recipeDate" name="recipeDate" [showIcon]="true" [locale]="ru" dateFormat="{{dateFormat}}"></p-calendar>
             </div>
             <div class="col-2 form-group" [ngClass]="{'has-danger':!order.controls['amount'].valid && order.controls['amount'].touched}">
-              <input type="text" class="form-control" id="amount" formControlName="amount" OnlyNumber="true">
+              <input currencyMask type="text" class="form-control" id="amount" formControlName="amount" [options]="{ prefix: '', thousands: ' ' }">
             </div>
             <div class="col-2 form-group">
               <input type="text" class="form-control" id="pharmacy" formControlName="pharmacy">

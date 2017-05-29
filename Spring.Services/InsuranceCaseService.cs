@@ -56,6 +56,7 @@ namespace Spring.Services
         public async Task<MedicalInsuranceCaseDto> UpdateMedical(MedicalInsuranceCaseDto dto)
         {
             var medicalInsuranceCase = _mapper.Map<MedicalInsuranceCaseDto, MedicalInsuranceCase>(dto);
+            //medicalInsuranceCase.TotalAmount = medicalInsuranceCase.Orders.Sum(o => o.Amount);
             await _medicalInsuranceCaseRepository.Update(medicalInsuranceCase);
             return dto;
         }
@@ -63,6 +64,7 @@ namespace Spring.Services
         public async Task<MedicalInsuranceCaseDto> InsertMedical(MedicalInsuranceCaseDto dto)
         {
             var medicalInsuranceCase = _mapper.Map<MedicalInsuranceCaseDto, MedicalInsuranceCase>(dto);
+            //medicalInsuranceCase.TotalAmount = medicalInsuranceCase.Orders.Sum(o => o.Amount);
             await _medicalInsuranceCaseRepository.Insert(medicalInsuranceCase);
             return dto;
         }

@@ -18,5 +18,8 @@ export abstract class InsuranceCase implements IEntity {
 export class MedicalInsuranceCase extends InsuranceCase {
   reportDate: Date;
   documentDate: Date;
+  diagnosisCosts: number;
+  foodCosts: number;
+  treatmentСosts: number;
   orders: Array<Order>;
 }

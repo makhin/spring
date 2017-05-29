@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Linq.Expressions;
 using AutoMapper;
 using Spring.DbContext.Models;
@@ -58,17 +59,18 @@ namespace Spring.Dto
                 .ForMember(dst => dst.Mkb10Id, opt => opt.MapFrom(src => src.Mkb10.Id))
                 .ForMember(dst => dst.Hospital, opt => opt.Ignore())
                 .ForMember(dst => dst.Customer, opt => opt.Ignore())
-                .ForMember(dst => dst.Mkb10, opt => opt.Ignore())
+                .ForMember(dst => dst.Mkb10, opt => opt.Ignore())                
+                .ForMember(dst => dst.TotalAmount, opt => opt.Ignore())                
                 .IgnoreAllPropertiesWithAnInaccessibleSetter();
-
-            CreateMap<Order, OrderDto>().ReverseMap().IgnoreAllPropertiesWithAnInaccessibleSetter();
 
             CreateMap<MedicalInsuranceCase, MedicalInsuranceCaseDto>()
                 .IncludeBase<InsuranceCase, InsuranceCaseDto>();
 
             CreateMap<MedicalInsuranceCaseDto, MedicalInsuranceCase>()
-                .IncludeBase<InsuranceCaseDto, InsuranceCase>();
+                .IncludeBase<InsuranceCaseDto, InsuranceCase>()
+                .ForMember(dst => dst.TotalAmount, opt => opt.ResolveUsing<TotalAmountResolver>());
 
+            CreateMap<Order, OrderDto>().ReverseMap().IgnoreAllPropertiesWithAnInaccessibleSetter();
         }
 
         private static Expression<Func<InsuranceCase, int?>> MapHospital()

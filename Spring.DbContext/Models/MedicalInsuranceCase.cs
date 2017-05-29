@@ -7,6 +7,9 @@ namespace Spring.DbContext.Models
     {
         public DateTime? ReportDate { get; set; }
         public DateTime? DocumentDate { get; set; }
+        public decimal? DiagnosisCosts { get; set; }
+        public decimal? FoodCosts { get; set; }
+        public decimal? TreatmentСosts { get; set; }
         public virtual IEnumerable<Order> Orders { get; set; }
     }
 }

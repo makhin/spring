@@ -5,7 +5,6 @@ import { HttpModule } from '@angular/http';
 import { Router, RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
-import { MoneyMaskModule } from 'ng2-money-mask';
 
 import {DataTableModule} from 'primeng/components/datatable/datatable';
 import {CalendarModule} from 'primeng/components/calendar/calendar';
@@ -15,6 +14,8 @@ import {SelectButtonModule} from 'primeng/components/selectbutton/selectbutton';
 import {DropdownModule} from 'primeng/components/dropdown/dropdown';
 import {AutoCompleteModule} from 'primeng/components/autocomplete/autocomplete';
 import {DialogModule} from 'primeng/components/dialog/dialog';
+
+import { CurrencyMaskModule } from 'ng2-currency-mask';
 
 import { AppComponent } from './app.component';
 import { ContractListComponent } from './contract-list/contract-list.component';
@@ -78,6 +79,7 @@ import {OnlyNumber} from "app/Shared/onlyNumber-directive";
     DropdownModule,
     AutoCompleteModule,
     DialogModule,
+    CurrencyMaskModule,
     RouterModule,
     AppRouting
   ],
