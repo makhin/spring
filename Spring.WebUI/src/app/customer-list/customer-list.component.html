@@ -12,7 +12,7 @@
       <input #gb type="text" class="form-control mr-sm-2" pInputText size="25" placeholder="Поиск по ФИО и ИНН">
     </div>
   </div>
-  <p-dataTable [value]="customerItems" [lazy]="true" [rows]="10" [paginator]="true" [globalFilter]="gb" filterDelay="500" emptyMessage="Не найдено ни одного клиента"
+  <p-dataTable [value]="customerItems" [lazy]="true" [rows]="10" [paginator]="true" [globalFilter]="gb" filterEvent="keyup" filterDelay="1000" emptyMessage="Не найдено ни одного клиента"
                [totalRecords]="totalRecords" (onLazyLoad)="loadCustomersLazy($event)" (onRowSelect)="onRowSelect($event)" selectionMode="single" [(selection)]="selectedCustomer" dataKey="id">
     <p-header>Клиенты</p-header>
     <p-column field="name" header="ФИО" [style]="{'width':'50%'}"></p-column>
@@ -27,6 +27,8 @@
         {{customer.endDate | date:'dd.MM.yyyy'}}
       </ng-template>
     </p-column>
+    <p-column field="totalCount" header="Случаи" [style]="{'text-align':'right'}"></p-column>
+    <p-column field="totalAmount" header="Сумма" [style]="{'text-align':'right'}"></p-column>
   </p-dataTable>
 </div>
 <div *ngIf="customerShort" class="container">

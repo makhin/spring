@@ -5,4 +5,6 @@ export class CustomerItem implements IEntity {
   tin: string;
   startDate: string;
   endDate: string;
+  totalCount: number;
+  totalAmount:number
 }

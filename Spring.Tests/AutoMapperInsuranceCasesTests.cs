@@ -6,7 +6,7 @@ using Xunit;
 
 namespace Spring.Tests
 {
-    public class AutoMapperTests
+    public class AutoMapperInsuranceCasesTests
     {
         [Fact]
         public void MappingProfile_Configuration()

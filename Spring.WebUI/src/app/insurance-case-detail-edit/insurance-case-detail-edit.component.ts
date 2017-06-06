@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef  } from '@angular/core';
 import {AbstractControl, FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {SelectItem} from "primeng/dist/components/common/api";
 import {ActivatedRoute, Router} from "@angular/router";
@@ -10,12 +10,11 @@ import {MedicalInsuranceCase} from "../models/InsuranceCase";
 import {Observable} from "rxjs/Rx";
 import {DataService} from "../services/data.service";
 import {Order} from "../models/Order";
-import {Mkb10} from "../models/Mkb10";
 
 @Component({
   selector: 'app-insurance-case-detail-edit',
   templateUrl: './insurance-case-detail-edit.component.html',
-  styleUrls: ['./insurance-case-detail-edit.component.sass']
+  styleUrls: ['./insurance-case-detail-edit.component.css']
 })
 export class InsuranceCaseDetailEditComponent implements OnInit {
   customerId: number;
@@ -30,6 +29,7 @@ export class InsuranceCaseDetailEditComponent implements OnInit {
   hospitalDepartments: SelectItem[];
   mkb10s: SelectItem[];
   totalAmount: number;
+  totalOrderAmount: number;
 
   constructor(private router: Router,
               private activatedRoute: ActivatedRoute,
@@ -37,7 +37,7 @@ export class InsuranceCaseDetailEditComponent implements OnInit {
               private toastrService: ToastrService,
               private lookupService: LookupService,
               private dataService: DataService,
-              private fb: FormBuilder) {
+              private fb: FormBuilder, private ref: ChangeDetectorRef) {
   }
 
   ngOnInit() {
@@ -113,10 +113,21 @@ export class InsuranceCaseDetailEditComponent implements OnInit {
     this.caseForm.controls['foodCosts'].valueChanges.subscribe(data => this.calcTotalAmount(data));
     this.caseForm.controls['diagnosisCosts'].valueChanges.subscribe(data => this.calcTotalAmount(data));
     this.caseForm.controls['treatmentСosts'].valueChanges.subscribe(data => this.calcTotalAmount(data));
+    this.caseForm.controls['orders'].valueChanges.subscribe(data=>this.calcTotalAmount(data));
+
+    this.calcTotalAmount(0);
   }
 
   calcTotalAmount(data){
-    this.totalAmount = +this.caseForm.controls['foodCosts'].value + +this.caseForm.controls['diagnosisCosts'].value + +this.caseForm.controls['treatmentСosts'].value;
+    this.totalOrderAmount = 0;
+    const ctrl = <FormArray>this.caseForm.controls['orders'];
+    ctrl.controls.forEach(x => {
+      let value = x.get('amount').value;
+      let parsed = parseFloat(value == null ? 0 : value)
+      this.totalOrderAmount += parsed
+    });
+
+    this.totalAmount = this.totalOrderAmount + +this.caseForm.controls['foodCosts'].value + +this.caseForm.controls['diagnosisCosts'].value + +this.caseForm.controls['treatmentСosts'].value;
   }
 
   buildOrderForm(orders: Order[]):AbstractControl[] {
@@ -155,7 +166,6 @@ export class InsuranceCaseDetailEditComponent implements OnInit {
     for (let controlName in group.controls) {
       const control = group.get(controlName);
       if (control instanceof FormArray){
-        console.log(control);
         for (let gr of control.controls) {
           this.iterateByFormGroup(<FormGroup>gr)
         }
@@ -168,7 +178,6 @@ export class InsuranceCaseDetailEditComponent implements OnInit {
 
   showValidationMessage(controlName: string, control: AbstractControl) {
     if (control && control.dirty && !control.valid) {
-      console.log(control);
       const message = this.validationMessages[controlName];
       for (const key in control.errors) {
         this.toastrService.error(message[key], null,)

@@ -13,17 +13,13 @@ namespace Spring.Dto
             CreateMap<Contract, ContractDto>().ReverseMap();
             CreateMap<Contract, ContractItemDto>().IgnoreAllPropertiesWithAnInaccessibleSetter();
 
-            // TODO find way to include only dto columns to query
-            CreateMap<Customer, CustomerItemDto>()
-                .IgnoreAllPropertiesWithAnInaccessibleSetter();
-
             CreateMap<Customer, CustomerShortDetailsDto>()
                 .IgnoreAllPropertiesWithAnInaccessibleSetter();
 
             CreateMap<Customer, CustomerDto>().ReverseMap();
 
             CreateMap<Hospital, HospitalDto>().IgnoreAllPropertiesWithAnInaccessibleSetter();
-            CreateMap<Mkb10, Mkb10Dto>().ReverseMap().IgnoreAllPropertiesWithAnInaccessibleSetter();
+            CreateMap<Mkb10, Mkb10Dto>().ReverseMap().IgnoreAllPropertiesWithAnInaccessibleSetter();            
 
             CreateMap<InsuranceCase, InsuranceCaseItemDto>()
                 .ForMember(dst => dst.Mkb10Code,
@@ -32,6 +28,10 @@ namespace Spring.Dto
                             ? null
                             : src.Mkb10.Code.Substring(0, (int)src.Mkb10.Code.IndexOf(" ", StringComparison.Ordinal))))
                 .ForMember(dst => dst.HospitalName, opt => opt.MapFrom(src => src.Hospital.Name))
+                .ForMember(
+                    dst => dst.CustomerName,
+                    opt => opt.MapFrom(src => src.Customer.Name)                    
+                )
                 .IgnoreAllPropertiesWithAnInaccessibleSetter();
 
             CreateMap<InsuranceCase, InsuranceCaseDto>()
@@ -46,6 +46,10 @@ namespace Spring.Dto
                 .ForMember(
                     dst => dst.HospitalDepartmentId,
                     opt => opt.MapFrom(MapHospitalDepartment())
+                )
+                .ForMember(
+                    dst => dst.CustomerName,
+                    opt => opt.MapFrom(src => src.Customer.Name)
                 )
                 .IgnoreAllPropertiesWithAnInaccessibleSetter();
 

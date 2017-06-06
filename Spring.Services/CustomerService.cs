@@ -31,11 +31,13 @@ namespace Spring.Services
     public class CustomerService: ICustomerService
     {
         private readonly IRepository<Customer> _customerRepository;
+        private readonly IRepository<InsuranceCase> _insuranceCaseRepository;
         private readonly IMapper _mapper;
 
-        public CustomerService(IRepository<Customer> customerRepository, IMapper mapper)
+        public CustomerService(IRepository<Customer> customerRepository, IRepository<InsuranceCase> insuranceCaseRepository, IMapper mapper)
         {
             _customerRepository = customerRepository;
+            _insuranceCaseRepository = insuranceCaseRepository;
             _mapper = mapper;
         }
 
@@ -43,10 +45,23 @@ namespace Spring.Services
         {
             var customers = _customerRepository.GetAll()
                 .Where(c => c.ContractId == contractId && (globalFilter == null || c.Name.StartsWith(globalFilter) ||
-                                                            c.TIN.StartsWith(globalFilter)));
+                                                           c.TIN.StartsWith(globalFilter)))
+                .OrderBy(c => c.Name);
 
+            //var insuranceCases = _insuranceCaseRepository.GetAll();
             var totalNumberOfRecords = await customers.CountAsync();
-            var projection = await customers.GetByPage(page, pageSize).ProjectTo<CustomerItemDto>().ToListAsync();
+            var projection = await (from customer in customers.GetByPage(page, pageSize)
+                                    select new CustomerItemDto
+                                    {
+                                        Id = customer.Id,
+                                        ContractId = customer.ContractId,
+                                        Name = customer.Name,
+                                        TIN = customer.TIN,
+                                        StartDate = customer.StartDate,
+                                        EndDate = customer.EndDate,
+                                        TotalAmount = customer.InsuranceCases.Sum(g => g.TotalAmount),
+                                        TotalCount = customer.InsuranceCases.Count
+                                    }).ToListAsync();
 
             var mod = totalNumberOfRecords % pageSize;
             var totalPageCount = totalNumberOfRecords / pageSize + (mod == 0 ? 0 : 1);
@@ -57,7 +72,7 @@ namespace Spring.Services
                 PageNumber = page,
                 PageSize = projection.Count,
                 TotalNumberOfPages = totalPageCount,
-                TotalNumberOfRecords = totalNumberOfRecords,
+                TotalNumberOfRecords = totalNumberOfRecords
             };
         }
 

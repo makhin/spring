@@ -5,6 +5,7 @@ import {Order} from "./Order";
 export abstract class InsuranceCase implements IEntity {
   id: number;
   customerId: number;
+  customerName: string;
   caseType: number;
   mkb10: Mkb10;
   hospitalId: number;

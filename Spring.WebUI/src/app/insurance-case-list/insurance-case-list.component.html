@@ -18,7 +18,7 @@
   <p-dataTable [value]="insuranceCaseItems" [rows]="20" [paginator]="false" emptyMessage="Не найдено ни одного случая"
                (onRowSelect)="onRowSelect($event)" selectionMode="single" [(selection)]="selectedCase" dataKey="id">
     <p-header>Страховые случаи</p-header>
-    <p-column field="id" header="№" [style]="{'width':'5%', 'text-align':'right'}"></p-column>
+    <p-column field="id" header="№" [style]="{'width':'10%', 'text-align':'right'}"></p-column>
     <p-column field="mkb10Code" header="Диагноз" [style]="{'text-align':'center'}"></p-column>
     <p-column field="treatment" header="Лечение" [style]="{'text-align':'center'}"></p-column>
     <p-column field="hospitalName" header="ЛПУ" [style]="{'text-align':'center'}"></p-column>

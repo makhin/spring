@@ -1,0 +1,13 @@
+table thead th{
+  text-align: center;
+  font-weight: normal;
+  border: none;
+}
+
+table td{
+  border: none;
+}
+
+.table-sm th, .table-sm td{
+  padding: 0.1rem;
+}
