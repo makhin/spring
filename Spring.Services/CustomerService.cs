@@ -17,6 +17,8 @@ namespace Spring.Services
 
         Task<CustomerShortDetailsDto> GetShortDetails(int clientId);
 
+        Task<CustomerInsuranceCasesDto> GetInsuranceCasesByCustomerId(int id)
+
         Task<CustomerDto> Get(int id);
 
         Task<CustomerDto> Update(CustomerDto dto);
@@ -74,6 +76,12 @@ namespace Spring.Services
                 TotalNumberOfPages = totalPageCount,
                 TotalNumberOfRecords = totalNumberOfRecords
             };
+        }
+
+        public async Task<CustomerInsuranceCasesDto> GetInsuranceCasesByCustomerId(int id)
+        {
+            var customer = await _customerRepository.Get(id, cs => cs.InsuranceCases);
+            return _mapper.Map<Customer, CustomerInsuranceCasesDto>(customer);
         }
 
         public async Task<CustomerShortDetailsDto> GetShortDetails(int clientId)

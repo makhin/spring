@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef  } from '@angular/core';
 import {AbstractControl, FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {SelectItem} from "primeng/dist/components/common/api";
+import {SelectItem} from "primeng/components/common/api";
 import {ActivatedRoute, Router} from "@angular/router";
 import {SlimLoadingBarService} from "ng2-slim-loading-bar";
 import {ToastrService} from "ngx-toastr";

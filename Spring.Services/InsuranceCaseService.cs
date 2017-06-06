@@ -12,10 +12,8 @@ namespace Spring.Services
 {
     public interface IInsuranceCaseService
     {
-        Task<IEnumerable<InsuranceCaseItemDto>> GetAllByCustomerId(int id);
         Task<InsuranceCaseDto> Get(int id);
         Task<MedicalInsuranceCaseDto> UpdateMedical(MedicalInsuranceCaseDto dto);
-
         Task<MedicalInsuranceCaseDto> InsertMedical(MedicalInsuranceCaseDto dto);
     }
 
@@ -32,22 +30,13 @@ namespace Spring.Services
             _medicalInsuranceCaseRepository = medicalInsuranceCaseRepository;
         }
 
-        public async Task<IEnumerable<InsuranceCaseItemDto>> GetAllByCustomerId(int id)
-        {
-            return await _insuranceCaseRepository.GetAll()
-                .Where(c => c.CustomerId == id)
-                .OrderBy(c => c.Id)
-                .ProjectTo<InsuranceCaseItemDto>()
-                .ToListAsync();
-        }
-
         public async Task<InsuranceCaseDto> Get(int id)
         {
             var insuranceCase = await _insuranceCaseRepository.Get(id);
 
             if (insuranceCase is MedicalInsuranceCase)
             {
-                var medicalInsuranceCase = await _medicalInsuranceCaseRepository.Get(id, ic => ic.Mkb10, ic => ic.Hospital, ic => ic.Orders, ic => ic.Customer);
+                var medicalInsuranceCase = await _medicalInsuranceCaseRepository.Get(id, ic => ic.Mkb10, ic => ic.Hospital, ic => ic.Orders);
                 var medicalInsuranceCaseDto = _mapper.Map<MedicalInsuranceCase, MedicalInsuranceCaseDto>(medicalInsuranceCase);
                 return medicalInsuranceCaseDto;
             }
@@ -57,6 +46,7 @@ namespace Spring.Services
         public async Task<MedicalInsuranceCaseDto> UpdateMedical(MedicalInsuranceCaseDto dto)
         {
             var medicalInsuranceCase = _mapper.Map<MedicalInsuranceCaseDto, MedicalInsuranceCase>(dto);
+            //medicalInsuranceCase.TotalAmount = medicalInsuranceCase.Orders.Sum(o => o.Amount);
             await _medicalInsuranceCaseRepository.Update(medicalInsuranceCase);
             return dto;
         }
@@ -64,6 +54,7 @@ namespace Spring.Services
         public async Task<MedicalInsuranceCaseDto> InsertMedical(MedicalInsuranceCaseDto dto)
         {
             var medicalInsuranceCase = _mapper.Map<MedicalInsuranceCaseDto, MedicalInsuranceCase>(dto);
+            //medicalInsuranceCase.TotalAmount = medicalInsuranceCase.Orders.Sum(o => o.Amount);
             await _medicalInsuranceCaseRepository.Insert(medicalInsuranceCase);
             return dto;
         }
