@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {AbstractControl, FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {SelectItem} from "primeng/dist/components/common/api";
+import {SelectItem} from "primeng/components/common/api";
 import {ActivatedRoute, Router} from "@angular/router";
 import {SlimLoadingBarService} from "ng2-slim-loading-bar";
 import {ToastrService} from "ngx-toastr";
@@ -15,7 +15,7 @@ import {Mkb10} from "../models/Mkb10";
 @Component({
   selector: 'app-insurance-case-detail-edit',
   templateUrl: './insurance-case-detail-edit.component.html',
-  styleUrls: ['./insurance-case-detail-edit.component.sass']
+  styleUrls: ['./insurance-case-detail-edit.component.css']
 })
 export class InsuranceCaseDetailEditComponent implements OnInit {
   customerId: number;

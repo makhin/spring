@@ -15,7 +15,7 @@ import {Localization} from "../Shared/Localization";
   styleUrls: ['./customer-detail-edit.component.sass']
 })
 export class CustomerDetailEditComponent implements OnInit {
-  contractId: number;
+  //contractId: number;
   customer: Customer;
   id: number;
   customerForm: FormGroup;
@@ -48,29 +48,21 @@ export class CustomerDetailEditComponent implements OnInit {
     this.groups.push({label: '3', value: 3});
 
     this.activatedRoute.url.subscribe(segments => {
-      if (segments[2].path === "new"){
-        this.id = 0;
-        this.contractId = +segments[1].path;
-      }else {
-        this.id = +segments[1].path;
-      }
-      if (this.id > 0) {
-        this.loadCustomer();
-      }
-      else if (this.contractId > 0){
+      if (segments[2].path === "new"){        
         this.customer = new Customer();
         this.customer.id = 0;
-        this.customer.contractId = this.contractId;
+        this.customer.contractId = +segments[1].path;
         this.buildForm();
-      }
-      else{
-        Observable.throw('Не указан идентификатор клиента или контракта');
-      }
+      }else {
+        this.id = +segments[1].path;
+        this.loadCustomer();
+      }      
     });
   }
 
   buildForm(): void {
     this.customerForm = this.fb.group({
+      'id': [this.customer.id],
       'name': [this.customer.name, [Validators.required]],
       'tin': [this.customer.tin, []],
       'address': [this.customer.address, []],
@@ -117,7 +109,6 @@ export class CustomerDetailEditComponent implements OnInit {
     this.loadingBarService.start();
     this.dataService.getCustomer(this.id).subscribe((data: Customer) => {
         this.customer = data;
-        this.contractId = this.customer.contractId;
         this.buildForm();
         this.loadingBarService.complete();
       },
@@ -133,7 +124,6 @@ export class CustomerDetailEditComponent implements OnInit {
     if (this.customer.disabilityGroup === 0){
         this.customer.disabilityGroup = null;
     }
-    this.customer.contractId = this.contractId;
     this.loadingBarService.start();
     this.dataService.addCustomer(this.customer).subscribe(
       (data) => {
@@ -154,8 +144,6 @@ export class CustomerDetailEditComponent implements OnInit {
     if (this.customer.disabilityGroup === 0){
       this.customer.disabilityGroup = null;
     }
-    this.customer.id = this.id;
-    this.customer.contractId = this.contractId;
     this.loadingBarService.start();
     this.dataService.editCustomer(this.customer)
       .subscribe(() => {
@@ -184,12 +172,12 @@ export class CustomerDetailEditComponent implements OnInit {
   }
 
   OnDepartmentLookup(event) {
-    this.dataService.getDepartmentsByContract(this.contractId, event.query).subscribe(data => {
+    this.dataService.getDepartmentsByContract(this.customer.contractId, event.query).subscribe(data => {
       this.departments = data;
     });
   }
 
   onBack() {
-    this.router.navigate(['contract',this.contractId, 'customers']);
+    this.router.navigate(['contract', this.customer.contractId, 'customers']);
   }
 }

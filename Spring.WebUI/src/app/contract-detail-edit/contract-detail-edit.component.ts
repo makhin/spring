@@ -40,7 +40,6 @@ export class ContractDetailEditComponent implements OnInit {
       }
       else {
         this.contract = new Contract();
-        this.contract.id = 0;
         this.buildForm();
       }
     });
@@ -48,6 +47,7 @@ export class ContractDetailEditComponent implements OnInit {
 
   buildForm(): void {
     this.contractForm = this.fb.group({
+      'id': [this.contract.id],
       'name': [this.contract.name, [Validators.required]],
       'code': [this.contract.code, [Validators.required, Validators.minLength(3), Validators.maxLength(10)]],
       'description': [this.contract.description],
@@ -107,7 +107,6 @@ export class ContractDetailEditComponent implements OnInit {
     this.loadingBarService.start();
     this.dataService.addContract(this.contract).subscribe(
       (data) => {
-        this.contract = data;
         this.loadingBarService.complete();
         this.toastrService.success('Сохранено');
         this.router.navigate(['']);
@@ -121,7 +120,6 @@ export class ContractDetailEditComponent implements OnInit {
 
   onUpdate() {
     this.contract = this.contractForm.value;
-    this.contract.id = this.id;
     this.loadingBarService.start();
     this.dataService.editContract(this.contract)
       .subscribe(() => {

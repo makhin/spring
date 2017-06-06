@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -47,5 +48,7 @@ namespace Spring.DbContext.Models
         public DateTime StartDate { get; set; }
 
         public DateTime? EndDate { get; set; }
+
+        public virtual ICollection<InsuranceCase>  InsuranceCases { get; set; }
     }
 }

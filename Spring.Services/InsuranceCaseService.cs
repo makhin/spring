@@ -12,10 +12,8 @@ namespace Spring.Services
 {
     public interface IInsuranceCaseService
     {
-        Task<IEnumerable<InsuranceCaseItemDto>> GetAllByCustomerId(int id);
         Task<InsuranceCaseDto> Get(int id);
         Task<MedicalInsuranceCaseDto> UpdateMedical(MedicalInsuranceCaseDto dto);
-
         Task<MedicalInsuranceCaseDto> InsertMedical(MedicalInsuranceCaseDto dto);
     }
 
@@ -30,14 +28,6 @@ namespace Spring.Services
             _insuranceCaseRepository = insuranceCaseRepository;
             _mapper = mapper;
             _medicalInsuranceCaseRepository = medicalInsuranceCaseRepository;
-        }
-
-        public async Task<IEnumerable<InsuranceCaseItemDto>> GetAllByCustomerId(int id)
-        {
-            return await _insuranceCaseRepository.GetAll()
-                .Where(c => c.CustomerId == id)
-                .ProjectTo<InsuranceCaseItemDto>()
-                .ToListAsync();
         }
 
         public async Task<InsuranceCaseDto> Get(int id)
