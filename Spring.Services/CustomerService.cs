@@ -17,7 +17,7 @@ namespace Spring.Services
 
         Task<CustomerShortDetailsDto> GetShortDetails(int clientId);
 
-        Task<CustomerInsuranceCasesDto> GetInsuranceCasesByCustomerId(int id)
+        Task<CustomerInsuranceCasesDto> GetInsuranceCasesByCustomerId(int id);
 
         Task<CustomerDto> Get(int id);
 

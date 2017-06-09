@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System.IO;
+using System.Reflection;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -38,9 +39,13 @@ namespace Spring.WebApi
             services.AddMvc();
             services.AddAutoMapper();
 
+            string connectionString = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<SpringDbContext>(options =>
             {
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+                options.UseSqlServer(connectionString,
+                    builder => builder.MigrationsAssembly(typeof(SpringDbContext).GetTypeInfo()
+                        .Assembly.GetName()
+                        .Name));
             });
 
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
@@ -48,8 +53,18 @@ namespace Spring.WebApi
             services.AddTransient<ICustomerService, CustomerService>();
             services.AddTransient<IInsuranceCaseService, InsuranceCaseService>();
             services.AddTransient<ILookupService, LookupService>();
+            services.AddTransient<IEmailSender, AuthMessageSender>();
+            services.AddTransient<ISmsSender, AuthMessageSender>();
+            services.AddTransient<IUserService, UserService>();            
 
-            services.AddIdentity<ApplicationUser, IdentityRole>()
+            services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+                {
+                    options.Password.RequireDigit = false;
+                    options.Password.RequireLowercase = false;
+                    options.Password.RequireNonAlphanumeric = false;
+                    options.Password.RequireUppercase = false;
+                    options.Password.RequiredLength = 6;
+                })
                 .AddEntityFrameworkStores<SpringDbContext>()
                 .AddDefaultTokenProviders();
 
@@ -66,6 +81,27 @@ namespace Spring.WebApi
                 opts.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();               
                 opts.SerializerSettings.Converters.Add(new StringEnumConverter { CamelCaseText = true });
             });
+
+            services.AddAuthorization(options =>
+            {
+                // Policy for dashboard: only administrator role.
+                options.AddPolicy("Manage Accounts", policy => policy.RequireRole("administrator"));
+                // Policy for resources: user or administrator roles.
+                options.AddPolicy("Access Resources", policy => policy.RequireRole("administrator", "user"));
+            });
+
+            services.AddTransient<IEmailSender, AuthMessageSender>();
+            services.AddTransient<ISmsSender, AuthMessageSender>();
+
+            // Adds IdentityServer
+            services.AddIdentityServer()
+                .AddTemporarySigningCredential()
+                // To configure IdentityServer to use EntityFramework (EF) as the storage mechanism for configuration data (rather than using the in-memory implementations),
+                // see https://identityserver4.readthedocs.io/en/release/quickstarts/8_entity_framework.html
+                .AddInMemoryIdentityResources(Config.GetIdentityResources())
+                .AddInMemoryApiResources(Config.GetApiResources())
+                .AddInMemoryClients(Config.GetClients())
+                .AddAspNetIdentity<ApplicationUser>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -91,6 +127,9 @@ namespace Spring.WebApi
                     await next();
                 }
             });
+
+            app.UseIdentity();
+            app.UseIdentityServer();
 
             app.UseDefaultFiles();
             app.UseStaticFiles();

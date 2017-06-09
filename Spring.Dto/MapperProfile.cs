@@ -75,6 +75,10 @@ namespace Spring.Dto
                 .ForMember(dst => dst.TotalAmount, opt => opt.ResolveUsing<TotalAmountResolver>());
 
             CreateMap<Order, OrderDto>().ReverseMap().IgnoreAllPropertiesWithAnInaccessibleSetter();
+
+            CreateMap<ApplicationUser, ApplicationUserDto>()
+                .ForMember(dst => dst.Password, opt => opt.Ignore())
+                .IgnoreAllPropertiesWithAnInaccessibleSetter();
         }
 
         private static Expression<Func<InsuranceCase, int?>> MapHospital()

@@ -15,6 +15,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="IdentityModel">
+      <HintPath>..\..\..\..\.nuget\packages\identitymodel\2.5.1\lib\netstandard1.3\IdentityModel.dll</HintPath>
+    </Reference>
     <Reference Include="System.Interactive.Async">
       <HintPath>..\..\..\..\.nuget\packages\system.interactive.async\3.0.0\lib\netstandard1.0\System.Interactive.Async.dll</HintPath>
     </Reference>

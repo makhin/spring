@@ -32,6 +32,18 @@ namespace Spring.WebApi.Controllers
             return Ok(value);
         }
 
+        [HttpGet("{id}/cases")]
+        public async Task<IActionResult> GetByCustomerId(int id)
+        {
+            var value = await _service.GetInsuranceCasesByCustomerId(id);
+            if (value == null)
+            {
+                return NoContent();
+            }
+
+            return Ok(value);
+        }
+
         [HttpGet("{id}/short")]
         public async Task<IActionResult> GetShortDetails(int id)
         {

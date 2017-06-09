@@ -8,9 +8,10 @@ using Spring.DbContext.DbContext;
 namespace Spring.DbContext.Migrations
 {
     [DbContext(typeof(SpringDbContext))]
-    partial class SpringDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170608060508_Identification")]
+    partial class Identification
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
@@ -138,9 +139,7 @@ namespace Spring.DbContext.Migrations
 
                     b.Property<bool>("EmailConfirmed");
 
-                    b.Property<string>("FirstName");
-
-                    b.Property<string>("LastName");
+                    b.Property<bool>("IsTechnicalAdmin");
 
                     b.Property<bool>("LockoutEnabled");
 
