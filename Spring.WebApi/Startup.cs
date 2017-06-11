@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -115,13 +116,18 @@ namespace Spring.WebApi
                 app.UseDeveloperExceptionPage();
             }
 
+            var appRoutes = new[] {
+                "/api/",
+                "/connect/"
+            };
+
             app.Use(async (context, next) =>
             {
                 await next();
 
                 if (context.Response.StatusCode == 404 &&
                     !Path.HasExtension(context.Request.Path.Value) &&
-                    !context.Request.Path.Value.StartsWith("/api/"))
+                    !appRoutes.Contains(context.Request.Path.Value))
                 {
                     context.Request.Path = "/index.html";
                     await next();

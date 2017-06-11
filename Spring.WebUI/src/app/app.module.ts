@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import {FormBuilder, FormsModule, ReactiveFormsModule} from '@angular/forms';
-import { HttpModule } from '@angular/http';
+import {Http, HttpModule} from '@angular/http';
 import { Router, RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
@@ -23,7 +23,6 @@ import { ContractListComponent } from './contract-list/contract-list.component';
 import { ContractDetailEditComponent } from './contract-detail-edit/contract-detail-edit.component';
 import { AboutComponent } from './about/about.component';
 import { HomeComponent } from './home/home.component';
-import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
@@ -45,6 +44,23 @@ import {LookupService} from "./services/lookup.service";
 import { InsuranceCaseDetailEditComponent } from './insurance-case-detail-edit/insurance-case-detail-edit.component';
 import {OnlyNumber} from "app/Shared/onlyNumber-directive";
 
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { SigninComponent } from './account/signin.component';
+import { SignupComponent } from './account/signup.component';
+
+import { AuthHttp, AuthConfig } from 'angular2-jwt';
+import {IdentityService} from "./services/identity.service";
+import {AuthenticationService} from "./services/authentication.service";
+import {AuthGuard} from "./services/auth.guard";
+
+// Set tokenGetter to use the same storage in AuthenticationService.Helpers.
+export function getAuthHttp(http: Http) {
+  return new AuthHttp(new AuthConfig({
+    noJwtError: true,
+    tokenGetter: (() => localStorage.getItem('id_token'))
+  }), http);
+}
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -52,7 +68,6 @@ import {OnlyNumber} from "app/Shared/onlyNumber-directive";
     ContractDetailEditComponent,
     AboutComponent,
     HomeComponent,
-    LoginComponent,
     RegisterComponent,
     PageNotFoundComponent,
     NavComponent,
@@ -61,7 +76,10 @@ import {OnlyNumber} from "app/Shared/onlyNumber-directive";
     CustomerDetailEditComponent,
     InsuranceCaseListComponent,
     InsuranceCaseDetailEditComponent,
-    OnlyNumber
+    OnlyNumber,
+    DashboardComponent,
+    SigninComponent,
+    SignupComponent
   ],
   imports: [
     BrowserModule,
@@ -104,6 +122,14 @@ import {OnlyNumber} from "app/Shared/onlyNumber-directive";
         rethrowError: false,
         unwrapError: false
       }
+    },
+    AuthGuard,
+    AuthenticationService,
+    IdentityService,
+    {
+      provide: AuthHttp,
+      useFactory: getAuthHttp,
+      deps: [Http]
     }
   ],
   bootstrap: [AppComponent]

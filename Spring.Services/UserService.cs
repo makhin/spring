@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using IdentityModel;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Spring.DbContext.Models;
 using Spring.Dto;
 
@@ -26,22 +22,26 @@ namespace Spring.Services
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailSender _emailSender;
         private readonly ISmsSender _smsSender;
         private readonly IMapper _mapper;
+        private readonly ILogger _logger;
 
         public UserService(UserManager<ApplicationUser> userManager,
             RoleManager<IdentityRole> roleManager,
+            SignInManager<ApplicationUser> signInManager,
             IEmailSender emailSender,
             ISmsSender smsSender,
-            IMapper mapper
-            )
+            IMapper mapper, ILogger logger)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _emailSender = emailSender;
             _smsSender = smsSender;
             _mapper = mapper;
+            _logger = logger;
+            _signInManager = signInManager;
         }
 
         public async Task<IList<ApplicationUserDto>> GetAll()

@@ -1,0 +1,34 @@
+﻿<div class="container">
+  <div class="card">
+    <div class="card-block">
+      <h4 class="card-title">Вход</h4>
+      <form name="form" (ngSubmit)="f.form.valid && signin()" #f="ngForm" novalidate>
+        <div>
+          <br />
+          <br />
+          <div class="form-group row">
+            <input placeholder="email" type="text" (keyup)="errorMessage = ''"
+                   name="username" [(ngModel)]="model.username" #username="ngModel" required>
+            <small [hidden]="username.valid || (username.pristine && !f.submitted)" class="has-error">
+              Required
+            </small>
+          </div>
+          <div class="form-group row">
+            <input placeholder="password" type="password" (keyup)="errorMessage = ''"
+                   name="password" [(ngModel)]="model.password" #password="ngModel" required>
+            <small [hidden]="password.valid || (password.pristine && !f.submitted)" class="has-error">
+              Required
+            </small>
+          </div>
+          <div *ngIf="errorMessage != ''" class="has-error">
+            <small>{{ errorMessage }}</small>
+          </div>
+          <br />
+        </div>
+        <div>
+          <button type="submit" value="SignIp" class="btn btn-primary">Войти</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
