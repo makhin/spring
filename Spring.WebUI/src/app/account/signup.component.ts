@@ -1,23 +1,22 @@
 ﻿import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { AuthenticationService } from '../services/authentication.service';
 import { IdentityService } from '../services/identity.service';
-import { Signin } from './signin';
 
 @Component({
     templateUrl: 'signup.component.html'
 })
-export class SignupComponent extends Signin {
+export class SignupComponent {
 
     errorMessages: string[] = [];
+    model: any = {};
+    errorMessage: string = "";
 
     constructor(
         public router: Router,
-        public authenticationService: AuthenticationService,
         private identityService: IdentityService
     ) {
-        super(router, authenticationService);
+
     }
 
     signup(): void {
@@ -27,7 +26,7 @@ export class SignupComponent extends Signin {
                 // IdentityResult.
                 if (res.succeeded) {
                     // Signs in the user.
-                    this.signin();
+                    //this.signin();
                 } else {
                     this.errorMessages = res.errors;
                 }

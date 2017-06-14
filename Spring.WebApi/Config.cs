@@ -40,7 +40,7 @@ namespace Spring.WebApi
                 // http://docs.identityserver.io/en/dev/reference/client.html.
                 new Client
                 {
-                    ClientId = "AngularSPA",
+                    ClientId = "Spring",
                     AllowedGrantTypes = GrantTypes.ResourceOwnerPassword, // Resource Owner Password Credential grant.
                     AllowAccessTokensViaBrowser = true,
                     RequireClientSecret = false, // This client does not need a secret to request tokens from the token endpoint.

@@ -26,14 +26,14 @@ namespace Spring.Services
         private readonly IEmailSender _emailSender;
         private readonly ISmsSender _smsSender;
         private readonly IMapper _mapper;
-        private readonly ILogger _logger;
+        private readonly ILogger<UserService> _logger;
 
         public UserService(UserManager<ApplicationUser> userManager,
             RoleManager<IdentityRole> roleManager,
             SignInManager<ApplicationUser> signInManager,
             IEmailSender emailSender,
             ISmsSender smsSender,
-            IMapper mapper, ILogger logger)
+            IMapper mapper, ILogger<UserService> logger)
         {
             _userManager = userManager;
             _roleManager = roleManager;

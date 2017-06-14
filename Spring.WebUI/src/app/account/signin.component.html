@@ -1,34 +1,18 @@
-﻿<div class="container">
-  <div class="card">
-    <div class="card-block">
-      <h4 class="card-title">Вход</h4>
-      <form name="form" (ngSubmit)="f.form.valid && signin()" #f="ngForm" novalidate>
-        <div>
-          <br />
-          <br />
-          <div class="form-group row">
-            <input placeholder="email" type="text" (keyup)="errorMessage = ''"
-                   name="username" [(ngModel)]="model.username" #username="ngModel" required>
-            <small [hidden]="username.valid || (username.pristine && !f.submitted)" class="has-error">
-              Required
-            </small>
-          </div>
-          <div class="form-group row">
-            <input placeholder="password" type="password" (keyup)="errorMessage = ''"
-                   name="password" [(ngModel)]="model.password" #password="ngModel" required>
-            <small [hidden]="password.valid || (password.pristine && !f.submitted)" class="has-error">
-              Required
-            </small>
-          </div>
-          <div *ngIf="errorMessage != ''" class="has-error">
-            <small>{{ errorMessage }}</small>
-          </div>
-          <br />
+﻿<form name="form">
+  <div class="container mt-md-2 pt-2 pb-2 bg-faded">
+      <div class="form-group row" [ngClass]="{'has-danger':!signinForm.controls['email'].valid && signinForm.controls['email'].touched}">
+        <div class="col-md-4">
+          <input type="text" class="form-control" id="email" name="email" [formControl]="signinForm.controls['email']" placeholder="Электронная почта...">
         </div>
-        <div>
-          <button type="submit" value="SignIp" class="btn btn-primary">Войти</button>
-        </div>
-      </form>
+      </div>
+    <div class="form-group row" [ngClass]="{'has-danger':!signinForm.controls['password'].valid && signinForm.controls['password'].touched}">
+      <div class="col-md-4">
+        <input type="password" class="form-control" id="password" name="password" [formControl]="signinForm.controls['password']" placeholder="Пароль...">
+      </div>
+    </div>
+    <div>
+      <button type="submit" value="SignIn" class="btn btn-primary" (click)="signin()" [disabled]="!signinForm.valid">Войти</button>
     </div>
   </div>
-</div>
+</form>
+

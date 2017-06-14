@@ -23,7 +23,6 @@ import { ContractListComponent } from './contract-list/contract-list.component';
 import { ContractDetailEditComponent } from './contract-detail-edit/contract-detail-edit.component';
 import { AboutComponent } from './about/about.component';
 import { HomeComponent } from './home/home.component';
-import { RegisterComponent } from './register/register.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 import { AppRouting } from './app.routing';
@@ -68,7 +67,6 @@ export function getAuthHttp(http: Http) {
     ContractDetailEditComponent,
     AboutComponent,
     HomeComponent,
-    RegisterComponent,
     PageNotFoundComponent,
     NavComponent,
     FooterComponent,

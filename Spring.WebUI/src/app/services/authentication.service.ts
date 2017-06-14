@@ -58,14 +58,14 @@ import { Config } from '../../config';
         this.options = new RequestOptions({ headers: this.headers });
     }
 
-    public signin(username: string, password: string): Observable<any> {
+    public signin(model: any): Observable<any> {
         const tokenEndpoint: string = Config.TOKEN_ENDPOINT;
 
         const params: any = {
             client_id: Config.CLIENT_ID,
             grant_type: Config.GRANT_TYPE,
-            username: username,
-            password: password,
+            username: model.email,
+            password: model.password,
             scope: Config.SCOPE
         };
 

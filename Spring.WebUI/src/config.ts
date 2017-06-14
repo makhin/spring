@@ -15,7 +15,7 @@ export class Config {
      */
     public static readonly USERINFO_ENDPOINT: string = "/connect/userinfo";
 
-    public static readonly CLIENT_ID: string = "AngularSPA";
+    public static readonly CLIENT_ID: string = "Spring";
 
     /**
      * Resource Owner Password Credential grant.

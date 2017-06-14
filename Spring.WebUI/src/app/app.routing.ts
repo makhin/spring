@@ -3,7 +3,6 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { AboutComponent } from './about/about.component';
 import { HomeComponent } from './home/home.component';
-import { RegisterComponent } from './register/register.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { ContractDetailEditComponent } from './contract-detail-edit/contract-detail-edit.component';
 import {CustomerListComponent} from "./customer-list/customer-list.component";
@@ -28,7 +27,6 @@ const appRoutes: Routes = [
     { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
     { path: 'signin', component: SigninComponent },
     { path: 'signup', component: SignupComponent },
-    { path: 'register', component: RegisterComponent, data: { title: 'Register' } },
     { path: 'about', component: AboutComponent, data: { title: 'About' } },
     { path: '**', component: PageNotFoundComponent }
 ];
