@@ -16,18 +16,18 @@ import {SignupComponent} from "./account/signup.component";
 
 const appRoutes: Routes = [
     { path: '', redirectTo: 'home', pathMatch: 'full' },
-    { path: 'home', component: HomeComponent, data: { title: 'Home' } },
-    { path: 'contract/:id/edit', component: ContractDetailEditComponent, data: { title: 'Контракт' }  },
-    { path: 'contract/:id/customers', component: CustomerListComponent, data: { title: 'Клиенты' }  },
-    { path: 'customer/:id/new', component: CustomerDetailEditComponent, data: { title: 'Клиент' }  },
-    { path: 'customer/:id/edit', component: CustomerDetailEditComponent, data: { title: 'Клиент' }  },
-    { path: 'customer/:id/cases', component: InsuranceCaseListComponent, data: { title: 'Случаи' }  },
-    { path: 'case/:id/edit', component: InsuranceCaseDetailEditComponent, data: { title: 'Случаи' }  },
-    { path: 'case/:id/new', component: InsuranceCaseDetailEditComponent, data: { title: 'Случаи' }  },
+    { path: 'home', component: HomeComponent },
+    { path: 'contract/:id/edit', component: ContractDetailEditComponent, canActivate: [AuthGuard]  },
+    { path: 'contract/:id/customers', component: CustomerListComponent, canActivate: [AuthGuard]  },
+    { path: 'customer/:id/new', component: CustomerDetailEditComponent, canActivate: [AuthGuard]  },
+    { path: 'customer/:id/edit', component: CustomerDetailEditComponent, canActivate: [AuthGuard]  },
+    { path: 'customer/:id/cases', component: InsuranceCaseListComponent, canActivate: [AuthGuard]  },
+    { path: 'case/:id/edit', component: InsuranceCaseDetailEditComponent, canActivate: [AuthGuard]  },
+    { path: 'case/:id/new', component: InsuranceCaseDetailEditComponent, canActivate: [AuthGuard]  },
     { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
     { path: 'signin', component: SigninComponent },
     { path: 'signup', component: SignupComponent },
-    { path: 'about', component: AboutComponent, data: { title: 'About' } },
+    { path: 'about', component: AboutComponent },
     { path: '**', component: PageNotFoundComponent }
 ];
 

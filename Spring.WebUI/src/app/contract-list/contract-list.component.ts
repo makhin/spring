@@ -17,7 +17,9 @@ export class ContractListComponent implements OnInit {
   }
 
   getAll() {
-    this.dataService.getAllContracts().subscribe((data: Array<ContractItem>) => {this.contractItems = data; });
+    this.dataService.getAllContracts().subscribe((data: Array<ContractItem>) => {
+      this.contractItems = data;
+    });
   }
 
   onContractDetailEdit(id: number) {

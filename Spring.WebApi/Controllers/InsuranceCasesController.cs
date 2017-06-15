@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Spring.Dto;
 using Spring.Services;
@@ -11,6 +12,7 @@ namespace Spring.WebApi.Controllers
 {
     [Produces("application/json")]
     [Route("api/[controller]")]
+    [Authorize(Policy = "Access Resources")] // Authorization policy for this API.
     public class InsuranceCasesController : Controller
     {
         private readonly IInsuranceCaseService _service;

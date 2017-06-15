@@ -1,6 +1,11 @@
-<div class="jumbotron jumbotron-fluid">
-  <div class="container">
-    <h1 class="display-3">Программа страхования</h1>
-    <p class="lead">Тестовая версия</p>
-  </div>
+<div *ngIf="(signedIn | async); else unsigned">
+  <app-contract-list></app-contract-list>
 </div>
+<ng-template #unsigned>
+  <div class="jumbotron jumbotron-fluid">
+    <div class="container">
+      <h1 class="display-3">Программа страхования</h1>
+      <p class="lead">Тестовая версия</p>
+    </div>
+  </div>
+</ng-template >

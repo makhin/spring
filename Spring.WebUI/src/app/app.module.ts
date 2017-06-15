@@ -26,7 +26,7 @@ import { HomeComponent } from './home/home.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 import { AppRouting } from './app.routing';
-import {AuthService} from './Shared/auth.service';
+import {JsonHeaderService} from './Shared/jsonHeader.service';
 import { NavComponent } from './nav/nav.component';
 import { FooterComponent } from './footer/footer.component';
 
@@ -48,6 +48,7 @@ import { SigninComponent } from './account/signin.component';
 import { SignupComponent } from './account/signup.component';
 
 import { AuthHttp, AuthConfig } from 'angular2-jwt';
+
 import {IdentityService} from "./services/identity.service";
 import {AuthenticationService} from "./services/authentication.service";
 import {AuthGuard} from "./services/auth.guard";
@@ -100,7 +101,7 @@ export function getAuthHttp(http: Http) {
     AppRouting
   ],
   providers: [
-    AuthService,
+    JsonHeaderService,
     ErrorLogService,
     DataService,
     LookupService,

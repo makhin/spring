@@ -6,19 +6,14 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
 
 import { AuthHttp } from 'angular2-jwt';
+import {JsonHeaderService} from "../Shared/jsonHeader.service";
 
 /**
  * Identity service (to Identity Web API controller).
  */
 @Injectable() export class IdentityService {
 
-    headers: Headers;
-    options: RequestOptions;
-
-    constructor(private authHttp: AuthHttp, private http: Http) {
-        // Creates header for post requests.
-        this.headers = new Headers({ 'Content-Type': 'application/json' });
-        this.options = new RequestOptions({ headers: this.headers });
+    constructor(private authHttp: AuthHttp, private http: Http, private jsonHeader: JsonHeaderService) {
     }
 
     /**
@@ -43,7 +38,7 @@ import { AuthHttp } from 'angular2-jwt';
     public Create(model: any): Observable<any> {
         const body: string = JSON.stringify(model);
 
-        return this.http.post("/api/identity/Create", body, this.options)
+        return this.http.post("/api/identity/Create", body, this.jsonHeader.jsonHeaders())
             .map((res: Response) => {
                 return res.json();
             })
@@ -61,7 +56,7 @@ import { AuthHttp } from 'angular2-jwt';
         const body: string = JSON.stringify(username);
 
         // Sends an authenticated request.
-        return this.authHttp.post("/api/identity/Delete", body, this.options)
+        return this.authHttp.post("/api/identity/Delete", body, this.jsonHeader.jsonHeaders())
             .map((res: Response) => {
                 return res.json();
             })

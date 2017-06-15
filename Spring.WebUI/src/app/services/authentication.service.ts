@@ -11,6 +11,7 @@ import 'rxjs/add/observable/timer';
 import { AuthHttp } from 'angular2-jwt';
 
 import { Config } from '../../config';
+import {JsonHeaderService} from "../Shared/jsonHeader.service";
 
 /**
  * ROPC Authentication service.
@@ -47,15 +48,9 @@ import { Config } from '../../config';
      */
     private offsetSeconds: number = 30;
 
-    private headers: Headers;
-    private options: RequestOptions;
-
-    constructor(private http: Http, private authHttp: AuthHttp) {
+    constructor(private http: Http, private authHttp: AuthHttp, private jsonHeader: JsonHeaderService) {
         // On bootstrap or refresh, tries to get users'data.
         this.getUserInfo();
-        // Creates header for post requests.
-        this.headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded' });
-        this.options = new RequestOptions({ headers: this.headers });
     }
 
     public signin(model: any): Observable<any> {
@@ -73,7 +68,7 @@ import { Config } from '../../config';
 
         this.authTime = new Date().valueOf();
 
-        return this.http.post(tokenEndpoint, body, this.options)
+        return this.http.post(tokenEndpoint, body, this.jsonHeader.contentHeaders())
             .map((res: Response) => {
                 const body: any = res.json();
                 if (typeof body.access_token !== 'undefined') {
@@ -172,7 +167,7 @@ import { Config } from '../../config';
 
         this.authTime = new Date().valueOf();
 
-        return this.http.post(tokenEndpoint, body, this.options)
+        return this.http.post(tokenEndpoint, body, this.jsonHeader.contentHeaders())
             .map((res: Response) => {
                 const body: any = res.json();
                 if (typeof body.access_token !== 'undefined') {
@@ -206,7 +201,7 @@ import { Config } from '../../config';
 
             const body: string = this.encodeParams(params);
 
-            this.http.post(revocationEndpoint, body, this.options)
+            this.http.post(revocationEndpoint, body, this.jsonHeader.contentHeaders())
                 .subscribe(
                 () => {
                     Helpers.removeToken('refresh_token');

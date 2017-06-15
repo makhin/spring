@@ -16,6 +16,8 @@ using Spring.DbContext.Models;
 using Spring.Repositories;
 using Spring.Services;
 using Spring.WebApi.Filters;
+using Serilog;
+using Serilog.Core;
 
 namespace Spring.WebApi
 {
@@ -108,8 +110,26 @@ namespace Spring.WebApi
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            loggerFactory.AddDebug();
+            var serilog = new LoggerConfiguration()
+                .MinimumLevel.Debug()
+                .Enrich.FromLogContext();
+//                .WriteTo.File(@"identityserver4_log.txt");
+
+            if (env.IsDevelopment())
+            {
+                serilog.WriteTo.LiterateConsole(
+                    outputTemplate:
+                    "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message}{NewLine}{Exception}{NewLine}");
+            }
+
+            //{
+            //    { "IdentityServer", LogLevel.Debug },
+            //    { "Microsoft", LogLevel.Information },
+            //    { "System", LogLevel.Error },
+            //});
+
+
+            loggerFactory.AddSerilog(serilog.CreateLogger());
 
             if (env.IsDevelopment())
             {
