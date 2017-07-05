@@ -8,10 +8,6 @@ namespace Spring.Dto
     {
         public int Id { get; set; }
 
-        public int CustomerId { get; set; }
-
-        public string CustomerName { get; set; }
-
         public string Mkb10Code { get; set; }
 
         public Treatment? Treatment { get; set; }

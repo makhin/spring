@@ -32,11 +32,18 @@ namespace Spring.Services
 
         public async Task<InsuranceCaseDto> Get(int id)
         {
-            var insuranceCase = await _insuranceCaseRepository.Get(id);
+            var insuranceCase = await _insuranceCaseRepository.Get(id, cases => cases);
 
             if (insuranceCase is MedicalInsuranceCase)
             {
-                var medicalInsuranceCase = await _medicalInsuranceCaseRepository.Get(id, ic => ic.Mkb10, ic => ic.Hospital, ic => ic.Orders);
+                var medicalInsuranceCase = await _medicalInsuranceCaseRepository.Get(id, cases =>
+                {
+                    cases = cases.Include(ic => ic.Mkb10);
+                    cases = cases.Include(ic => ic.Hospital);
+                    cases = cases.Include(ic => ic.Orders);
+                    cases = cases.Include(ic => ic.Customer);
+                    return cases;
+                });
                 var medicalInsuranceCaseDto = _mapper.Map<MedicalInsuranceCase, MedicalInsuranceCaseDto>(medicalInsuranceCase);
                 return medicalInsuranceCaseDto;
             }

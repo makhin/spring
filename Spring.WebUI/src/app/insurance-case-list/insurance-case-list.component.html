@@ -9,13 +9,13 @@
           Добавить
         </button>
         <div class="dropdown-menu" aria-labelledby="dropdownCaseButton">
-          <button type="button" class="dropdown-item" href="#" (click)="onInsert(customerId)">Медицина</button>
+          <button type="button" class="dropdown-item" href="#" (click)="onInsert(customer.id)">Медицина</button>
         </div>
       </div>
       <button type="button" value="Edit" (click)="onEdit(caseId)" class="btn btn-primary" [disabled]="!caseId">Изменить</button>
     </div>
   </div>
-  <p-dataTable [value]="insuranceCaseItems" [rows]="20" [paginator]="false" emptyMessage="Не найдено ни одного случая"
+  <p-dataTable [value]="insurCaseList" [rows]="20" [paginator]="false" emptyMessage="Не найдено ни одного случая"
                (onRowSelect)="onRowSelect($event)" selectionMode="single" [(selection)]="selectedCase" dataKey="id">
     <p-header>Страховые случаи</p-header>
     <p-column field="id" header="№" [style]="{'width':'10%', 'text-align':'right'}"></p-column>

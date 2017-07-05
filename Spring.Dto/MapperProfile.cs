@@ -16,6 +16,15 @@ namespace Spring.Dto
             CreateMap<Customer, CustomerShortDetailsDto>()
                 .IgnoreAllPropertiesWithAnInaccessibleSetter();
 
+            CreateMap<Customer, CustomerItemDto>()
+                .ForMember(dst => dst.TotalAmount,
+                    opt => opt.MapFrom(src => src.InsuranceCases.Sum(ic => ic.TotalAmount)))
+                .ForMember(dst => dst.TotalCount, opt => opt.MapFrom(src => src.InsuranceCases.Count))
+                .IgnoreAllPropertiesWithAnInaccessibleSetter();
+
+            CreateMap<Customer, CustomerInsuranceCasesDto>()
+                .IgnoreAllPropertiesWithAnInaccessibleSetter();            
+
             CreateMap<Customer, CustomerDto>().ReverseMap();
 
             CreateMap<Hospital, HospitalDto>().IgnoreAllPropertiesWithAnInaccessibleSetter();
@@ -28,10 +37,6 @@ namespace Spring.Dto
                             ? null
                             : src.Mkb10.Code.Substring(0, (int)src.Mkb10.Code.IndexOf(" ", StringComparison.Ordinal))))
                 .ForMember(dst => dst.HospitalName, opt => opt.MapFrom(src => src.Hospital.Name))
-                .ForMember(
-                    dst => dst.CustomerName,
-                    opt => opt.MapFrom(src => src.Customer.Name)                    
-                )
                 .IgnoreAllPropertiesWithAnInaccessibleSetter();
 
             CreateMap<InsuranceCase, InsuranceCaseDto>()

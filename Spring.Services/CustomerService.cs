@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -56,7 +57,6 @@ namespace Spring.Services
                                     select new CustomerItemDto
                                     {
                                         Id = customer.Id,
-                                        ContractId = customer.ContractId,
                                         Name = customer.Name,
                                         TIN = customer.TIN,
                                         StartDate = customer.StartDate,
@@ -80,19 +80,25 @@ namespace Spring.Services
 
         public async Task<CustomerInsuranceCasesDto> GetInsuranceCasesByCustomerId(int id)
         {
-            var customer = await _customerRepository.Get(id, cs => cs.InsuranceCases);
+            var customer = await _customerRepository.Get(id, customers =>
+            {
+                customers = customers
+                    .Include(cs => cs.InsuranceCases).ThenInclude(ic => ic.Hospital)
+                    .Include(cs => cs.InsuranceCases).ThenInclude(ic => ic.Mkb10);
+                return customers;
+            });
             return _mapper.Map<Customer, CustomerInsuranceCasesDto>(customer);
         }
 
         public async Task<CustomerShortDetailsDto> GetShortDetails(int clientId)
         {
-            var customer = await _customerRepository.Get(clientId);
+            var customer = await _customerRepository.Get(clientId, customers => customers);
             return _mapper.Map<Customer, CustomerShortDetailsDto>(customer);
         }
 
         public async Task<CustomerDto> Get(int id)
         {
-            var contract = await _customerRepository.Get(id);
+            var contract = await _customerRepository.Get(id, customers => customers);
             return _mapper.Map<Customer, CustomerDto>(contract);
         }
 

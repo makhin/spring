@@ -1,9 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using Spring.DbContext.Models;
-using Spring.Dto.Validations;
 
 namespace Spring.Dto
 {
@@ -12,6 +7,8 @@ namespace Spring.Dto
         public int Id { get; set; }
 
         public string Name { get; set; }
+
+        public int ContractId { get; set; }
 
         public ICollection<InsuranceCaseItemDto> InsuranceCases { get; set; }
     }

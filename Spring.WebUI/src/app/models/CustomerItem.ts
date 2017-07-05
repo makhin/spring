@@ -6,5 +6,5 @@ export class CustomerItem implements IEntity {
   startDate: string;
   endDate: string;
   totalCount: number;
-  totalAmount:number
+  totalAmount: number;
 }

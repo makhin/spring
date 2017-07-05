@@ -10,11 +10,11 @@ export class Customer implements IEntity {
   disabilityGroup: number;
   mobilePhone: string;
   position: string;
-  additionalInfo:string;
-  cardNumber:string;
-  sex:Boolean;
-  passport:string;
-  address:string;
+  additionalInfo: string;
+  cardNumber: string;
+  sex: Boolean;
+  passport: string;
+  address: string;
   startDate: Date;
   endDate: Date;
 }

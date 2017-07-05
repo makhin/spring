@@ -40,7 +40,7 @@ namespace Spring.Services
 
         public async Task<ContractDto> Get(int id)
         {
-            var contract = await _contractRepository.Get(id);
+            var contract = await _contractRepository.Get(id, contracts => contracts);
             return _mapper.Map<Contract, ContractDto>(contract);
         }
 

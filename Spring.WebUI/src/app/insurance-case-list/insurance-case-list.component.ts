@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {DataService} from '../services/data.service';
+import {CustomerInsuranceCases} from '../models/CustomerInsuranceCases';
 import {InsuranceCaseItem} from "../models/InsuranceCaseItem";
-import {ActivatedRoute, Router} from "@angular/router";
-import {DataService} from "../services/data.service";
 
 @Component({
   selector: 'app-insurance-case-list',
@@ -9,23 +10,24 @@ import {DataService} from "../services/data.service";
   styleUrls: ['./insurance-case-list.component.sass']
 })
 export class InsuranceCaseListComponent implements OnInit {
-  insuranceCaseItems: InsuranceCaseItem[];
-  customerId: number;
-  contractId: number;
+  customer: CustomerInsuranceCases;
+  insurCaseList: InsuranceCaseItem[];
   caseId: number;
 
   constructor(private activatedRoute: ActivatedRoute, private dataService: DataService, private router: Router) { }
 
   ngOnInit() {
     this.activatedRoute.params.subscribe(params => {
-      this.customerId = +params['id'];
-      this.contractId = 1; //TODO init correct id
-      this.getInsuranceCases();
+      this.getInsuranceCases(params['id']);
     });
   }
 
-  getInsuranceCases() {
-    this.dataService.getInsuranceCaseItemsByCustomerId(this.customerId).subscribe((data: Array<InsuranceCaseItem>) => {this.insuranceCaseItems = data; });
+  getInsuranceCases(customerId: number) {
+    this.dataService.getInsuranceCaseItemsByCustomerId(customerId)
+      .subscribe((data: CustomerInsuranceCases) => {
+        this.customer = data;
+        this.insurCaseList = this.customer.insuranceCases;
+      });
   }
 
   onRowSelect(event) {
@@ -41,6 +43,6 @@ export class InsuranceCaseListComponent implements OnInit {
   }
 
   onBack() {
-    this.router.navigate(['contract', this.contractId ,'customers']);
+    this.router.navigate(['contract', this.customer.contractId , 'customers']);
   }
 }

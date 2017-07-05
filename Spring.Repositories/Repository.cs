@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
@@ -13,7 +14,7 @@ namespace Spring.Repositories
     {
         IQueryable<TTable> GetByCondition(Expression<Func<TTable, bool>> predicate);
         IQueryable<TTable> GetAll();
-        Task<TTable> Get(int id, params Expression<Func<TTable, object>>[] includeProperties);
+        Task<TTable> Get(int id, Func<IQueryable<TTable>, IQueryable<TTable>> queryable);
         Task<TTable> Insert(TTable entity);
         Task<TTable> Update(TTable entity);
         Task<int> Delete(int id);
@@ -40,15 +41,11 @@ namespace Spring.Repositories
             return entities;
         }
 
-        public async Task<TTable> Get(int id, params Expression<Func<TTable, object>>[] includeProperties)
+        public async Task<TTable> Get(int id, Func<IQueryable<TTable>, IQueryable<TTable>> queryable)
         {
             IQueryable<TTable> query = entities;
-            foreach (var includeProperty in includeProperties.Where(p => p != null))
-            {
-                query = query.Include(includeProperty);
-            }
-
-            return await query.SingleOrDefaultAsync(a => a.Id == id);            
+            query = queryable(query);
+            return await query.SingleOrDefaultAsync(a => a.Id == id);
         }
 
         public async Task<TTable> Insert(TTable entity)

@@ -16,6 +16,7 @@ import {Localization} from "../Shared/Localization";
 import {ErrorHandler} from "app/Shared/ErrorHandler";
 import {AuthHttp} from "angular2-jwt";
 import {JsonHeaderService} from "../Shared/jsonHeader.service";
+import {CustomerInsuranceCases} from "../models/CustomerInsuranceCases";
 
 @Injectable()
 export class DataService {
@@ -155,11 +156,11 @@ export class DataService {
       );
   }
 
-  getInsuranceCaseItemsByCustomerId(id: number) : Observable<Array<InsuranceCaseItem>> {
-    return this.authHttp.get('api/insurancecases/' + id, this.jsonHeader.jsonHeaders())
+  getInsuranceCaseItemsByCustomerId(id: number): Observable<CustomerInsuranceCases> {
+    return this.authHttp.get('api/customers/' + id + '/cases', this.jsonHeader.jsonHeaders())
       .map((resp: Response) => resp.json())
       .map((data: any) => {
-        return <Array<InsuranceCaseItem>>data;
+        return data;
       })
       .catch(ErrorHandler.handleError);
   }
