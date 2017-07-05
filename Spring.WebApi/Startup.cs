@@ -17,7 +17,6 @@ using Spring.Repositories;
 using Spring.Services;
 using Spring.WebApi.Filters;
 using Serilog;
-using Serilog.Core;
 
 namespace Spring.WebApi
 {
@@ -38,7 +37,6 @@ namespace Spring.WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // Add framework services.            
             services.AddMvc();
             services.AddAutoMapper();
 
@@ -71,7 +69,6 @@ namespace Spring.WebApi
                 .AddEntityFrameworkStores<SpringDbContext>()
                 .AddDefaultTokenProviders();
 
-            // Add framework services.
             services.AddApplicationInsightsTelemetry(Configuration);
 
             services.AddMvc(
@@ -87,20 +84,18 @@ namespace Spring.WebApi
 
             services.AddAuthorization(options =>
             {
-                // Policy for dashboard: only administrator role.
-                options.AddPolicy("Manage Accounts", policy => policy.RequireRole("administrator"));
-                // Policy for resources: user or administrator roles.
-                options.AddPolicy("Access Resources", policy => policy.RequireRole("administrator", "user"));
+                options.AddPolicy("Manage Accounts", policy => policy.RequireRole("admin"));
+                options.AddPolicy("Access Resources", policy => policy.RequireRole("admin", "user"));
             });
 
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
 
-            // Adds IdentityServer
-            services.AddIdentityServer()
+            services.AddIdentityServer(options =>
+                {
+                    options.IssuerUri = "http://localhost:4200/";
+                })
                 .AddTemporarySigningCredential()
-                // To configure IdentityServer to use EntityFramework (EF) as the storage mechanism for configuration data (rather than using the in-memory implementations),
-                // see https://identityserver4.readthedocs.io/en/release/quickstarts/8_entity_framework.html
                 .AddInMemoryIdentityResources(Config.GetIdentityResources())
                 .AddInMemoryApiResources(Config.GetApiResources())
                 .AddInMemoryClients(Config.GetClients())
@@ -113,23 +108,27 @@ namespace Spring.WebApi
             var serilog = new LoggerConfiguration()
                 .MinimumLevel.Debug()
                 .Enrich.FromLogContext();
-//                .WriteTo.File(@"identityserver4_log.txt");
 
             if (env.IsDevelopment())
             {
-                serilog.WriteTo.LiterateConsole(
-                    outputTemplate:
-                    "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message}{NewLine}{Exception}{NewLine}");
+                serilog
+                    .WriteTo.LiterateConsole(
+                        outputTemplate:
+                        "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message}{NewLine}{Exception}{NewLine}")
+                    .WriteTo.File(
+                        outputTemplate:
+                        "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message}{NewLine}{Exception}{NewLine}",
+                        path: @"c:\temp\identityserver4_log.txt");
             }
 
-            //{
-            //    { "IdentityServer", LogLevel.Debug },
-            //    { "Microsoft", LogLevel.Information },
-            //    { "System", LogLevel.Error },
-            //});
-
-
-            loggerFactory.AddSerilog(serilog.CreateLogger());
+            loggerFactory
+                .WithFilter(new FilterLoggerSettings
+                {
+                    { "IdentityServer", LogLevel.Debug },
+                    { "Microsoft", LogLevel.Information },
+                    { "System", LogLevel.Error },
+                })
+                .AddSerilog(serilog.CreateLogger());
 
             if (env.IsDevelopment())
             {
@@ -152,6 +151,14 @@ namespace Spring.WebApi
                     context.Request.Path = "/index.html";
                     await next();
                 }
+            });
+
+            app.UseIdentityServerAuthentication(new IdentityServerAuthenticationOptions
+            {
+                Authority = "http://localhost:5000/",                
+                AllowedScopes = { "WebAPI" },
+
+                RequireHttpsMetadata = false
             });
 
             app.UseIdentity();

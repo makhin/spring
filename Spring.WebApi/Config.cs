@@ -1,7 +1,4 @@
-﻿// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
-// Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
-
-using IdentityServer4.Models;
+﻿using IdentityServer4.Models;
 using System.Collections.Generic;
 using IdentityServer4;
 
@@ -40,9 +37,10 @@ namespace Spring.WebApi
                 // http://docs.identityserver.io/en/dev/reference/client.html.
                 new Client
                 {
-                    ClientId = "Spring",
+                    ClientId = "Spring",                   
                     AllowedGrantTypes = GrantTypes.ResourceOwnerPassword, // Resource Owner Password Credential grant.
                     AllowAccessTokensViaBrowser = true,
+                    
                     RequireClientSecret = false, // This client does not need a secret to request tokens from the token endpoint.
 
                     AccessTokenLifetime = 900, // Lifetime of access token in seconds.
