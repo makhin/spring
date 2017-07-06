@@ -72,14 +72,15 @@ namespace Spring.WebApi
             services.AddApplicationInsightsTelemetry(Configuration);
 
             services.AddMvc(
-                config => {
+                config =>
+                {
                     config.Filters.Add(typeof(SpringExceptionFilter));
                 }
             ).AddJsonOptions(opts =>
             {
                 // Force Camel Case to JSON
-                opts.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();               
-                opts.SerializerSettings.Converters.Add(new StringEnumConverter { CamelCaseText = true });
+                opts.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                opts.SerializerSettings.Converters.Add(new StringEnumConverter {CamelCaseText = true});
             });
 
             services.AddAuthorization(options =>
@@ -93,9 +94,9 @@ namespace Spring.WebApi
 
             services.AddIdentityServer(options =>
                 {
-                    options.IssuerUri = "http://localhost:4200/";
+                    options.IssuerUri = Configuration["IssuerUri"];
                 })
-                .AddTemporarySigningCredential()
+                .AddDeveloperSigningCredential()
                 .AddInMemoryIdentityResources(Config.GetIdentityResources())
                 .AddInMemoryApiResources(Config.GetApiResources())
                 .AddInMemoryClients(Config.GetClients())
@@ -109,25 +110,13 @@ namespace Spring.WebApi
                 .MinimumLevel.Debug()
                 .Enrich.FromLogContext();
 
-            if (env.IsDevelopment())
-            {
-                serilog
-                    .WriteTo.LiterateConsole(
-                        outputTemplate:
-                        "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message}{NewLine}{Exception}{NewLine}")
-                    .WriteTo.File(
-                        outputTemplate:
-                        "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message}{NewLine}{Exception}{NewLine}",
-                        path: @"c:\temp\identityserver4_log.txt");
-            }
+            serilog
+                .WriteTo.File(
+                    outputTemplate:
+                    "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message}{NewLine}{Exception}{NewLine}",
+                    path: @"identityserver4_log.txt");
 
             loggerFactory
-                .WithFilter(new FilterLoggerSettings
-                {
-                    { "IdentityServer", LogLevel.Debug },
-                    { "Microsoft", LogLevel.Information },
-                    { "System", LogLevel.Error },
-                })
                 .AddSerilog(serilog.CreateLogger());
 
             if (env.IsDevelopment())
@@ -155,9 +144,8 @@ namespace Spring.WebApi
 
             app.UseIdentityServerAuthentication(new IdentityServerAuthenticationOptions
             {
-                Authority = "http://localhost:5000/",                
-                AllowedScopes = { "WebAPI" },
-
+                Authority = Configuration["Authority"],
+                AllowedScopes = {"WebAPI"},
                 RequireHttpsMetadata = false
             });
 
