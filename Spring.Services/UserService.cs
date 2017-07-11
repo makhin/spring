@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -16,10 +17,14 @@ namespace Spring.Services
         Task<IList<ApplicationUserDto>> GetAll();
         Task<IdentityResult> Create(ApplicationUserDto dto);
         Task<IdentityResult> Delete(string username);
+        Task Update(ApplicationUserDto dto);
     }
 
     public class UserService : IUserService
     {
+        const string AdminRole = "admin";
+        const string UserRole = "user";
+
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
@@ -48,7 +53,16 @@ namespace Spring.Services
         {
             IdentityRole role = await _roleManager.FindByNameAsync("user");
             IList<ApplicationUser> users = await _userManager.GetUsersInRoleAsync(role.Name);
-            return _mapper.Map<IList<ApplicationUser>, IList<ApplicationUserDto>>(users);
+            var dtos = _mapper.Map<IList<ApplicationUser>, IList<ApplicationUserDto>>(users);
+
+            foreach (var user in users)
+            {
+                var dto = dtos.Single(u => u.Email == user.UserName);
+                dto.IsAdmin = await _userManager.IsInRoleAsync(user, AdminRole);
+                dto.IsUser = await _userManager.IsInRoleAsync(user, UserRole);
+            }
+
+            return dtos;
         }
 
         public async Task<IdentityResult> Create(ApplicationUserDto dto)
@@ -71,8 +85,6 @@ namespace Spring.Services
 
             if (result.Succeeded)
             {
-                await addToRole(dto.Email, "user");
-
                 var claims = new List<Claim> {
                     new Claim(type: JwtClaimTypes.GivenName, value: user.FirstName),
                     new Claim(type: JwtClaimTypes.FamilyName, value: user.LastName),
@@ -92,20 +104,28 @@ namespace Spring.Services
             return result;
         }
 
-        private async Task addToRole(string userName, string roleName)
+        public async Task Update(ApplicationUserDto dto)
         {
-            var user = await _userManager.FindByNameAsync(userName);
-            await _userManager.AddToRoleAsync(user, roleName);
-        }
+            ApplicationUser user = await _userManager.FindByNameAsync(dto.Email);
+            _mapper.Map(dto, user);
 
-        private async Task addClaims(string userName)
-        {
-            var user = await _userManager.FindByNameAsync(userName);
-            var claims = new List<Claim> {
-                new Claim(type: JwtClaimTypes.GivenName, value: user.FirstName),
-                new Claim(type: JwtClaimTypes.FamilyName, value: user.LastName),
-            };
-            await _userManager.AddClaimsAsync(user, claims);
+            if (dto.IsAdmin)
+            {
+                await _userManager.AddToRoleAsync(user, AdminRole);
+            }
+            else
+            {
+                await _userManager.RemoveFromRoleAsync(user, AdminRole);
+            }
+            
+            if (dto.IsUser)
+            {
+                await _userManager.AddToRoleAsync(user, UserRole);
+            }
+            else
+            {
+                await _userManager.RemoveFromRoleAsync(user, UserRole);
+            }
         }
     }
 }

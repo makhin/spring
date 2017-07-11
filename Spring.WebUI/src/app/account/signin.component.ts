@@ -2,19 +2,29 @@
 import { Router } from '@angular/router';
 
 import { AuthenticationService } from '../services/authentication.service';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {ToastrService} from "ngx-toastr";
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
     templateUrl: 'signin.component.html'
 })
+
 export class SigninComponent implements OnInit {
   signinForm: FormGroup;
-  loaded: boolean = false;
+  loaded = false;
+  validationMessages = {
+    'email': {
+      'required': 'Адрес обязателен'
+    },
+    'password': {
+      'required': 'Пароль обязателен',
+    }
+  };
 
-  constructor(private fb: FormBuilder, private toastrService: ToastrService, public router: Router, public authenticationService: AuthenticationService) {
-
-  }
+  constructor(private fb: FormBuilder,
+              private toastrService: ToastrService,
+              public router: Router,
+              public authenticationService: AuthenticationService) { }
 
   buildForm(): void {
     this.signinForm = this.fb.group({
@@ -35,20 +45,11 @@ export class SigninComponent implements OnInit {
       if (control && control.dirty && !control.valid) {
         const message = this.validationMessages[controlName];
         for (const key in control.errors) {
-          this.toastrService.error(message[key], null,)
+          this.toastrService.error(message[key], null)
         }
       }
     }
   }
-
-  validationMessages = {
-    'email': {
-      'required': 'Адрес обязателен'
-    },
-    'password': {
-      'required': 'Пароль обязателен',
-    }
-  };
 
   ngOnInit() {
     this.buildForm();
@@ -73,21 +74,21 @@ export class SigninComponent implements OnInit {
         },
         (error: any) => {
           // Checks for error in response (error from the Token endpoint).
-          if (error.body != "") {
+          if (error.body !== '') {
             const body: any = error.json();
 
             switch (body.error) {
-              case "invalid_grant":
-                this.toastrService.error("Неправильное имя или пароль");
+              case 'invalid_grant':
+                this.toastrService.error('Неправильное имя или пароль');
                 break;
               default:
-                this.toastrService.error("Неизвестная ошибка. Попробуйте ещё раз.");
+                this.toastrService.error('Неизвестная ошибка. Попробуйте ещё раз.');
             }
           } else {
             const errMsg = (error.message) ? error.message :
               error.status ? `${error.status} - ${error.statusText}` : 'Server error';
             console.log(errMsg);
-            this.toastrService.error("Серверная ошибка. Попробуйте позже.");
+            this.toastrService.error('Серверная ошибка. Попробуйте позже.');
           }
         });
   }

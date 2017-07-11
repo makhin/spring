@@ -21,6 +21,8 @@ namespace Spring.DbContext.DbContext
             modelBuilder.Entity<InsuranceCase>()
                 .HasDiscriminator<int>("CaseType")
                 .HasValue<MedicalInsuranceCase>(1);
+            modelBuilder.Entity<InsuranceCase>()
+                .HasIndex("CaseType", "CustomerId");
 
             modelBuilder.Entity<Contract>()
                 .Property(e => e.BeginDate)
@@ -38,6 +40,8 @@ namespace Spring.DbContext.DbContext
             modelBuilder.Entity<Customer>()
                 .Property(e => e.EndDate)
                 .HasColumnType("date");
+            modelBuilder.Entity<Customer>()
+                .HasIndex(e => e.Name);
 
             modelBuilder.Entity<InsuranceCase>()
                 .Property(e => e.BeginDate)

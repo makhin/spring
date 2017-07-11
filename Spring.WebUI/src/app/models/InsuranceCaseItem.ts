@@ -1,10 +1,10 @@
 import { IEntity } from './IEntity'
 export class InsuranceCaseItem implements IEntity {
   id: number;
-  customerId: number;
-  mkb10: string;
+  mkb10Code: string;
   treatment: string;
-  hospital: string;
+  hospitalName: string;
   beginDate: Date;
   endDate: Date;
+  totalAmount: number;
 }

@@ -1,48 +1,27 @@
-﻿<form name="form" (ngSubmit)="f.form.valid && signup()" #f="ngForm" novalidate>
+﻿<form name="form">
   <div class="container mt-md-2 pt-2 pb-2 bg-faded">
-    <div class="form-group row">
+    <div class="form-group row" [ngClass]="{'has-danger':!signupForm.controls['firstName'].valid && signupForm.controls['firstName'].touched}">
       <div class="col-md-4">
-      <input placeholder="first name" type="text" name="givenName" [(ngModel)]="model.givenName" required>
-        <small [hidden]="givenName.valid || (givenName.pristine && !f.submitted)" class="has-error">
-          Required
-        </small>
+        <input type="text" class="form-control" id="firstName" name="firstName" [formControl]="signupForm.controls['firstName']" placeholder="Имя...">
       </div>
     </div>
-    <div class="form-group row">
+    <div class="form-group row" [ngClass]="{'has-danger':!signupForm.controls['lastName'].valid && signupForm.controls['lastName'].touched}">
       <div class="col-md-4">
-      <input placeholder="last name" type="text" name="familyName" [(ngModel)]="model.familyName" required>
-      <small [hidden]="familyName.valid || (familyName.pristine && !f.submitted)" class="has-error">
-        Required
-      </small>
+        <input type="text" class="form-control" id="lastName" name="lastName" [formControl]="signupForm.controls['lastName']" placeholder="Фамилия...">
       </div>
     </div>
-    <div class="form-group row">
+    <div class="form-group row" [ngClass]="{'has-danger':!signupForm.controls['email'].valid && signupForm.controls['email'].touched}">
       <div class="col-md-4">
-      <input placeholder="email" type="text" [(ngModel)]="model.username" #username="ngModel" required>
-      <small [hidden]="username.valid || (username.pristine && !f.submitted)" class="has-error">
-        Invalid format
-      </small>
+        <input type="text" class="form-control" id="email" name="email" [formControl]="signupForm.controls['email']" placeholder="Электронная почта...">
       </div>
     </div>
-    <div class="form-group row">
+    <div class="form-group row" [ngClass]="{'has-danger':!signupForm.controls['password'].valid && signupForm.controls['password'].touched}">
       <div class="col-md-4">
-      <input placeholder="password" type="password" name="password" [(ngModel)]="model.password" required>
-      <small [hidden]="password.valid || (password && !f.submitted)" class="has-error">
-        Required
-      </small>
+        <input type="password" class="form-control" id="password" name="password" [formControl]="signupForm.controls['password']" placeholder="Пароль...">
       </div>
     </div>
-    <div *ngIf="errorMessage != ''" class="has-error">
-      <small>{{ errorMessage }}</small>
+    <div>
+      <button type="submit" value="SignUp" class="btn btn-primary" (click)="signup()" [disabled]="!signupForm.valid">Регистрироваться</button>
     </div>
-    <div *ngIf="errorMessages.length > 0" class="has-error">
-      <div *ngFor="let errorMsg of errorMessages">
-        <small>{{ errorMsg.description }}</small>
-      </div>
-    </div>
-    <br />
-  </div>
-  <div>
-    <button type="submit" value="SignUp" class="btn btn-primary">Зарегистрироваться</button>
   </div>
 </form>

@@ -8,8 +8,8 @@ using Spring.DbContext.DbContext;
 namespace Spring.DbContext.Migrations
 {
     [DbContext(typeof(SpringDbContext))]
-    [Migration("20170608060508_Identification")]
-    partial class Identification
+    [Migration("20170707082550_AddIndexes")]
+    partial class AddIndexes
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -139,7 +139,9 @@ namespace Spring.DbContext.Migrations
 
                     b.Property<bool>("EmailConfirmed");
 
-                    b.Property<bool>("IsTechnicalAdmin");
+                    b.Property<string>("FirstName");
+
+                    b.Property<string>("LastName");
 
                     b.Property<bool>("LockoutEnabled");
 
@@ -250,6 +252,8 @@ namespace Spring.DbContext.Migrations
 
                     b.HasIndex("ContractId");
 
+                    b.HasIndex("Name");
+
                     b.ToTable("Customers");
                 });
 
@@ -301,6 +305,8 @@ namespace Spring.DbContext.Migrations
                     b.HasIndex("HospitalId");
 
                     b.HasIndex("Mkb10Id");
+
+                    b.HasIndex("CaseType", "CustomerId");
 
                     b.ToTable("InsuranceCases");
 

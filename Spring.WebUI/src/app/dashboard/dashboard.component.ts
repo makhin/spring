@@ -7,43 +7,42 @@ import { IdentityService } from '../services/identity.service';
 })
 export class DashboardComponent {
 
-    users: any;
+  users: any;
 
-    constructor(private identityService: IdentityService) {
-        this.getAll();
-    }
+  constructor(private identityService: IdentityService) {
+    this.getAll();
+  }
 
-    getAll() {
-        this.identityService.GetAll()
-            .subscribe(
-            (res: any) => {
-                this.users = res;
-            },
-            (error: any) => {
-                const errMsg = (error.message) ? error.message :
-                    error.status ? `${error.status} - ${error.statusText}` : 'Server error';
-                console.log(errMsg);
-            });
-    }
+  getAll() {
+    this.identityService.GetAll()
+      .subscribe(
+        (res: any) => {
+          this.users = res;
+        },
+        (error: any) => {
+          const errMsg = (error.message) ? error.message :
+            error.status ? `${error.status} - ${error.statusText}` : 'Server error';
+          console.log(errMsg);
+        });
+  }
 
-    delete(username: string) {
-        this.identityService.Delete(username)
-            .subscribe(
-            (res: any) => {
-                // IdentityResult.
-                if (res.succeeded) {
-                    // Refreshes the users.
-                    this.getAll();
-                } else {
-                    console.log(res.errors);
-                }
+  delete(username: string) {
+    this.identityService.Delete(username)
+      .subscribe(
+        (res: any) => {
+          // IdentityResult.
+          if (res.succeeded) {
+            // Refreshes the users.
+            this.getAll();
+          } else {
+            console.log(res.errors);
+          }
 
-            },
-            (error: any) => {
-                const errMsg = (error.message) ? error.message :
-                    error.status ? `${error.status} - ${error.statusText}` : 'Server error';
-                console.log(errMsg);
-            });
-    }
-
+        },
+        (error: any) => {
+          const errMsg = (error.message) ? error.message :
+            error.status ? `${error.status} - ${error.statusText}` : 'Server error';
+          console.log(errMsg);
+        });
+  }
 }

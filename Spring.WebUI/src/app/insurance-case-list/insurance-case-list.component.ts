@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {DataService} from '../services/data.service';
 import {CustomerInsuranceCases} from '../models/CustomerInsuranceCases';
-import {InsuranceCaseItem} from "../models/InsuranceCaseItem";
+import {InsuranceCaseItem} from '../models/InsuranceCaseItem';
 
 @Component({
   selector: 'app-insurance-case-list',

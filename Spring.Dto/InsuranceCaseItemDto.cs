@@ -17,5 +17,7 @@ namespace Spring.Dto
         public DateTime? BeginDate { get; set; }
 
         public DateTime? EndDate { get; set; }
+
+        public decimal? TotalAmount { get; set; }
     }
 }

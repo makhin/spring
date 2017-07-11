@@ -251,6 +251,8 @@ namespace Spring.DbContext.Migrations
 
                     b.HasIndex("ContractId");
 
+                    b.HasIndex("Name");
+
                     b.ToTable("Customers");
                 });
 
@@ -302,6 +304,8 @@ namespace Spring.DbContext.Migrations
                     b.HasIndex("HospitalId");
 
                     b.HasIndex("Mkb10Id");
+
+                    b.HasIndex("CaseType", "CustomerId");
 
                     b.ToTable("InsuranceCases");
 
