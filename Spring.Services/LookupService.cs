@@ -12,7 +12,7 @@ namespace Spring.Services
 {
     public interface ILookupService
     {
-        Task<IEnumerable<HospitalDto>> GetHospitals(int? parentid);
+        Task<IEnumerable<HospitalDto>> GetHospitals(int? parentId);
         Task<IEnumerable<Mkb10Dto>> GetMkb10(string s);
     }
 

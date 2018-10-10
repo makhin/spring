@@ -7,7 +7,8 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using AutoMapper;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
@@ -57,7 +58,7 @@ namespace Spring.WebApi
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
             services.AddTransient<IUserService, UserService>();            
-
+            
             services.AddIdentity<ApplicationUser, IdentityRole>(options =>
                 {
                     options.Password.RequireDigit = false;
@@ -68,7 +69,7 @@ namespace Spring.WebApi
                 })
                 .AddEntityFrameworkStores<SpringDbContext>()
                 .AddDefaultTokenProviders();
-
+            
             services.AddApplicationInsightsTelemetry(Configuration);
 
             services.AddMvc(
@@ -82,7 +83,7 @@ namespace Spring.WebApi
                 opts.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                 opts.SerializerSettings.Converters.Add(new StringEnumConverter {CamelCaseText = true});
             });
-
+            
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("Manage Accounts", policy => policy.RequireRole("admin"));
@@ -91,7 +92,7 @@ namespace Spring.WebApi
 
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
-
+            
             services.AddIdentityServer(options =>
                 {
                     options.IssuerUri = Configuration["IssuerUri"];
@@ -101,6 +102,17 @@ namespace Spring.WebApi
                 .AddInMemoryApiResources(Config.GetApiResources())
                 .AddInMemoryClients(Config.GetClients())
                 .AddAspNetIdentity<ApplicationUser>();
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(o =>
+            {
+                o.Authority = Configuration["Authority"];
+                o.Audience = "WebAPI";
+                o.RequireHttpsMetadata = false;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -141,16 +153,6 @@ namespace Spring.WebApi
                     await next();
                 }
             });
-
-            app.UseIdentityServerAuthentication(new IdentityServerAuthenticationOptions
-            {
-                Authority = Configuration["Authority"],
-                AllowedScopes = {"WebAPI"},
-                RequireHttpsMetadata = false
-            });
-
-            app.UseIdentity();
-            app.UseIdentityServer();
 
             app.UseDefaultFiles();
             app.UseStaticFiles();

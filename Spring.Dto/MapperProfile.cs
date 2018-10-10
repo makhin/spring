@@ -83,6 +83,8 @@ namespace Spring.Dto
 
             CreateMap<ApplicationUser, ApplicationUserDto>()
                 .ForMember(dst => dst.Password, opt => opt.Ignore())
+                .ForMember(dst => dst.IsAdmin, opt => opt.Ignore())
+                .ForMember(dst => dst.IsUser, opt => opt.Ignore())
                 .IgnoreAllPropertiesWithAnInaccessibleSetter();
         }
 

@@ -11,6 +11,7 @@ namespace Spring.Tests
         [Fact]
         public void MappingProfile_Configuration()
         {
+            Mapper.Reset();
             Mapper.Initialize(m => m.AddProfile<MappingProfile>());
             Mapper.AssertConfigurationIsValid();
         }
@@ -18,19 +19,22 @@ namespace Spring.Tests
         [Fact]
         public void MappingProfile_MedicalInsuranceCase_HospitalIsNull()
         {
+            Mapper.Reset();
             Mapper.Initialize(m => m.AddProfile<MappingProfile>());
             Mapper.AssertConfigurationIsValid();
 
             MedicalInsuranceCase entity = new MedicalInsuranceCase();
 
             var dto =  Mapper.Map<MedicalInsuranceCase, MedicalInsuranceCaseDto>(entity);
-            Assert.Equal(null, dto.HospitalId);
-            Assert.Equal(null, dto.HospitalDepartmentId);
+            
+            Assert.Null(dto.HospitalId);
+            Assert.Null(dto.HospitalDepartmentId);
         }
 
         [Fact]
         public void MappingProfile_MedicalInsuranceCase_HospitalDepatmentIsNullAndHospitalIsNotNull()
         {
+            Mapper.Reset();
             Mapper.Initialize(m => m.AddProfile<MappingProfile>());
             Mapper.AssertConfigurationIsValid();
 
@@ -40,12 +44,13 @@ namespace Spring.Tests
 
             var dto = Mapper.Map<MedicalInsuranceCase, MedicalInsuranceCaseDto>(entity);
             Assert.Equal(expectedHospitaId, dto.HospitalId);
-            Assert.Equal(null, dto.HospitalDepartmentId);
+            Assert.Null(dto.HospitalDepartmentId);
         }
 
         [Fact]
         public void MappingProfile_MedicalInsuranceCase_HospitalDepatmentIsNotNullAndHospitalIsNotNull()
         {
+            Mapper.Reset();
             Mapper.Initialize(m => m.AddProfile<MappingProfile>());
             Mapper.AssertConfigurationIsValid();
 
@@ -62,18 +67,20 @@ namespace Spring.Tests
         [Fact]
         public void MappingProfileReverse_MedicalInsuranceCase_HospitalIsNull()
         {
+            Mapper.Reset();
             Mapper.Initialize(m => m.AddProfile<MappingProfile>());
             Mapper.AssertConfigurationIsValid();
 
             MedicalInsuranceCaseDto dto = new MedicalInsuranceCaseDto();
 
             var entity = Mapper.Map<MedicalInsuranceCaseDto, MedicalInsuranceCase>(dto);
-            Assert.Equal(null, entity.HospitalId);
+            Assert.Null(entity.HospitalId);
         }
 
         [Fact]
         public void MappingProfileReverse_MedicalInsuranceCase_HospitalDepatmentIsNullAndHospitalIsNotNull()
         {
+            Mapper.Reset();
             Mapper.Initialize(m => m.AddProfile<MappingProfile>());
             Mapper.AssertConfigurationIsValid();
 
@@ -87,6 +94,7 @@ namespace Spring.Tests
         [Fact]
         public void MappingProfileReverse_MedicalInsuranceCase_HospitalDepatmentIsNotNullAndHospitalIsNotNull()
         {
+            Mapper.Reset();
             Mapper.Initialize(m => m.AddProfile<MappingProfile>());
             Mapper.AssertConfigurationIsValid();
 
@@ -106,6 +114,7 @@ namespace Spring.Tests
         [InlineData(null, null, null, null, null)]
         public void MappingProfile_MedicalInsuranceCase_TotalAmount(int? food, int? diag, int? treat, int? order, int? expected)
         {
+            Mapper.Reset();
             Mapper.Initialize(m => m.AddProfile<MappingProfile>());
             Mapper.AssertConfigurationIsValid();
 

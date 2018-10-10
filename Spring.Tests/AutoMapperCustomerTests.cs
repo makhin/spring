@@ -13,6 +13,7 @@ namespace Spring.Tests
         [Fact]
         public void MappingProfile_Configuration()
         {
+            Mapper.Reset();
             Mapper.Initialize(m => m.AddProfile<MappingProfile>());
             Mapper.AssertConfigurationIsValid();
         }
@@ -20,6 +21,7 @@ namespace Spring.Tests
         [Fact]
         public void MappingProfile_CustomerToCustomerItemDto()
         {
+            Mapper.Reset();
             Mapper.Initialize(m => m.AddProfile<MappingProfile>());
             Mapper.AssertConfigurationIsValid();
 
