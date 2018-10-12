@@ -8,8 +8,12 @@ import { enthusiasm } from './reducers/index';
 import { StoreState } from './types/index';
 import { EnthusiasmAction } from './actions/index';
 
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faStroopwafel } from '@fortawesome/free-solid-svg-icons';
+
+library.add(faStroopwafel);
+
 import './index.css';
-import registerServiceWorker from './registerServiceWorker';
 
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
@@ -26,5 +30,3 @@ ReactDOM.render(
     </Provider>,
     rootElement
 );
-
-registerServiceWorker();
