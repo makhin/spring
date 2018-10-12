@@ -27,7 +27,7 @@ namespace Spring.Tests
 
             Customer entity = new Customer()
             {
-                InsuranceCases = new List<InsuranceCase>() {new MedicalInsuranceCase() {TotalAmount = 100}, new MedicalInsuranceCase() { TotalAmount = null } }
+                InsuranceCases = new List<InsuranceCase>() {new MedicalInsuranceCase() { TotalAmount = 100 }, new MedicalInsuranceCase() { TotalAmount = null } }
             };
 
             var dto = Mapper.Map<Customer, CustomerItemDto>(entity);

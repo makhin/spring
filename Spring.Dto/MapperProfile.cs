@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Linq.Expressions;
 using AutoMapper;
+using MockQueryable;
 using Spring.DbContext.Models;
 
 namespace Spring.Dto
@@ -26,8 +27,8 @@ namespace Spring.Dto
                 .IgnoreAllPropertiesWithAnInaccessibleSetter();            
 
             CreateMap<Customer, CustomerDto>().ReverseMap();
+            CreateMap<Hospital, HospitalDto>().IgnoreAllPropertiesWithAnInaccessibleSetter();            
 
-            CreateMap<Hospital, HospitalDto>().IgnoreAllPropertiesWithAnInaccessibleSetter();
             CreateMap<Mkb10, Mkb10Dto>().ReverseMap().IgnoreAllPropertiesWithAnInaccessibleSetter();            
 
             CreateMap<InsuranceCase, InsuranceCaseItemDto>()

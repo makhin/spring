@@ -157,6 +157,7 @@ namespace Spring.WebApi
             app.UseDefaultFiles();
             app.UseStaticFiles();
             app.UseMvc();
+            app.UseIdentityServer();
         }
     }
 }

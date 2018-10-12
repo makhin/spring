@@ -34,13 +34,11 @@ namespace Spring.Services
     public class CustomerService: ICustomerService
     {
         private readonly IRepository<Customer> _customerRepository;
-        private readonly IRepository<InsuranceCase> _insuranceCaseRepository;
         private readonly IMapper _mapper;
 
-        public CustomerService(IRepository<Customer> customerRepository, IRepository<InsuranceCase> insuranceCaseRepository, IMapper mapper)
+        public CustomerService(IRepository<Customer> customerRepository, IMapper mapper)
         {
             _customerRepository = customerRepository;
-            _insuranceCaseRepository = insuranceCaseRepository;
             _mapper = mapper;
         }
 
@@ -51,7 +49,6 @@ namespace Spring.Services
                                                            c.TIN.StartsWith(globalFilter)))
                 .OrderBy(c => c.Name);
 
-            //var insuranceCases = _insuranceCaseRepository.GetAll();
             var totalNumberOfRecords = await customers.CountAsync();
             var projection = await (from customer in customers.GetByPage(page, pageSize)
                                     select new CustomerItemDto
