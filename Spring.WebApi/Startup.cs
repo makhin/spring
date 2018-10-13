@@ -98,6 +98,7 @@ namespace Spring.WebApi
                     options.IssuerUri = Configuration["IssuerUri"];
                 })
                 .AddDeveloperSigningCredential()
+                .AddInMemoryPersistedGrants()
                 .AddInMemoryIdentityResources(Config.GetIdentityResources())
                 .AddInMemoryApiResources(Config.GetApiResources())
                 .AddInMemoryClients(Config.GetClients())

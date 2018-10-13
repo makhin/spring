@@ -1,7 +1,6 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
-import Hello from './containers/Hello';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import { enthusiasm } from './reducers/index';
@@ -16,6 +15,7 @@ library.add(faStroopwafel);
 import './index.css';
 
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import {AppRouter} from "./components/Router";
 
 const rootElement = document.getElementById("root");
 
@@ -26,7 +26,7 @@ const store = createStore<StoreState, EnthusiasmAction, any, any>(enthusiasm, {
 
 ReactDOM.render(
     <Provider store={store}>
-        <Hello />
+        <AppRouter />
     </Provider>,
     rootElement
 );
