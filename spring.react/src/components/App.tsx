@@ -1,15 +1,15 @@
 import * as React from 'react';
-import {Header} from "./Header";
-import Container from 'reactstrap/lib/Container';
+import { Root } from '../containers/Root/Root';
+import { TodoApp } from '../containers/TodoApp';
+import {Route, Router, Switch} from "react-router";
 
-export interface IAppProps {
-    children: any;
-}
+export const App = ({history}) => (
+    <Root>
+        <Router history={history}>
+            <Switch>
+                <Route path="/" component={TodoApp}/>
+            </Switch>
+        </Router>
+    </Root>
+);
 
-export const App: React.StatelessComponent<{}> = (props) => {
-    return (
-        <Container fluid={true}>
-            <Header />
-        </Container>
-    );
-}
