@@ -76,9 +76,10 @@ namespace Spring.Dto
             CreateMap<MedicalInsuranceCase, MedicalInsuranceCaseDto>()
                 .IncludeBase<InsuranceCase, InsuranceCaseDto>();
 
+            // TODO
             CreateMap<MedicalInsuranceCaseDto, MedicalInsuranceCase>()
                 .IncludeBase<InsuranceCaseDto, InsuranceCase>()
-                .ForMember(dst => dst.TotalAmount, opt => opt.ResolveUsing<TotalAmountResolver>());
+                .ForMember(dst => dst.TotalAmount, opt => opt.MapFrom<TotalAmountResolver>());
 
             CreateMap<Order, OrderDto>().ReverseMap().IgnoreAllPropertiesWithAnInaccessibleSetter();
 

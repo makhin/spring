@@ -73,15 +73,14 @@ namespace Spring.WebApi
             services.AddApplicationInsightsTelemetry(Configuration);
 
             services.AddMvc(
-                config =>
-                {
-                    config.Filters.Add(typeof(SpringExceptionFilter));
-                }
+                config => { config.Filters.Add(typeof(SpringExceptionFilter)); }
             ).AddJsonOptions(opts =>
             {
                 // Force Camel Case to JSON
-                opts.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-                opts.SerializerSettings.Converters.Add(new StringEnumConverter {CamelCaseText = true});
+                opts.SerializerSettings.ContractResolver = new DefaultContractResolver
+                {
+                    NamingStrategy = new CamelCaseNamingStrategy()
+                };
             });
             
             services.AddAuthorization(options =>
