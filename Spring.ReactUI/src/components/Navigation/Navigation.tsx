@@ -10,6 +10,7 @@ import {
     NavLink,
     UncontrolledDropdown
 } from "reactstrap";
+import {Link} from "react-router-dom";
 
 
 class Navigation extends React.Component<{}, { isOpen: boolean }> {
@@ -29,35 +30,31 @@ class Navigation extends React.Component<{}, { isOpen: boolean }> {
         return (
             <Navbar fixed={"top"} expand={"lg"} color={"dark"} dark >
                 <Container>
-                    <NavbarBrand href="/">
-                        Spring
+                    <NavbarBrand tag={Link} to="/">
+                        Весна
                     </NavbarBrand>
                     <NavbarToggler onClick={this.toggle} />
                     <Collapse isOpen={this.state.isOpen} navbar>
                         <Nav className="ml-auto" navbar id="navbarResponsive">
                             <NavItem>
-                                <NavLink href="/about">About</NavLink>
+                                <NavLink href="/about">О Программе</NavLink>
                             </NavItem>
                             <NavItem>
-                                <NavLink href="/services">Services</NavLink>
+                                <NavLink tag={Link} to="/contracts" >Контракты</NavLink>
                             </NavItem>
                             <NavItem>
-                                <NavLink href="/contact">Contact</NavLink>
+                                <NavLink href="/reports">Отчеты</NavLink>
                             </NavItem>
                             <UncontrolledDropdown nav inNavbar>
                                 <DropdownToggle nav caret>
-                                    Portfolio
+                                    Аптека
                                 </DropdownToggle>
                                 <DropdownMenu right>
                                     <DropdownItem>
-                                        Option 1
+                                        Ввести накладную
                                     </DropdownItem>
                                     <DropdownItem>
-                                        Option 2
-                                    </DropdownItem>
-                                    <DropdownItem divider />
-                                    <DropdownItem>
-                                        Reset
+                                        Список накладных
                                     </DropdownItem>
                                 </DropdownMenu>
                             </UncontrolledDropdown>

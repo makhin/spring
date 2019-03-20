@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using AutoMapper;
 using IdentityModel;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Spring.DbContext.Models;
 using Spring.Dto;

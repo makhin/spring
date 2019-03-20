@@ -14,10 +14,4 @@
     <ProjectReference Include="..\Spring.DbContext\Spring.DbContext.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Reference Include="MockQueryable">
-      <HintPath>..\..\..\..\.nuget\packages\mockqueryable.core\1.0.3\lib\netstandard2.0\MockQueryable.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
 </Project>

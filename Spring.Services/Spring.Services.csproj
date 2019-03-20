@@ -7,6 +7,7 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="8.0.0" />
     <PackageReference Include="AutoMapper.Collection" Version="5.0.0" />
+    <PackageReference Include="IdentityModel" Version="3.10.4" />
   </ItemGroup>
 
   <ItemGroup>
@@ -15,9 +16,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="IdentityModel">
-      <HintPath>..\..\..\..\.nuget\packages\identitymodel\2.8.1\lib\netstandard1.4\IdentityModel.dll</HintPath>
-    </Reference>
     <Reference Include="System.Interactive.Async">
       <HintPath>..\..\..\..\.nuget\packages\system.interactive.async\3.0.0\lib\netstandard1.0\System.Interactive.Async.dll</HintPath>
     </Reference>

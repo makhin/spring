@@ -25,8 +25,8 @@ const history = createBrowserHistory();
 const rootStore = createStores(history, defaultTodos);
 
 ReactDOM.render(
-    <Provider {...rootStore}>
-        <App history={history} />
-    </Provider>,
+<Provider {...rootStore}>
+            <App history={history} />
+        </Provider>,
     rootElement
 );

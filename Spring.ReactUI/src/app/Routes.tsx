@@ -1,18 +1,18 @@
 import React, {Component} from 'react';
 import {Route} from 'react-router-dom';
 import Home from "../components/Home/Home"
-import Courses from "../components/Courses/Courses"
-import City from "../components/City/City"
-import NotFound from "../components/NotFound/NotFound";
+import About from "../components/About/About"
+import Contracts from "../components/Contract/Contracts"
+import ContractEdit from "../components/Contract/ContractEdit";
 
 class Routes extends Component {
     render() {
         return (
             <div>
                 <Route path="/" exact component={Home}/>
-                <Route path="/courses" component={Courses}/>
-                <Route path="/cities" component={City}/>
-                <Route path="*" component={NotFound}/>
+                <Route path="/about" component={About}/>
+                <Route path="/contracts" component={Contracts}/>
+                <Route path="/contract" component={ContractEdit}/>
             </div>
         );
     }

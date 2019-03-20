@@ -1,11 +1,19 @@
 import React from "react";
-import App from "../../app/App";
+import ContractList from "../Contract/ContractList";
+import Header from "../Header/Header";
+import {Container, Row} from "reactstrap";
 
 class Home extends React.Component<any, any> {
     render() {
         return (
             <div>
-                <div>HOME</div>
+                <Row>
+                    <Header/>
+                </Row>
+                <Row>
+                    <h2>Contracts</h2>
+                    <ContractList/>
+                </Row>
             </div>
         );
     }

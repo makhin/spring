@@ -10,7 +10,6 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using Spring.DbContext.DbContext;
 using Spring.DbContext.Models;

@@ -2,7 +2,7 @@ import React from "react";
 import {match, Route} from "react-router";
 import {Link} from "react-router-dom";
 
-class Courses extends React.Component<{match: match}, any> {
+class About extends React.Component<{match: match}, any> {
     render() {
         return (
             <div>
@@ -18,4 +18,4 @@ class Courses extends React.Component<{match: match}, any> {
     }
 }
 
-export default Courses;
+export default About;
