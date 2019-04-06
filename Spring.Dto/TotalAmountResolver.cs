@@ -21,9 +21,9 @@ namespace Spring.Dto
             {
                 result = (result ?? 0) + source.DiagnosisCosts.Value;
             }
-            if (source.Treatment—osts.HasValue)
+            if (source.Treatment–°osts.HasValue)
             {
-                result = (result ?? 0) + source.Treatment—osts.Value;
+                result = (result ?? 0) + source.Treatment–°osts.Value;
             }
 
             return result;

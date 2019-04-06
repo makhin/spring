@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using AutoMapper;
 using Spring.DbContext.Models;
 using Spring.Dto;
@@ -118,7 +118,7 @@ namespace Spring.Tests
             Mapper.Initialize(m => m.AddProfile<MappingProfile>());
             Mapper.AssertConfigurationIsValid();
 
-            MedicalInsuranceCaseDto dto = new MedicalInsuranceCaseDto { FoodCosts = food, DiagnosisCosts = diag, Treatment�osts = treat};
+            MedicalInsuranceCaseDto dto = new MedicalInsuranceCaseDto { FoodCosts = food, DiagnosisCosts = diag, TreatmentСosts = treat};
             if (order != null)
             {
                 dto.Orders = new List<OrderDto> {new OrderDto {Amount = (decimal) order}};

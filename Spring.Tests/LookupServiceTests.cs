@@ -14,13 +14,13 @@ namespace Spring.Tests
 {
     public class LookupServiceTests
     {
-        private readonly Mock<IRepository<Hospital>> repositoryHospitalMock = new Mock<IRepository<Hospital>>();
-        private readonly Mock<IRepository<Mkb10>> repositoryMkbMock = new Mock<IRepository<Mkb10>>();
-        private readonly LookupService subject;
+        private readonly Mock<IRepository<Hospital>> _repositoryHospitalMock = new Mock<IRepository<Hospital>>();
+        private readonly Mock<IRepository<Mkb10>> _repositoryMkbMock = new Mock<IRepository<Mkb10>>();
+        private readonly LookupService _subject;
 
         public LookupServiceTests()
         {
-            subject = new LookupService(repositoryHospitalMock.Object, repositoryMkbMock.Object);
+            _subject = new LookupService(_repositoryHospitalMock.Object, _repositoryMkbMock.Object);
         }
 
         [Fact(Skip = "find way mock ProjectTo")]
@@ -40,8 +40,8 @@ namespace Spring.Tests
                 .Build()
                 .AsQueryable().BuildMock();
 
-            repositoryHospitalMock.Setup(r => r.GetAll()).Returns(hospitals.Object);
-            var result = await subject.GetHospitals(parentId);
+            _repositoryHospitalMock.Setup(r => r.GetAll()).Returns(hospitals.Object);
+            var result = await _subject.GetHospitals(parentId);
             var hospitalDtos = result.ToList();
             hospitalDtos.Should().HaveCount(expected);
             hospitalDtos.Should().BeInAscendingOrder(h => h.Name);
