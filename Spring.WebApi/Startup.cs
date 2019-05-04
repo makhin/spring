@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,6 +18,7 @@ using Spring.Repositories;
 using Spring.Services;
 using Spring.WebApi.Filters;
 using Serilog;
+using Spring.Dto;
 
 namespace Spring.WebApi
 {
@@ -38,7 +40,14 @@ namespace Spring.WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            services.AddAutoMapper();
+            services.AddOpenApiDocument();
+            //services.AddSwaggerDocument();
+
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+            Mapper.Initialize(cfg => {
+                cfg.AddProfile<MappingProfile>();
+            });
 
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<SpringDbContext>(options =>
@@ -57,7 +66,7 @@ namespace Spring.WebApi
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
             services.AddTransient<IUserService, UserService>();            
-            
+/*            
             services.AddIdentity<ApplicationUser, IdentityRole>(options =>
                 {
                     options.Password.RequireDigit = false;
@@ -68,7 +77,7 @@ namespace Spring.WebApi
                 })
                 .AddEntityFrameworkStores<SpringDbContext>()
                 .AddDefaultTokenProviders();
-            
+*/            
             services.AddApplicationInsightsTelemetry(Configuration);
 
             services.AddMvc(
@@ -81,37 +90,38 @@ namespace Spring.WebApi
                     NamingStrategy = new CamelCaseNamingStrategy()
                 };
             });
-            
+/*                                           
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("Manage Accounts", policy => policy.RequireRole("admin"));
                 options.AddPolicy("Access Resources", policy => policy.RequireRole("admin", "user"));
             });
-
+*/
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
-            
-            services.AddIdentityServer(options =>
-                {
-                    options.IssuerUri = Configuration["IssuerUri"];
-                })
-                .AddDeveloperSigningCredential()
-                .AddInMemoryPersistedGrants()
-                .AddInMemoryIdentityResources(Config.GetIdentityResources())
-                .AddInMemoryApiResources(Config.GetApiResources())
-                .AddInMemoryClients(Config.GetClients())
-                .AddAspNetIdentity<ApplicationUser>();
+            /*            
+                        services.AddIdentityServer(options =>
+                            {
+                                options.IssuerUri = Configuration["IssuerUri"];
+                            })
+                            .AddDeveloperSigningCredential()
+                            .AddInMemoryPersistedGrants()
+                            .AddInMemoryIdentityResources(Config.GetIdentityResources())
+                            .AddInMemoryApiResources(Config.GetApiResources())
+                            .AddInMemoryClients(Config.GetClients())
+                            .AddAspNetIdentity<ApplicationUser>();
 
-            services.AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(o =>
-            {
-                o.Authority = Configuration["Authority"];
-                o.Audience = "WebAPI";
-                o.RequireHttpsMetadata = false;
-            });
+                        services.AddAuthentication(options =>
+                        {
+                            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                        }).AddJwtBearer(o =>
+                        {
+                            o.Authority = Configuration["Authority"];
+                            o.Audience = "WebAPI";
+                            o.RequireHttpsMetadata = false;
+                        });
+            */
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -156,7 +166,11 @@ namespace Spring.WebApi
             app.UseDefaultFiles();
             app.UseStaticFiles();
             app.UseMvc();
-            app.UseIdentityServer();
+
+            app.UseSwagger(); // serve OpenAPI/Swagger documents
+            app.UseSwaggerUi3(); // serve Swagger UI
+            app.UseReDoc(); // serve ReDoc UI
+                            //            app.UseIdentityServer();
         }
     }
 }

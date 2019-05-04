@@ -14,7 +14,7 @@ namespace Spring.WebApi.Controllers
     /// Identity Web API controller.
     /// </summary>
     [Route("api/[controller]")]
-    [Authorize(Policy = "Manage Accounts")] // Authorization policy for this API.
+    //[Authorize(Policy = "Manage Accounts")] // Authorization policy for this API.
     public class IdentityController : Controller
     {
         private readonly IUserService _userService;

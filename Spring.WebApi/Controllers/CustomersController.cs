@@ -12,7 +12,7 @@ namespace Spring.WebApi.Controllers
 {
     [Produces("application/json")]
     [Route("api/[controller]")]
-    [Authorize(Policy = "Access Resources")] // Authorization policy for this API.
+    //[Authorize(Policy = "Access Resources")] // Authorization policy for this API.
     public class CustomersController : Controller
     {
         private readonly ICustomerService _service;
