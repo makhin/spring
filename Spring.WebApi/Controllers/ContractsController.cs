@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Spring.Dto;
 using Spring.Services;
@@ -13,8 +14,10 @@ namespace Spring.WebApi.Controllers
 {
     [Produces("application/json")]
     [Route("api/[controller]")]
+    [ApiController]
+    [ApiConventionType(typeof(DefaultApiConventions))]
     //[Authorize(Policy = "Access Resources")] // Authorization policy for this API.
-    public class ContractsController : Controller
+    public class ContractsController : ControllerBase
     {
         private readonly IContractService _service;
 
@@ -24,7 +27,10 @@ namespace Spring.WebApi.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(int id)
+        [ProducesResponseType(typeof(ContractDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<ContractDto>> GetById(int id)
         {
             var value = await _service.Get(id);
             if (value == null)
@@ -37,7 +43,10 @@ namespace Spring.WebApi.Controllers
 
         // GET: api/sampleData
         [HttpGet]
-        public async Task<IActionResult> Get()
+        [ProducesResponseType(typeof(IEnumerable<ContractDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<IEnumerable<ContractDto>>> Get()
         {
             var data = await _service.GetAll();
 
@@ -51,7 +60,10 @@ namespace Spring.WebApi.Controllers
 
         // POST api/sampleData
         [HttpPut]
-        public async Task<IActionResult> Put([FromBody]ContractDto value)
+        [ProducesResponseType(typeof(ContractDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<ContractDto>> Put([FromBody]ContractDto value)
         {
             ICollection<ValidationResult> results;
 
@@ -73,7 +85,10 @@ namespace Spring.WebApi.Controllers
 
         // PUT api/sampleData/5
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]ContractDto value)
+        [ProducesResponseType(typeof(void), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult> Post([FromBody]ContractDto value)
         {
             ICollection<ValidationResult> results;
 
@@ -95,7 +110,10 @@ namespace Spring.WebApi.Controllers
 
         // DELETE api/sampleData/5
         [HttpDelete("{id:int}")]
-        public async Task<IActionResult> Delete(int id)
+        [ProducesResponseType(typeof(void), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult> Delete(int id)
         {
             try
             {

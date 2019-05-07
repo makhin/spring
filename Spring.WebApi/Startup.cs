@@ -10,6 +10,7 @@ using System.Reflection;
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Serialization;
 using Spring.DbContext.DbContext;
@@ -39,7 +40,6 @@ namespace Spring.WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
             services.AddOpenApiDocument();
             //services.AddSwaggerDocument();
 
@@ -82,7 +82,8 @@ namespace Spring.WebApi
 
             services.AddMvc(
                 config => { config.Filters.Add(typeof(SpringExceptionFilter)); }
-            ).AddJsonOptions(opts =>
+            ).SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+                .AddJsonOptions(opts =>
             {
                 // Force Camel Case to JSON
                 opts.SerializerSettings.ContractResolver = new DefaultContractResolver
@@ -169,7 +170,7 @@ namespace Spring.WebApi
 
             app.UseSwagger(); // serve OpenAPI/Swagger documents
             app.UseSwaggerUi3(); // serve Swagger UI
-            app.UseReDoc(); // serve ReDoc UI
+//            app.UseReDoc(); // serve ReDoc UI
                             //            app.UseIdentityServer();
         }
     }

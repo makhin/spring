@@ -2659,3 +2659,201 @@ Request starting HTTP/1.1 DEBUG http://localhost:5000/  0
 [20:17:05 Information] Microsoft.AspNetCore.Hosting.Internal.WebHost
 Request finished in 151.0421ms 200 
 
+[21:52:24 Information] Microsoft.AspNetCore.Hosting.Internal.WebHost
+Request starting HTTP/1.1 DEBUG http://localhost:5000/  0
+
+[21:52:24 Information] Microsoft.AspNetCore.Hosting.Internal.WebHost
+Request finished in 150.1425ms 200 
+
+[21:52:31 Information] Microsoft.AspNetCore.Hosting.Internal.WebHost
+Request starting HTTP/1.1 GET http://localhost:5000/  
+
+[21:52:31 Information] Microsoft.AspNetCore.Hosting.Internal.WebHost
+Request finished in 243.3619ms 404 
+
+[21:52:36 Information] Microsoft.AspNetCore.Hosting.Internal.WebHost
+Request starting HTTP/1.1 GET http://localhost:5000/swagger  
+
+[21:52:36 Information] Microsoft.AspNetCore.Hosting.Internal.WebHost
+Request finished in 9.133ms 302 
+
+[21:52:36 Information] Microsoft.AspNetCore.Hosting.Internal.WebHost
+Request starting HTTP/1.1 GET http://localhost:5000/swagger/index.html  
+
+[21:52:36 Information] Microsoft.AspNetCore.Hosting.Internal.WebHost
+Request finished in 172.5189ms 200 text/html; charset=utf-8
+
+[21:52:36 Information] Microsoft.AspNetCore.Hosting.Internal.WebHost
+Request starting HTTP/1.1 GET http://localhost:5000/swagger/swagger-ui.css  
+
+[21:52:36 Information] Microsoft.AspNetCore.Hosting.Internal.WebHost
+Request starting HTTP/1.1 GET http://localhost:5000/swagger/swagger-ui-bundle.js  
+
+[21:52:36 Information] Microsoft.AspNetCore.Hosting.Internal.WebHost
+Request starting HTTP/1.1 GET http://localhost:5000/swagger/swagger-ui-standalone-preset.js  
+
+[21:52:36 Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware
+The file "/swagger-ui.css" was not modified
+
+[21:52:36 Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware
+The file "/swagger-ui-bundle.js" was not modified
+
+[21:52:36 Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware
+The file "/swagger-ui-standalone-preset.js" was not modified
+
+[21:52:36 Information] Microsoft.AspNetCore.Hosting.Internal.WebHost
+Request finished in 64.704ms 304 text/css
+
+[21:52:36 Information] Microsoft.AspNetCore.Hosting.Internal.WebHost
+Request finished in 45.4893ms 304 application/javascript
+
+[21:52:36 Information] Microsoft.AspNetCore.Hosting.Internal.WebHost
+Request finished in 57.9583ms 304 application/javascript
+
+[21:52:36 Information] Microsoft.AspNetCore.Hosting.Internal.WebHost
+Request starting HTTP/1.1 GET http://localhost:5000/swagger/v1/swagger.json  
+
+[21:52:37 Information] Microsoft.AspNetCore.Hosting.Internal.WebHost
+Request finished in 915.9226ms 200 application/json; charset=utf-8
+
+[21:52:39 Information] Microsoft.AspNetCore.Hosting.Internal.WebHost
+Request starting HTTP/1.1 GET http://localhost:5000/swagger/v1/swagger.json  
+
+[21:52:39 Information] Microsoft.AspNetCore.Hosting.Internal.WebHost
+Request finished in 3.9029ms 200 application/json; charset=utf-8
+
+[21:52:39 Information] Microsoft.AspNetCore.Hosting.Internal.WebHost
+Request starting HTTP/1.1 GET http://localhost:5000/favicon.ico  
+
+[21:52:39 Information] Microsoft.AspNetCore.Hosting.Internal.WebHost
+Request finished in 4.1166ms 404 
+
+[21:52:49 Information] Microsoft.AspNetCore.Hosting.Internal.WebHost
+Request starting HTTP/1.1 GET http://localhost:5000/swagger/v1/swagger.json  
+
+[21:52:49 Information] Microsoft.AspNetCore.Hosting.Internal.WebHost
+Request finished in 3.2773ms 200 application/json; charset=utf-8
+
+[07:20:54 Information] Microsoft.AspNetCore.Hosting.Internal.WebHost
+Request starting HTTP/1.1 GET http://localhost:5000/swagger/v1/swagger.json  
+
+[07:20:54 Information] Microsoft.AspNetCore.Hosting.Internal.WebHost
+Request finished in 3.2968ms 200 application/json; charset=utf-8
+
+[07:38:52 Information] Microsoft.AspNetCore.Hosting.Internal.WebHost
+Request starting HTTP/1.1 DEBUG http://localhost:5000/  0
+
+[07:38:52 Information] Microsoft.AspNetCore.Hosting.Internal.WebHost
+Request finished in 138.1869ms 200 
+
+[07:38:54 Information] Microsoft.AspNetCore.Hosting.Internal.WebHost
+Request starting HTTP/1.1 GET http://localhost:5000/  
+
+[07:38:54 Information] Microsoft.AspNetCore.Hosting.Internal.WebHost
+Request finished in 232.5915ms 404 
+
+[07:38:59 Information] Microsoft.AspNetCore.Hosting.Internal.WebHost
+Request starting HTTP/1.1 GET http://localhost:5000/swagger  
+
+[07:38:59 Information] Microsoft.AspNetCore.Hosting.Internal.WebHost
+Request finished in 11.863ms 302 
+
+[07:38:59 Information] Microsoft.AspNetCore.Hosting.Internal.WebHost
+Request starting HTTP/1.1 GET http://localhost:5000/swagger/index.html  
+
+[07:38:59 Information] Microsoft.AspNetCore.Hosting.Internal.WebHost
+Request finished in 176.2872ms 200 text/html; charset=utf-8
+
+[07:38:59 Information] Microsoft.AspNetCore.Hosting.Internal.WebHost
+Request starting HTTP/1.1 GET http://localhost:5000/swagger/swagger-ui.css  
+
+[07:38:59 Information] Microsoft.AspNetCore.Hosting.Internal.WebHost
+Request starting HTTP/1.1 GET http://localhost:5000/swagger/swagger-ui-bundle.js  
+
+[07:38:59 Information] Microsoft.AspNetCore.Hosting.Internal.WebHost
+Request starting HTTP/1.1 GET http://localhost:5000/swagger/swagger-ui-standalone-preset.js  
+
+[07:38:59 Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware
+The file "/swagger-ui-standalone-preset.js" was not modified
+
+[07:38:59 Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware
+The file "/swagger-ui.css" was not modified
+
+[07:38:59 Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware
+The file "/swagger-ui-bundle.js" was not modified
+
+[07:38:59 Information] Microsoft.AspNetCore.Hosting.Internal.WebHost
+Request finished in 41.3064ms 304 text/css
+
+[07:38:59 Information] Microsoft.AspNetCore.Hosting.Internal.WebHost
+Request finished in 36.0969ms 304 application/javascript
+
+[07:38:59 Information] Microsoft.AspNetCore.Hosting.Internal.WebHost
+Request finished in 32.6954ms 304 application/javascript
+
+[07:38:59 Information] Microsoft.AspNetCore.Hosting.Internal.WebHost
+Request starting HTTP/1.1 GET http://localhost:5000/swagger/v1/swagger.json  
+
+[07:39:00 Information] Microsoft.AspNetCore.Hosting.Internal.WebHost
+Request finished in 926.2635ms 200 application/json; charset=utf-8
+
+[07:39:04 Information] Microsoft.AspNetCore.Hosting.Internal.WebHost
+Request starting HTTP/1.1 GET http://localhost:5000/swagger/v1/swagger.json  
+
+[07:39:04 Information] Microsoft.AspNetCore.Hosting.Internal.WebHost
+Request finished in 3.99ms 200 application/json; charset=utf-8
+
+[07:39:04 Information] Microsoft.AspNetCore.Hosting.Internal.WebHost
+Request starting HTTP/1.1 GET http://localhost:5000/favicon.ico  
+
+[07:39:05 Information] Microsoft.AspNetCore.Hosting.Internal.WebHost
+Request finished in 2.612ms 404 
+
+[07:39:35 Information] Microsoft.AspNetCore.Hosting.Internal.WebHost
+Request starting HTTP/1.1 GET http://localhost:5000/swagger/v1/swagger.json  
+
+[07:39:35 Information] Microsoft.AspNetCore.Hosting.Internal.WebHost
+Request finished in 2.6206ms 200 application/json; charset=utf-8
+
+[09:15:18 Information] Microsoft.AspNetCore.Hosting.Internal.WebHost
+Request starting HTTP/1.1 DEBUG http://localhost:5000/  0
+
+[09:15:18 Information] Microsoft.AspNetCore.Hosting.Internal.WebHost
+Request finished in 139.7331ms 200 
+
+[09:15:40 Information] Microsoft.AspNetCore.Hosting.Internal.WebHost
+Request starting HTTP/1.1 GET http://localhost:5000/swagger/v1/swagger.json  
+
+[09:15:41 Information] Microsoft.AspNetCore.Hosting.Internal.WebHost
+Request finished in 1454.595ms 200 application/json; charset=utf-8
+
+[09:18:31 Information] Microsoft.AspNetCore.Hosting.Internal.WebHost
+Request starting HTTP/1.1 DEBUG http://localhost:5000/  0
+
+[09:18:31 Information] Microsoft.AspNetCore.Hosting.Internal.WebHost
+Request finished in 212.0631ms 404 
+
+[09:43:10 Information] Microsoft.AspNetCore.Hosting.Internal.WebHost
+Request starting HTTP/1.1 DEBUG http://localhost:5000/  0
+
+[09:43:10 Information] Microsoft.AspNetCore.Hosting.Internal.WebHost
+Request finished in 147.3646ms 200 
+
+[09:43:21 Information] Microsoft.AspNetCore.Hosting.Internal.WebHost
+Request starting HTTP/1.1 GET http://localhost:5000/swagger/v1/swagger.json  
+
+[09:43:22 Information] Microsoft.AspNetCore.Hosting.Internal.WebHost
+Request finished in 1271.4308ms 200 application/json; charset=utf-8
+
+[12:00:06 Information] Microsoft.AspNetCore.Hosting.Internal.WebHost
+Request starting HTTP/1.1 GET http://localhost:5000/swagger/v1/swagger.json  
+
+[12:00:06 Information] Microsoft.AspNetCore.Hosting.Internal.WebHost
+Request starting HTTP/1.1 DEBUG http://localhost:5000/  0
+
+[12:00:06 Information] Microsoft.AspNetCore.Hosting.Internal.WebHost
+Request finished in 172.6522ms 200 
+
+[12:00:07 Information] Microsoft.AspNetCore.Hosting.Internal.WebHost
+Request finished in 1442.204ms 200 application/json; charset=utf-8
+

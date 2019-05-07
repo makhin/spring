@@ -1,13 +1,18 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Spring.Common.Enums;
+using Spring.Dto;
 using Spring.Services;
 
 namespace Spring.WebApi.Controllers
 {
     [Produces("application/json")]
     [Route("api/[controller]")]
-    public class LookupController : Controller
+    [ApiController]
+    [ApiConventionType(typeof(DefaultApiConventions))]
+    public class LookupController : ControllerBase
     {
         private readonly ILookupService _service;
 
@@ -17,25 +22,34 @@ namespace Spring.WebApi.Controllers
         }
 
         [HttpGet("therapy")]
-        public IActionResult GetTherapy()
+        [ProducesResponseType(typeof(IEnumerable<string>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public ActionResult<IEnumerable<string>> GetTherapy()
         {
             return Ok(LookupService.ToList<Therapy>());
         }
 
         [HttpGet("treatment")]
-        public IActionResult GetTreatments()
+        [ProducesResponseType(typeof(IEnumerable<string>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public ActionResult<IEnumerable<string>> GetTreatments()
         {
             return Ok(LookupService.ToList<Treatment>());
         }
 
         [HttpGet("{id}/hospital")]
-        public async Task<IActionResult> GetHospitals(int? id)
+        [ProducesResponseType(typeof(IEnumerable<HospitalDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<IEnumerable<HospitalDto>>> GetHospitals(int? id)
         {
             return Ok(await _service.GetHospitals(id));
         }
 
         [HttpGet("{s}/mkb10")]
-        public async Task<IActionResult> GetMkb10(string s)
+        [ProducesResponseType(typeof(IEnumerable<Mkb10Dto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+
+        public async Task<ActionResult<IEnumerable<Mkb10Dto>>> GetMkb10(string s)
         {
             return Ok(await _service.GetMkb10(s));
         }

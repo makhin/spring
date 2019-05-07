@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Spring.Dto;
 using Spring.Services;
@@ -12,8 +13,10 @@ namespace Spring.WebApi.Controllers
 {
     [Produces("application/json")]
     [Route("api/[controller]")]
+    [ApiController]
+    [ApiConventionType(typeof(DefaultApiConventions))]
     //[Authorize(Policy = "Access Resources")] // Authorization policy for this API.
-    public class InsuranceCasesController : Controller
+    public class InsuranceCasesController : ControllerBase
     {
         private readonly IInsuranceCaseService _service;
 
@@ -23,7 +26,10 @@ namespace Spring.WebApi.Controllers
         }
 
         [HttpGet("{id}/full")]
-        public async Task<IActionResult> GetById(int id)
+        [ProducesResponseType(typeof(InsuranceCaseDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<InsuranceCaseDto>> GetById(int id)
         {
             var value = await _service.Get(id);            
             if (value == null)
@@ -35,7 +41,10 @@ namespace Spring.WebApi.Controllers
         }
 
         [HttpPost("medical")]
-        public async Task<IActionResult> Post([FromBody]MedicalInsuranceCaseDto value)
+        [ProducesResponseType(typeof(void), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult> Post([FromBody]MedicalInsuranceCaseDto value)
         {
             ICollection<ValidationResult> results;
 
@@ -57,7 +66,10 @@ namespace Spring.WebApi.Controllers
 
         // POST api/sampleData
         [HttpPut("medical")]
-        public async Task<IActionResult> Put([FromBody]MedicalInsuranceCaseDto value)
+        [ProducesResponseType(typeof(MedicalInsuranceCaseDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<MedicalInsuranceCaseDto>> Put([FromBody]MedicalInsuranceCaseDto value)
         {
             ICollection<ValidationResult> results;
 

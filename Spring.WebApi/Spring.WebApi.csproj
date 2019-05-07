@@ -65,5 +65,4 @@
     <ProjectReference Include="..\Spring.Repositories\Spring.Repositories.csproj" />
     <ProjectReference Include="..\Spring.Services\Spring.Services.csproj" />
   </ItemGroup>
-
 </Project>
