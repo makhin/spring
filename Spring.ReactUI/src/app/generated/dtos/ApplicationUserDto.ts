@@ -1,5 +1,5 @@
 import { IApplicationUserDto } from "./interfaces/IApplicationUserDto";
-import { observable, decorate } from "mobx";
+import { observable } from "mobx";
 
 export class ApplicationUserDto implements IApplicationUserDto {
 @observable email?: string | undefined;

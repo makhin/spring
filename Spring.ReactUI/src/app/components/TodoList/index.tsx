@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { TodoItem, TodoActions } from 'app/components/TodoItem';
 import { TodoModel } from 'app/models/TodoModel';
-import * as style from './style.css';
 
 export interface TodoListProps extends TodoActions {
   todos: TodoModel[];
@@ -26,7 +25,6 @@ export class TodoList extends React.Component<TodoListProps, TodoListState> {
     if (todos.length > 0) {
       return (
         <input
-          className={style.toggleAll}
           type="checkbox"
           checked={completedCount === todos.length}
           onChange={this.handleToggleAll}
@@ -38,9 +36,9 @@ export class TodoList extends React.Component<TodoListProps, TodoListState> {
   render() {
     const { todos, ...actions } = this.props;
     return (
-      <section className={style.main}>
+      <section>
         {this.renderToggleAll()}
-        <ul className={style.normal}>
+        <ul>
           {todos.map((todo) => (
             <TodoItem key={todo.id} todo={todo} {...actions} />
           ))}

@@ -1,8 +1,6 @@
 import * as React from 'react';
-import * as classNames from 'classnames';
 import { TodoTextInput } from 'app/components/TodoTextInput';
 import { TodoModel } from 'app/models/TodoModel';
-import * as style from './style.css';
 
 export interface TodoActions {
   editTodo: (id: number, data: Partial<TodoModel>) => any;
@@ -64,9 +62,8 @@ export class TodoItem extends React.Component<TodoProps, TodoState> {
         onSave={(text) => this.updateTodo({ text })}
       />
     ) : (
-      <div className={style.view}>
+      <div>
         <input
-          className={style.toggle}
           type="checkbox"
           checked={todo.completed}
           onChange={this.handleToggleCheckbox}
@@ -75,19 +72,12 @@ export class TodoItem extends React.Component<TodoProps, TodoState> {
         <label onDoubleClick={this.handleDoubleClick}>{todo.text}</label>
 
         <button
-          className={style.destroy}
           onClick={this.handleClickDeleteButton}
         />
       </div>
     );
 
-    const classes = classNames({
-      [style.completed]: todo.completed,
-      [style.editing]: this.state.editing,
-      [style.normal]: !this.state.editing
-    });
-
-    return <li className={classes}>{element}</li>;
+    return <li>{element}</li>;
   }
 }
 

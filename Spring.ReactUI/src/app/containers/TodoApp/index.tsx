@@ -1,5 +1,4 @@
 import * as React from 'react';
-import * as style from './style.css';
 import { inject, observer } from 'mobx-react';
 import { RouteComponentProps } from 'react-router';
 import { Header } from 'app/components/Header';
@@ -87,7 +86,7 @@ export class TodoApp extends React.Component<TodoAppProps, TodoAppState> {
     );
 
     return (
-      <div className={style.normal}>
+      <div>
         <Header addTodo={todoStore.addTodo} />
         <TodoList
           todos={filteredTodos}
