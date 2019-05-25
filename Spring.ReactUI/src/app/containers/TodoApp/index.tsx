@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { inject, observer } from 'mobx-react';
 import { RouteComponentProps } from 'react-router';
-// import { Header } from 'app/components/Header';
-// import { TodoList } from 'app/components/TodoList';
-// import { Footer } from 'app/components/Footer';
+import { Header } from 'app/components/Header';
+import { TodoList } from 'app/components/TodoList';
+import { Footer } from 'app/components/Footer';
 import { TodoStore, RouterStore } from 'app/stores';
 import {
   STORE_TODO,
@@ -11,19 +11,21 @@ import {
   TODO_FILTER_LOCATION_HASH,
   TodoFilter
 } from 'app/constants';
-import Navigation from 'app/components/Navigation';
+import ContractsRepository from 'app/repositories/ContractsRepository';
+// import Navigation from 'app/components/Navigation';
+//import { ContractsPageComponent } from 'app/components/Contracts/ContractsPage.Component';
 
 export interface TodoAppProps extends RouteComponentProps<any> {
   /** MobX Stores will be injected via @inject() **/
   // [STORE_ROUTER]: RouterStore;
-  // [STOURE_TODO]: TodoStore;
+  // [STORE_TODO]: TodoStore;
 }
 
 export interface TodoAppState {
   filter: TodoFilter;
 }
 
-@inject(STORE_TODO, STORE_ROUTER)
+@inject(STORE_TODO, STORE_ROUTER, "Contracts")
 @observer
 export class TodoApp extends React.Component<TodoAppProps, TodoAppState> {
   constructor(props: TodoAppProps, context: any) {
@@ -49,14 +51,14 @@ export class TodoApp extends React.Component<TodoAppProps, TodoAppState> {
     this.setState({ filter });
   }
 
-  // private handleFilter = (filter: TodoFilter) => {
-  //   const router = this.props[STORE_ROUTER] as RouterStore;
-  //   const currentHash = router.location.hash;
-  //   const nextHash = TODO_FILTER_LOCATION_HASH[filter];
-  //   if (currentHash !== nextHash) {
-  //     router.replace(nextHash);
-  //   }
-  // };
+  private handleFilter = (filter: TodoFilter) => {
+    const router = this.props[STORE_ROUTER] as RouterStore;
+    const currentHash = router.location.hash;
+    const nextHash = TODO_FILTER_LOCATION_HASH[filter];
+    if (currentHash !== nextHash) {
+      router.replace(nextHash);
+    }
+  };
 
   getFilteredTodo(filter: TodoFilter) {
     const todoStore = this.props[STORE_TODO] as TodoStore;
@@ -71,25 +73,29 @@ export class TodoApp extends React.Component<TodoAppProps, TodoAppState> {
   }
 
   render() {
-    // const todoStore = this.props[STORE_TODO] as TodoStore;
-    // const { children } = this.props;
-    // const { filter } = this.state;
-    // const filteredTodos = this.getFilteredTodo(filter);
+    const todoStore = this.props[STORE_TODO] as TodoStore;
+    const contractsRepo = this.props["Contracts"] as ContractsRepository;
 
-    // const footer = todoStore.todos.length && (
-    //   <Footer
-    //     filter={filter}
-    //     activeCount={todoStore.activeTodos.length}
-    //     completedCount={todoStore.completedTodos.length}
-    //     onClearCompleted={todoStore.clearCompleted}
-    //     onChangeFilter={this.handleFilter}
-    //   />
-    // );
+    const { children } = this.props;
+    const { filter } = this.state;
+    const filteredTodos = this.getFilteredTodo(filter);
+
+    const contracts = contractsRepo.getAll().then(response => response);
+    console.log(contracts);
+
+    const footer = todoStore.todos.length && (
+      <Footer
+        filter={filter}
+        activeCount={todoStore.activeTodos.length}
+        completedCount={todoStore.completedTodos.length}
+        onClearCompleted={todoStore.clearCompleted}
+        onChangeFilter={this.handleFilter}
+      />
+    );
 
     return (
-      <div id="wrapper">        
-        <Navigation/>
-        {/* <Header addTodo={todoStore.addTodo} />
+      <div id="wrapper">      
+        <Header addTodo={todoStore.addTodo} />
         <TodoList
           todos={filteredTodos}
           completeAll={todoStore.completeAll}
@@ -97,7 +103,7 @@ export class TodoApp extends React.Component<TodoAppProps, TodoAppState> {
           editTodo={todoStore.editTodo}
         />
         {footer}
-        {children} */}
+        {children}
       </div>
     );
   }

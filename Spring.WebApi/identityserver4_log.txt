@@ -2857,3 +2857,103 @@ Request finished in 172.6522ms 200
 [12:00:07 Information] Microsoft.AspNetCore.Hosting.Internal.WebHost
 Request finished in 1442.204ms 200 application/json; charset=utf-8
 
+[10:34:50 Information] Microsoft.AspNetCore.Hosting.Internal.WebHost
+Request starting HTTP/1.1 DEBUG http://localhost:5000/  0
+
+[10:34:50 Information] Microsoft.AspNetCore.Hosting.Internal.WebHost
+Request finished in 143.6675ms 200 
+
+[10:39:32 Information] Microsoft.AspNetCore.Hosting.Internal.WebHost
+Request starting HTTP/1.1 GET http://localhost:5000/  
+
+[10:39:33 Information] Microsoft.AspNetCore.Hosting.Internal.WebHost
+Request finished in 173.951ms 404 
+
+[10:39:40 Information] Microsoft.AspNetCore.Hosting.Internal.WebHost
+Request starting HTTP/1.1 GET http://localhost:5000/api/Contracts  
+
+[10:39:40 Information] Microsoft.AspNetCore.Routing.EndpointMiddleware
+Executing endpoint '"Spring.WebApi.Controllers.ContractsController.Get (Spring.WebApi)"'
+
+[10:39:40 Information] Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker
+Route matched with "{action = \"Get\", controller = \"Contracts\"}". Executing action "Spring.WebApi.Controllers.ContractsController.Get (Spring.WebApi)"
+
+[10:39:41 Warning] Microsoft.EntityFrameworkCore.Model.Validation
+No type was specified for the decimal column '"TotalAmount"' on entity type '"InsuranceCase"'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+
+[10:39:41 Warning] Microsoft.EntityFrameworkCore.Model.Validation
+No type was specified for the decimal column '"DiagnosisCosts"' on entity type '"MedicalInsuranceCase"'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+
+[10:39:41 Warning] Microsoft.EntityFrameworkCore.Model.Validation
+No type was specified for the decimal column '"FoodCosts"' on entity type '"MedicalInsuranceCase"'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+
+[10:39:41 Warning] Microsoft.EntityFrameworkCore.Model.Validation
+No type was specified for the decimal column '"TreatmentСosts"' on entity type '"MedicalInsuranceCase"'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+
+[10:39:41 Information] Microsoft.EntityFrameworkCore.Infrastructure
+Entity Framework Core "2.2.4-servicing-10062" initialized '"SpringDbContext"' using provider '"Microsoft.EntityFrameworkCore.SqlServer"' with options: "MigrationsAssembly=Spring.DbContext "
+
+[10:39:41 Information] Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker
+Executing action method "Spring.WebApi.Controllers.ContractsController.Get (Spring.WebApi)" - Validation state: Valid
+
+[10:39:48 Information] Microsoft.EntityFrameworkCore.Database.Command
+Executed DbCommand ("86"ms) [Parameters=[""], CommandType='Text', CommandTimeout='30']"
+""SELECT [dtoContract].[Code], [dtoContract].[Description], [dtoContract].[Id], [dtoContract].[IsActive], [dtoContract].[Name]
+FROM [Contracts] AS [dtoContract]"
+
+[10:39:48 Information] Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker
+Executed action method "Spring.WebApi.Controllers.ContractsController.Get (Spring.WebApi)", returned result "Microsoft.AspNetCore.Mvc.OkObjectResult" in 6440.8891ms.
+
+[10:39:48 Information] Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor
+Executing ObjectResult, writing value of type '"System.Collections.Generic.List`1[[Spring.Dto.ContractItemDto, Spring.Dto, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"'.
+
+[10:39:48 Information] Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker
+Executed action "Spring.WebApi.Controllers.ContractsController.Get (Spring.WebApi)" in 7693.5174ms
+
+[10:39:48 Information] Microsoft.AspNetCore.Routing.EndpointMiddleware
+Executed endpoint '"Spring.WebApi.Controllers.ContractsController.Get (Spring.WebApi)"'
+
+[10:39:48 Information] Microsoft.AspNetCore.Hosting.Internal.WebHost
+Request finished in 7869.6333ms 200 application/json; charset=utf-8
+
+[10:39:48 Information] Microsoft.AspNetCore.Hosting.Internal.WebHost
+Request starting HTTP/1.1 GET http://localhost:5000/favicon.ico  
+
+[10:39:48 Information] Microsoft.AspNetCore.Hosting.Internal.WebHost
+Request finished in 2.5178ms 404 
+
+[18:28:32 Information] Microsoft.AspNetCore.Hosting.Internal.WebHost
+Request starting HTTP/1.1 GET http://localhost:3000/api/Contracts application/json 
+
+[18:28:32 Information] Microsoft.AspNetCore.Routing.EndpointMiddleware
+Executing endpoint '"Spring.WebApi.Controllers.ContractsController.Get (Spring.WebApi)"'
+
+[18:28:32 Information] Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker
+Route matched with "{action = \"Get\", controller = \"Contracts\"}". Executing action "Spring.WebApi.Controllers.ContractsController.Get (Spring.WebApi)"
+
+[18:28:32 Information] Microsoft.EntityFrameworkCore.Infrastructure
+Entity Framework Core "2.2.4-servicing-10062" initialized '"SpringDbContext"' using provider '"Microsoft.EntityFrameworkCore.SqlServer"' with options: "MigrationsAssembly=Spring.DbContext "
+
+[18:28:32 Information] Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker
+Executing action method "Spring.WebApi.Controllers.ContractsController.Get (Spring.WebApi)" - Validation state: Valid
+
+[18:28:37 Information] Microsoft.EntityFrameworkCore.Database.Command
+Executed DbCommand ("6"ms) [Parameters=[""], CommandType='Text', CommandTimeout='30']"
+""SELECT [dtoContract].[Code], [dtoContract].[Description], [dtoContract].[Id], [dtoContract].[IsActive], [dtoContract].[Name]
+FROM [Contracts] AS [dtoContract]"
+
+[18:28:37 Information] Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker
+Executed action method "Spring.WebApi.Controllers.ContractsController.Get (Spring.WebApi)", returned result "Microsoft.AspNetCore.Mvc.OkObjectResult" in 4779.8179ms.
+
+[18:28:37 Information] Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor
+Executing ObjectResult, writing value of type '"System.Collections.Generic.List`1[[Spring.Dto.ContractItemDto, Spring.Dto, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"'.
+
+[18:28:37 Information] Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker
+Executed action "Spring.WebApi.Controllers.ContractsController.Get (Spring.WebApi)" in 4822.3629ms
+
+[18:28:37 Information] Microsoft.AspNetCore.Routing.EndpointMiddleware
+Executed endpoint '"Spring.WebApi.Controllers.ContractsController.Get (Spring.WebApi)"'
+
+[18:28:37 Information] Microsoft.AspNetCore.Hosting.Internal.WebHost
+Request finished in 4853.9176ms 200 application/json; charset=utf-8
+

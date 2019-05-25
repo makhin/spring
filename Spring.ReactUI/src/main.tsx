@@ -6,6 +6,7 @@ import { TodoModel } from 'app/models';
 import { createStores } from 'app/stores';
 import { App } from 'app';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { createRepositories } from 'app/repositories/CreateRepositories';
 
 // default fixtures for TodoStore
 const defaultTodos = [
@@ -16,10 +17,12 @@ const defaultTodos = [
 // prepare MobX stores
 const history = createBrowserHistory();
 const rootStore = createStores(history, defaultTodos);
+const rootRepository = createRepositories();
+let mergedStore = {...rootStore, ...rootRepository};
 
 // render react DOM
 ReactDOM.render(
-  <Provider {...rootStore}>
+  <Provider {...mergedStore}>
     <App history={history} />
   </Provider>,
   document.getElementById('root')

@@ -126,6 +126,12 @@ module.exports = {
     contentBase: sourcePath,
     hot: true,
     inline: true,
+    proxy: {
+      '/api':{
+        target: 'http://localhost:5000',
+        secure: false
+      }
+    },
     historyApiFallback: {
       disableDotRule: true
     },

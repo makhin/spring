@@ -1,4 +1,5 @@
 import * as React from 'react';
+import DevTools from 'mobx-react-devtools';
 import { hot } from 'react-hot-loader/root';
 import { Router, Route, Switch } from 'react-router';
 import { Root } from 'app/containers/Root';
@@ -12,5 +13,6 @@ export const App = hot(({ history }) => (
         <Route path="/" component={TodoApp} />
       </Switch>
     </Router>
+    <DevTools />
   </Root>
 ));
