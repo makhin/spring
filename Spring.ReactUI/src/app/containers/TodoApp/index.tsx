@@ -9,9 +9,12 @@ import {
   STORE_TODO,
   STORE_ROUTER,
   TODO_FILTER_LOCATION_HASH,
-  TodoFilter
+  TodoFilter,
+  REPO_CONTRACTS
 } from 'app/constants';
 import ContractsRepository from 'app/repositories/ContractsRepository';
+import ContractList from 'app/components/ContractList';
+import { action, observable } from 'mobx';
 // import Navigation from 'app/components/Navigation';
 //import { ContractsPageComponent } from 'app/components/Contracts/ContractsPage.Component';
 
@@ -25,12 +28,21 @@ export interface TodoAppState {
   filter: TodoFilter;
 }
 
-@inject(STORE_TODO, STORE_ROUTER, "Contracts")
+@inject(STORE_TODO, STORE_ROUTER, REPO_CONTRACTS)
 @observer
-export class TodoApp extends React.Component<TodoAppProps, TodoAppState> {
+export class TodoApp extends React.Component<TodoAppProps, TodoAppState> {  
+  @observable contracts = [];
+
   constructor(props: TodoAppProps, context: any) {
     super(props, context);
     this.state = { filter: TodoFilter.ALL };
+    this.loadContracts();
+  }
+
+  @action 
+  async loadContracts(): Promise<any> {
+    const contractsRepo = this.props[REPO_CONTRACTS] as ContractsRepository;
+    this.contracts = await contractsRepo.getAll();
   }
 
   componentWillMount() {
@@ -73,15 +85,11 @@ export class TodoApp extends React.Component<TodoAppProps, TodoAppState> {
   }
 
   render() {
-    const todoStore = this.props[STORE_TODO] as TodoStore;
-    const contractsRepo = this.props["Contracts"] as ContractsRepository;
+    const todoStore = this.props[STORE_TODO] as TodoStore;    
 
     const { children } = this.props;
     const { filter } = this.state;
     const filteredTodos = this.getFilteredTodo(filter);
-
-    const contracts = contractsRepo.getAll().then(response => response);
-    console.log(contracts);
 
     const footer = todoStore.todos.length && (
       <Footer
@@ -95,6 +103,7 @@ export class TodoApp extends React.Component<TodoAppProps, TodoAppState> {
 
     return (
       <div id="wrapper">      
+        <ContractList contracts={this.contracts} />
         <Header addTodo={todoStore.addTodo} />
         <TodoList
           todos={filteredTodos}

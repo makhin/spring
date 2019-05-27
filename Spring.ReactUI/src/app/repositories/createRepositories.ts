@@ -1,8 +1,9 @@
 import ContractsRepository from './ContractsRepository';
+import { REPO_CONTRACTS } from 'app/constants';
 
 export function createRepositories() {
   const contractsRepository = new ContractsRepository();
   return {
-    ["Contracts"]: contractsRepository,
+    [REPO_CONTRACTS]: contractsRepository,
   };
 }
