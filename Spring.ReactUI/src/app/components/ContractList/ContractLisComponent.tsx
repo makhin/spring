@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { ContractDto } from 'app/generated/dtos/ContractDto';
-import ContractItem, { ContractActions } from '../ContractItem';
+import ContractItem, { ContractActions } from '../ContractItem/ContractItemComponent';
 import { CardDeck } from 'react-bootstrap';
 
 export interface ContractListProps extends ContractActions {

@@ -1,6 +1,6 @@
 import { History } from 'history';
 import { RouterStore } from './RouterStore';
-import {  STORE_ROUTER } from 'app/constants';
+import { STORE_ROUTER } from 'app/constants/stores';
 
 export function createStores(history: History) {
   const routerStore = new RouterStore(history);

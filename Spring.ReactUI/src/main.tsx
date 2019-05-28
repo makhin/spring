@@ -2,10 +2,10 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Provider } from 'mobx-react';
 import { createBrowserHistory } from 'history';
-import { createStores } from 'app/stores';
 import { App } from 'app';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { createRepositories } from 'app/repositories/CreateRepositories';
+import { createStores } from 'app/stores/createStore';
 
 // prepare MobX stores
 const history = createBrowserHistory();

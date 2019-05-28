@@ -3867,3 +3867,73 @@ Executed endpoint '"Spring.WebApi.Controllers.ContractsController.Get (Spring.We
 [15:40:42 Information] Microsoft.AspNetCore.Hosting.Internal.WebHost
 Request finished in 58.246ms 200 application/json; charset=utf-8
 
+[16:05:33 Information] Microsoft.AspNetCore.Hosting.Internal.WebHost
+Request starting HTTP/1.1 GET http://localhost:3000/api/Contracts application/json 
+
+[16:05:33 Information] Microsoft.AspNetCore.Routing.EndpointMiddleware
+Executing endpoint '"Spring.WebApi.Controllers.ContractsController.Get (Spring.WebApi)"'
+
+[16:05:33 Information] Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker
+Route matched with "{action = \"Get\", controller = \"Contracts\"}". Executing action "Spring.WebApi.Controllers.ContractsController.Get (Spring.WebApi)"
+
+[16:05:33 Information] Microsoft.EntityFrameworkCore.Infrastructure
+Entity Framework Core "2.2.4-servicing-10062" initialized '"SpringDbContext"' using provider '"Microsoft.EntityFrameworkCore.SqlServer"' with options: "MigrationsAssembly=Spring.DbContext "
+
+[16:05:33 Information] Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker
+Executing action method "Spring.WebApi.Controllers.ContractsController.Get (Spring.WebApi)" - Validation state: Valid
+
+[16:05:36 Information] Microsoft.AspNetCore.Hosting.Internal.WebHost
+Request starting HTTP/1.1 GET http://localhost:3000/api/Contracts application/json 
+
+[16:05:36 Information] Microsoft.AspNetCore.Routing.EndpointMiddleware
+Executing endpoint '"Spring.WebApi.Controllers.ContractsController.Get (Spring.WebApi)"'
+
+[16:05:36 Information] Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker
+Route matched with "{action = \"Get\", controller = \"Contracts\"}". Executing action "Spring.WebApi.Controllers.ContractsController.Get (Spring.WebApi)"
+
+[16:05:36 Information] Microsoft.EntityFrameworkCore.Infrastructure
+Entity Framework Core "2.2.4-servicing-10062" initialized '"SpringDbContext"' using provider '"Microsoft.EntityFrameworkCore.SqlServer"' with options: "MigrationsAssembly=Spring.DbContext "
+
+[16:05:36 Information] Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker
+Executing action method "Spring.WebApi.Controllers.ContractsController.Get (Spring.WebApi)" - Validation state: Valid
+
+[16:05:37 Information] Microsoft.EntityFrameworkCore.Database.Command
+Executed DbCommand ("14"ms) [Parameters=[""], CommandType='Text', CommandTimeout='30']"
+""SELECT [dtoContract].[Code], [dtoContract].[Description], [dtoContract].[Id], [dtoContract].[IsActive], [dtoContract].[Name]
+FROM [Contracts] AS [dtoContract]"
+
+[16:05:37 Information] Microsoft.EntityFrameworkCore.Database.Command
+Executed DbCommand ("19"ms) [Parameters=[""], CommandType='Text', CommandTimeout='30']"
+""SELECT [dtoContract].[Code], [dtoContract].[Description], [dtoContract].[Id], [dtoContract].[IsActive], [dtoContract].[Name]
+FROM [Contracts] AS [dtoContract]"
+
+[16:05:37 Information] Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker
+Executed action method "Spring.WebApi.Controllers.ContractsController.Get (Spring.WebApi)", returned result "Microsoft.AspNetCore.Mvc.OkObjectResult" in 4117.7578ms.
+
+[16:05:37 Information] Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker
+Executed action method "Spring.WebApi.Controllers.ContractsController.Get (Spring.WebApi)", returned result "Microsoft.AspNetCore.Mvc.OkObjectResult" in 901.1529ms.
+
+[16:05:37 Information] Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor
+Executing ObjectResult, writing value of type '"System.Collections.Generic.List`1[[Spring.Dto.ContractItemDto, Spring.Dto, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"'.
+
+[16:05:37 Information] Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor
+Executing ObjectResult, writing value of type '"System.Collections.Generic.List`1[[Spring.Dto.ContractItemDto, Spring.Dto, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"'.
+
+[16:05:37 Information] Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker
+Executed action "Spring.WebApi.Controllers.ContractsController.Get (Spring.WebApi)" in 4140.6841ms
+
+[16:05:37 Information] Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker
+Executed action "Spring.WebApi.Controllers.ContractsController.Get (Spring.WebApi)" in 924.7543ms
+
+[16:05:37 Information] Microsoft.AspNetCore.Routing.EndpointMiddleware
+Executed endpoint '"Spring.WebApi.Controllers.ContractsController.Get (Spring.WebApi)"'
+
+[16:05:37 Information] Microsoft.AspNetCore.Routing.EndpointMiddleware
+Executed endpoint '"Spring.WebApi.Controllers.ContractsController.Get (Spring.WebApi)"'
+
+[16:05:37 Information] Microsoft.AspNetCore.Hosting.Internal.WebHost
+Request finished in 4173.7087ms 200 application/json; charset=utf-8
+
+[16:05:37 Information] Microsoft.AspNetCore.Hosting.Internal.WebHost
+Request finished in 962.7058ms 200 application/json; charset=utf-8
+

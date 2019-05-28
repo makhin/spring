@@ -1,15 +1,13 @@
 import * as React from 'react';
 import { inject, observer } from 'mobx-react';
 import { RouteComponentProps } from 'react-router';
-import {
-  STORE_ROUTER,
-  REPO_CONTRACTS
-} from 'app/constants';
 import ContractsRepository from 'app/repositories/ContractsRepository';
 import { action, observable } from 'mobx';
 import { Container, Row, Col } from 'react-bootstrap';
-import Navigation from 'app/components/Navigation';
-import ContractList from 'app/components/ContractList';
+import { ContractList } from 'app/components/ContractList/ContractLisComponent';
+import Navigation from 'app/components/Navigation/NavigationComponent';
+import { STORE_ROUTER } from 'app/constants/stores';
+import { REPO_CONTRACTS } from 'app/constants/repositories';
 
 export interface SpringAppProps extends RouteComponentProps<any> {
 }
