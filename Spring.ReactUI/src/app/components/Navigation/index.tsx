@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
 
-
 class Navigation extends React.Component<{}, { isOpen: boolean }> {
 
     constructor(props:any) {
@@ -17,7 +16,7 @@ class Navigation extends React.Component<{}, { isOpen: boolean }> {
 
     render() {
         return (
-            <Navbar fixed={"top"} expand={"lg"} bg={"dark"}>
+            <Navbar bg = {"dark"} expand={"lg"} variant = {"dark"}>
                     <Navbar.Brand href="#home">
                         Весна
                     </Navbar.Brand>

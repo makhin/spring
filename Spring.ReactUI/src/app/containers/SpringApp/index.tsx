@@ -6,22 +6,23 @@ import {
   REPO_CONTRACTS
 } from 'app/constants';
 import ContractsRepository from 'app/repositories/ContractsRepository';
-import ContractList from 'app/components/ContractList';
 import { action, observable } from 'mobx';
-import { Container } from 'react-bootstrap';
+import { Container, Row, Col } from 'react-bootstrap';
+import Navigation from 'app/components/Navigation';
+import ContractList from 'app/components/ContractList';
 
-export interface TodoAppProps extends RouteComponentProps<any> {
+export interface SpringAppProps extends RouteComponentProps<any> {
 }
 
-export interface TodoAppState {
+export interface SpringAppState {
 }
 
 @inject(STORE_ROUTER, REPO_CONTRACTS)
 @observer
-export class TodoApp extends React.Component<TodoAppProps, TodoAppState> {  
+export class SpringApp extends React.Component<SpringAppProps, SpringAppState> {  
   @observable contracts = [];
 
-  constructor(props: TodoAppProps, context: any) {
+  constructor(props: SpringAppProps, context: any) {
     super(props, context);
     this.loadContracts();
   }
@@ -36,7 +37,7 @@ export class TodoApp extends React.Component<TodoAppProps, TodoAppState> {
     this.checkLocationChange();
   }
 
-  componentWillReceiveProps(nextProps: TodoAppProps, nextContext: any) {
+  componentWillReceiveProps(nextProps: SpringAppProps, nextContext: any) {
     this.checkLocationChange();
   }
 
@@ -44,10 +45,17 @@ export class TodoApp extends React.Component<TodoAppProps, TodoAppState> {
   }
 
   render() {
-    return (
-      <Container id="wrapper">
-        <ContractList contracts={this.contracts} />
-      </Container>
+    return (    
+      <div id="wrapper">  
+        <Navigation/>
+        <Container fluid = { true }>
+          <Row>
+            <Col>
+              <ContractList contracts={this.contracts} />
+            </Col>
+          </Row>        
+        </Container>
+      </div>
     );
   }
 }
