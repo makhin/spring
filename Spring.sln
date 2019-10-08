@@ -1,21 +1,23 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26430.6
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29326.143
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spring.WebApi", "Spring.WebApi\Spring.WebApi.csproj", "{791AC2E9-C7AD-4EED-87CE-2B1353075251}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spring.WebApi", "Spring.WebApi\Spring.WebApi.csproj", "{791AC2E9-C7AD-4EED-87CE-2B1353075251}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spring.Dto", "Spring.Dto\Spring.Dto.csproj", "{3AFE5AF2-ACE7-4FBF-9698-765F3BB5609F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spring.Dto", "Spring.Dto\Spring.Dto.csproj", "{3AFE5AF2-ACE7-4FBF-9698-765F3BB5609F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spring.Services", "Spring.Services\Spring.Services.csproj", "{49972FE3-66C7-4E01-999E-A9FE8A5E9224}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spring.Services", "Spring.Services\Spring.Services.csproj", "{49972FE3-66C7-4E01-999E-A9FE8A5E9224}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spring.DbContext", "Spring.DbContext\Spring.DbContext.csproj", "{30D2707F-66B0-4D6E-A994-0C36DFCEC677}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spring.DbContext", "Spring.DbContext\Spring.DbContext.csproj", "{30D2707F-66B0-4D6E-A994-0C36DFCEC677}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spring.Repositories", "Spring.Repositories\Spring.Repositories.csproj", "{CB98DC9A-FDB1-4A54-AC14-46C9DE8F566F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spring.Repositories", "Spring.Repositories\Spring.Repositories.csproj", "{CB98DC9A-FDB1-4A54-AC14-46C9DE8F566F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spring.Common", "Spring.Common\Spring.Common.csproj", "{1D1B1139-88DA-4B73-9CFF-60787B40C450}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spring.Common", "Spring.Common\Spring.Common.csproj", "{1D1B1139-88DA-4B73-9CFF-60787B40C450}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spring.Tests", "Spring.Tests\Spring.Tests.csproj", "{93491144-87DA-4BB5-A9D5-1F4009EEA03E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spring.Tests", "Spring.Tests\Spring.Tests.csproj", "{93491144-87DA-4BB5-A9D5-1F4009EEA03E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spring.Blazor", "Spring.Blazor\Spring.Blazor.csproj", "{82EE401E-6B95-43A9-8E13-B042960E6477}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,8 +53,15 @@ Global
 		{93491144-87DA-4BB5-A9D5-1F4009EEA03E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{93491144-87DA-4BB5-A9D5-1F4009EEA03E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{93491144-87DA-4BB5-A9D5-1F4009EEA03E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{82EE401E-6B95-43A9-8E13-B042960E6477}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82EE401E-6B95-43A9-8E13-B042960E6477}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82EE401E-6B95-43A9-8E13-B042960E6477}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82EE401E-6B95-43A9-8E13-B042960E6477}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FE9CF174-BF18-45A9-8874-A7E315995BB4}
 	EndGlobalSection
 EndGlobal
